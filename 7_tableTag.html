@@ -1,0 +1,187 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>테이블 만들기</title>
+        <meta charset="UTF-8">
+    </head>
+    <style>
+        table {
+            border: 1px  black;
+        }
+        td{
+            border: 1px  black;
+        }
+        th{
+            /* border: solid; */
+        }
+        img{
+            width: 200px;
+        }
+        div{
+            font-size: 40px;            
+        }
+        #suzi{
+            font-size: 25px;
+        }
+    </style>
+    <body>
+        <table >
+            <tr>
+                <td colspan="2">0</td>
+                <!-- <td>1</td> -->
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+                <td rowspan="2">5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>7</td>
+                <!-- <td>8</td> -->
+            </tr>
+        </table>
+
+        <!-- 3행 3열 표 응용하기-->
+
+        <table >
+            <tr>
+                <td>0</td>
+                <td>1</td>  
+                <td>2</td>
+                <td>3</td>        
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>5</td> 
+                <td>6</td>
+                <td>7</td>               
+            </tr>
+        </table>
+
+        <!-- 5행 3열 표 응용하기-->
+        <div>
+            <table >
+                <tr>
+                    <td colspan="3">1</td>
+                    <!-- <td>1</td>  
+                    <td>2</td> -->      
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>5</td> 
+                    <td>6</td>                     
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>8</td> 
+                    <td rowspan="3">9</td>                     
+                </tr>
+                <tr>
+                    <td rowspan="2">10</td>
+                    <td>11</td> 
+                    <!-- <td>12</td>                      -->
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <!-- <td>15</td> 
+                    <td>16</td>                      -->
+                </tr>
+            </table>
+        </div>
+
+        <hr/>
+        <table>
+            <caption>주소록</caption>
+            <!-- 표 제목 -->
+            <thead>
+                <th>이름</th>
+                <th>전번</th>
+                <th>주소</th>
+                <th>사진</th>                
+            </thead>
+            <tbody>
+                <tr>
+                    <td>홍길동</td>
+                    <td>000-000-0000</td>
+                    <td>서울시</td>
+                    <td><img src="img/00.jpg"></td>                    
+                </tr>
+                <tr>
+                    <td>홍길동1</td>
+                    <td>000-000-1111</td>
+                    <td>서울시</td>
+                    <td><img src="../01.jpg"></td>                    
+                </tr>
+                <tr>
+                    <td>홍길동2</td>
+                    <td>000-000-2222</td>
+                    <td>서울시</td>
+                    <td><img src="img/star2/02.jpg"></td>                    
+                </tr>
+            </tbody>
+        </table>
+
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <hr/>
+          <!-- 숙제 네이버 인물정보처럼 만들기 -->
+        <table>
+            <thead>
+                <th>인물정보</th>
+                <!-- <th><a href="https://people.search.naver.com/search.naver?where=nexearch&query=%EC%88%98%EC%A7%80&sm=tab_etc&ie=utf8&key=PeopleService&os=185919">수지</a>(배수지)</th>
+                <th>전번</th>
+                <th>주소</th>-->
+                 <!-- <th>가수, 영화배우</th> -->
+            </thead>            
+            <tbody>                
+                <tr>
+                    <td rowspan="6"><img src="img/star/suzi.jpg" alt=""></td>
+                    <td><a href="https://people.search.naver.com/search.naver?where=nexearch&query=%EC%88%98%EC%A7%80&sm=tab_etc&ie=utf8&key=PeopleService&os=185919" id="suzi">수지</a>(배수지)</td>
+                    <td>가수, 영화배우</td>                 
+                </tr>
+                <tr>
+                    <!-- <td></td> -->
+                    <td>출생</td>
+                    <td>1994년 10월 10일</td>                 
+                </tr>
+                <tr>
+                    <!-- <td></td> -->
+                    <td>신체</td>
+                    <td>168cm, 47kg</td>                    
+                </tr>
+                <tr>          
+                    <!-- <td></td>           -->
+                    <td>소속사</td>
+                    <td>매니지던트 숲</td>                    
+                </tr>
+                <tr>         
+                    <!-- <td></td>            -->
+                    <td>가족</td>
+                    <td>1남 2녀 중 둘째</td>                    
+                </tr>
+                <tr>        
+                    <!-- <td></td>             -->
+                    <td>데뷔</td>
+                    <td>2010년 미쓰에이 싱글 앨범 [Bad But Good]</td>                    
+                </tr>
+                <tr>      
+                    <td><a href="https://myprofile.naver.com/Index.naver">인물정보 수정</a> </td>              
+                    <td>사이트</td>
+                    <td><a href="http://www.msoopent.com/page/page.html?acode=S61703024&mcd=02">공식 홈페이지</a> , <a href="https://www.instagram.com/skuukzky">인스타그램</a> , <a href="https://twitter.com/Suzy">트위터</a> </td>          
+                              
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
