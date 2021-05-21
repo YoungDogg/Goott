@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>폼 태그들</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <form name="varInput" method="GET" action="10_1_formTest.html">
+        <table>
+            <tr>
+                <td>
+                    이름 :
+                </td>
+                <td>
+                    <div>
+                        <input type="text" name="userName" size="14" placeholder="이름 입력">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    비밀번호:
+                </td>
+                <td>
+                    <div>
+                        <input type="password" name="userPwd">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    메모 :
+                </td>
+                <td>
+                    <div>
+                        <textarea cols="10" rows="4" name="memo"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    음식 :
+                </td>
+                <td>
+                    <div>
+                        <input type="checkbox" name="food" value="food1"> 음식1: <input type="checkbox" name="food" value="food2"> 음식2 : <input type="checkbox" name="food" value="food3"> 음식3 : <input type="checkbox" name="food" value="food4">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    성별 :
+                </td>
+                <td>
+                    <div>
+
+                        <input type="radio" name="gender" value="female"> 여성
+                        <input type="radio" name="gender" value="male"> 남성
+                        <input type="radio" name="gender" value="other"> 그외
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    전화번호 :
+                </td>
+                <td>
+                    <div>
+                        <input type="text" name="mobile">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    통신사 :
+                </td>
+                <td>
+                    <select name="comm">
+                        <option value="SkT">SKT</option>   
+                        <option value="kT">KT</option>   
+                        <option value="LG">LG</option>   
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!-- <div>
+                        <input type="hidden" name="hid" value="22"> 이건 안보인다
+                    </div> -->
+                    날짜 :
+                    <td>
+                        <input type="date" name="date"> </td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    이메일 :
+                </td>
+                <td>
+                    <input type="email" name="email"> </td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    파일 업로드:
+                </td>
+                <td>
+                    <input type="file" name="file">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    숫자 :
+                </td>
+                <td>
+                    <input type="number" name="number">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    range number :
+                </td>
+                <td>
+                    <input type="range" name="range" min="0" max="10">
+                </td>
+            </tr>
+            <tr>
+                <div>
+                    <td>
+                        <input type="reset" value="cancle">
+                    </td>
+                    <td>
+                        <input type="submit" value="제출">
+                    </td>
+                </div>
+            </tr>
+        </table>
+
+        <!--폼태그와 함께 슬 수 있는 기타 태그-->
+        <form name="varInput" method="GET" action="10_1_formTest.html">
+            <fieldset>
+                <legend>로그인 정보</legend>
+                <div>
+                    아이디 : <input type="text" name="userId">
+                </div>
+                <div>
+                    비밀번호 : <input type="password" name="userPwd">
+                </div>
+            </fieldset>
+        </form>
+    </form>
+</body>
+
+</html>
