@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+
+    div{
+        width:  180px;
+        height: 180px;
+    }
+
+    .blue{
+        position: relative;
+        background-color: blue;
+        z-index: 1;
+    }
+
+    .red{
+        position: absolute;
+        background-color: red;
+        top: 40%;
+        left: 5%;
+        z-index: 10;
+    }
+    .yellow{
+        position: absolute;
+        background-color: yellow;
+        top: 30%;
+        left: 10%;
+        z-index: 100;
+    }
+</style>
+
+<body>
+    <h1>z-index 속성</h1>
+    
+    <div class="blue">
+        
+    </div>
+    <div class="red"></div>
+    <div class="yellow"></div>    
+</html>

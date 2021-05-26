@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+<style>
+    .relative{
+        position: relative;
+        border: 2px solid blueviolet;
+        width: 500px;
+        height: 200px;
+        /* left: 30px; */
+    }
+    .absolute{
+        position: absolute;
+        border: 2px dotted black;
+        width: 200px;
+        height: 100px;
+        top: 50px;
+        right: 0;
+    }
+</style>
+
+<body>
+    <h1>absolute position</h1>
+    <div class="relative">상대 위치 지정방식
+        <div class="absolute">div안에 absolute</div>
+    </div>
+    <div class="absolute">absolute2</div>
+
+</html>

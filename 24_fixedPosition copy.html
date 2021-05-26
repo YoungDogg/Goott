@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .container {
+        border: 2px solid blueviolet;
+        /* width: 100%; */
+        height: 1000px;
+        position: relative;
+    }
+
+    .position {
+        width: 150px;
+        height: 50px;
+        top: 100px;
+        left: 120px;
+    }
+
+    .static {
+        border: 2px solid blueviolet;
+        position: static;
+    }
+
+    .absolute {
+        border: 2px solid blueviolet;
+        position: absolute;
+    }
+
+    .relative {
+        border: 2px solid blueviolet;
+        position: relative;
+    }
+
+    .fixed {
+        border: 2px solid blueviolet;
+        position: fixed;
+    }
+
+    .fixed2 {
+        border-radius: 50px;
+        width: 70px;
+        height: 70px;
+        background-color: chartreuse;
+        position: fixed;
+        right: 2%;
+        bottom: 2%;
+    }
+</style>
+
+<body>
+    <h1>position 방식에 따른 차이</h1>
+    <div class="container">
+        <div class="static position">staic div</div>
+        <div class="relative position">relative div</div>
+        <div class="absolute position">absolute div</div>
+        <div class="fixed position">fixed div</div>
+        <div class="fixed2"><a href="#">fixed2</a></div>
+    </div>
+
+</html>

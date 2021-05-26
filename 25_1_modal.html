@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    .container {
+        background-color: lightpink;
+    }
+
+    .modalClass {
+        display: none;
+        width: 200px;
+        height: 160px;
+        background-color: lime;
+        z-index: 999;
+        position: absolute;
+        top: 15%;
+        left: 30%;
+        box-shadow: 10px 15px rgba(132, 34, 230, 0.582);
+    }
+</style>
+
+<body>
+    <h1>modal</h1>
+
+    <div class="container">인간의 이상은 피가 고행을 스며들어 약동하다. 청춘이 위하여, 일월과 있으랴? 오직 피에 품에 설레는 얼음 사는가 이상은 것이다. 간에 속잎나고, 심장은 있는가?
+        광야에서 품었기 그들을 우리 만천하의 이상 부패를 것이다. 어디 만천하의 찾아다녀도, 얼음에 품고 하였으며, 반짝이는 착목한는 봄바람이다. 그러므로 피고, 용기가 피가 영락과 운다. 방지하는 힘차게
+        인간이 꽃이 사람은 뛰노는 인생에 구하기 방황하였으며, 것이다. 능히 내는 인생의 힘있다. 이상 인간이 하는 심장의 갑 목숨이 없는 얼마나 듣는다.<br><br>그들의 주며, 가슴에 그들의 것이다.
+        위하여 평화스러운 청춘을 황금시대의 것은 이상의 듣는다. 크고 바로 품었기 이것은 철환하였는가? 심장은 것은 돋고, 그것은 군영과 것이다. 가치를 인간에 커다란 옷을 쓸쓸하랴? 천지는 구할 그들을
+        그들에게 부패뿐이다. 동산에는 실현에 기관과 구하지 공자는 내는 꾸며 하여도 봄바람이다. 더운지라 반짝이는 이상, 것이다. 가지에 따뜻한 무엇을 곧 이상은 그들은 그리하였는가? 장식하는 새가 같은
+        품었기 돋고, 못할 생명을 들어 피다.<br>
+
+
+        <br>때까지 피에 발휘하기 것이다. 있는 그것을 열락의 있는가? 우는 그림자는 오직 없는 인생에 풀이 얼음 위하여서. 가진 위하여 천고에 유소년에게서 피다. 것은 같지 군영과 우리의 너의 예가 피고
+        설레는 봄바람이다. 못할 뭇 공자는 위하여 영원히 그리하였는가? 없으면, 온갖 무엇을 것이다. 그들은 없는 청춘을 자신과 뜨고, 얼마나 속에 있는가? 예가 있음으로써 위하여, 끝까지 힘있다. 어디
+        따뜻한 청춘이 되는 가는 광야에서 황금시대를 부패뿐이다. 곳이 살았으며, 이상 같지 하는 무엇을 우리의 부패뿐이다.
+    </div>
+
+    <div id="modal" class="modalClass">
+        modal popup
+        <p></p>
+        <div id="close" onclick="hide();"> X </div>
+    </div>
+
+    <button onclick="show();">모달창 열기</button>
+    <button onclick="hide();">모달창 닫기</button>
+    <script>
+        function show() {
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function hide() {
+            document.getElementById("modal").style.display = "none";
+            // alert("!");
+        }
+    </script>
+
+</html>

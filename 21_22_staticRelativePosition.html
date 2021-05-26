@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+<style>
+    div { 
+        border: 1px solid red;
+    }
+    .default{      /*기본적으로 static*/
+        left: 30px;/*안먹는다*/
+    }
+    .static{
+        position: static;
+        left: 30px;/*안먹는다*/
+    }
+    .relative{
+        position: relative;
+        left: 30px;/*먹는다*/
+    }
+</style>
+
+<body>
+    <h1>static position</h1>
+    <div class="default">기본 위치 지정방식</div>
+    <div class="static">정적 위치 지정방식</div>
+    <div class="relative">상대 위치 지정방식</div>
+
+</html>
