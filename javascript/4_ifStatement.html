@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <script>
+        //유저에게 숫자를 입력받아, 양수인지 음수인지 판단
+        // let inputData = Number(window.prompt("input number ","0"));
+        // if(inputData > 0){console.log(inputData + " 양수");}
+        // else if(inputData < 0){console.log(inputData + " 음수");}
+        // console.log(inputData);
+
+        //1. 유저에게 숫자 입력 받아, 홀짝 출력
+        // let num = Number(window.prompt("input number ","0"));
+        
+        // let result = (num > 0) ? "양수" : "음수";
+        // console.log("숫자 : "+ num + " -> " +  result);
+
+        //2. 국어, 영어, 수학 입력, 평균 90, 수, 80, 우, 미, 양, 가 출력
+        let kor = Number(window.prompt("input kor ","0"));
+        let eng = Number(window.prompt("input eng ","0"));
+        let math = Number(window.prompt("input math ","0"));
+        let stdScore = (kor + eng + math) / 3;
+
+        console.log("stdScore : " + stdScore);
+        if(100 >= stdScore && stdScore >= 90) {
+            console.log("수");
+        }else if(90 > stdScore && stdScore >= 80){
+            console.log("우");
+        }else if(80 > stdScore && stdScore >= 70){
+            console.log("미");
+        }else if(70 > stdScore && stdScore >= 60){
+            console.log("양");
+        }else if(60 > stdScore){
+            console.log("가");
+        }
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
