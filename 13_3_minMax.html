@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <style>
+        .tableC{
+            border: 1px solid;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .trC{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        .tdC{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        .minClass{
+            background-color: pink;
+        }
+        .maxClass{
+            background-color: yellowgreen;
+        }
+
+        #minC{
+            background-color: pink;
+        }
+        #maxC{
+            background-color: yellowgreen;
+        }
+    </style>
+    <script>      
+        //최대 최소 구하기    
+        //찾기 버튼을 누르면 최대 최소에 색깔 집어넣기   
+
+        //중복 찾기 왜? 아이디값을 받아야 하니까 
+        //왜 아이디값을 받아? 아이디값에 min, max 값을 넣어야 하니까 
+ 
+        let output="<table class='tableC'>";
+        let randArr = new Array();
+        let nonDuplArr = [];
+        let max = 0;        
+        let min = 1000;
+        let maxIndex = 0;
+        let minIndex = 0;
+        let arrIndex = 0;
+        let arrNumRange = 50;
+        
+        //랜덤의 중복 없애는 함수
+        function insideArr(array, el) {
+        for(var i = 0 ; i < array.length; i++) 
+            if(array[i] == el) return true; //배열값 중 el값과 같은 게 있으면 참
+        return false; //중복 없으면 거짓
+        }
+
+        function get_rand(array) {
+            var rand = array[Math.floor(Math.random()*array.length)];
+            if(!insideArr(gen_nums, rand)) {             
+            gen_nums.push(rand); //만약 중복이 아니라면 이걸 꺼낸다
+            return rand;
+            }
+            return get_rand(array); //중복이면 재귀로 들어간다 나올때까지
+        }
+
+        for(let i = 0; i < arrNumRange; i++){                
+            //만약 랜덤값이 중복이면 다른 값을 넣게 해라
+            //위에 있는 함수를 쓴다.                
+            randArr[i] = Math.floor(Math.random() * 100 + 1);            
+        }
+
+
+        for(let i = 0; i < 5; i++){                        
+            output += "<tr class = 'trC'>";
+            for(let j = 0; j < 10; j++){
+                if(max < randArr[arrIndex]) {max = randArr[arrIndex]; maxIndex = arrIndex;}
+                if(min > randArr[arrIndex]) {min = randArr[arrIndex]; minIndex = arrIndex;}   
+
+                // randArr[j] = Math.floor(Math.random() * 100 + 1);
+                output += "<td id = '" + randArr[arrIndex]+ "' class='tdC'";
+                if(min ==  randArr[arrIndex]){ 
+                    output += " id = 'minC' >";
+                } 
+                else if(max ==  randArr[arrIndex]) {
+                    output += " id = 'maxC' >";
+                }
+                else output += ">";
+                // if(arrIndex >= randArr.length) arrIndex = 0;
+                output += randArr[arrIndex] + "</td>";
+                if(arrIndex < arrNumRange) arrIndex++;
+                else{ arrIndex = 0;}
+            }
+            output += "</tr>";
+        }
+
+        output += "</table>";
+        function findNum(){
+            console.log("min : " + min);
+            console.log("max : " + max);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="output">
+    <!--          2 X 10 arr     -->
+
+    </div>
+    <!-- 최소 분홍, 최대 회색 -->
+    <div>
+        <button onclick="findNum();">찾기</button>
+    </div>
+
+    <script>
+        document.getElementById("output").innerHTML = output;
+    </script>
+</body>
+
+</html>

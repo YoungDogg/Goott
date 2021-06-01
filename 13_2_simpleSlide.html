@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <style>
+        #mySlide{
+           height: 300px;
+        }
+    </style>
+    <script>      
+        
+        let myPhotos = new Array();
+                
+        // if( document.getElementById("mySlide").files.length != 0 ){
+        //    console.log("no files selected");
+        // }
+        
+        //폴더경로를 가져오려면 어떻게 해야할까?
+        //배열에 자동으로 넣고 싶은데, 폴더 안에 경로가 없을 때까지 
+        // myPhotos.push("img/00.jpg");   
+        let imgPath = "";
+        let imgIndex = 0;
+        // while (imgPath != ""){
+        //     imgPath += "img/0"+imgIndex+".jpg";
+            
+        //     myPhotos[imgIndex] = imgPath;
+            
+        //     imgPath = "";
+        //     imgIndex++;
+        // }
+        myPhotos[0] = "img/00.jpg";
+        myPhotos[1] = "img/01.jpg";
+        myPhotos[2] = "img/02.jpg";
+        myPhotos[3] = "img/03.jpg";
+
+        let index = 0;
+
+        function prev(){
+            // if(index != 0) myPhotos.findIndex(index -1);
+            // else myPhotos.findIndex(3);
+            if(index != 0) index--;
+            else { index =  myPhotos.length -1;}
+            console.log(index);
+            document.getElementById("mySlide").src = myPhotos[index];
+        }
+        function next(){
+            // alert("!!!");
+            if(index != myPhotos.length -1) index++;
+            else { index = 0;}
+            console.log(index);
+            document.getElementById("mySlide").src = myPhotos[index];
+        }
+        function autoNext(){
+            // alert("!!!");
+            window.setInterval(next, 2000);
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <img src="img/00.jpg" alt="" id = "mySlide">
+    </div>
+    <div>
+        <button onclick="prev();">이전</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick="next();">다음</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick="autoNext();">자동</a>&nbsp;&nbsp;&nbsp;&nbsp;            
+    </div>
+</body>
+
+</html>
