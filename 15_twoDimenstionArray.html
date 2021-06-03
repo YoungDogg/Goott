@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>hi</title>
+    <meta charset="UTF-8">
+    <style>
+        .tableC {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .thC {
+            border: 1px solid black;
+            background-color: blanchedalmond;
+        }
+
+        .tdC {
+            border: 1px solid black;
+            border-collapse: collapse;
+
+        }
+    </style>
+    <script>
+        let ar = [["a", "b", "c"], ["d", "e", "f"]];
+        // document.write(ar);
+
+        let output = "<table  class='tableC'>";
+        let index = 0;
+        for (let i = 0; i < ar.length; i++) {  //i = 0 1 2 3 4
+            output += "<tr>";
+            for (let j = 0; j < ar[0].length; j++) {
+                output += "<td id='" + ++index + "' class='tdC'>" + ar[i][j] + "</td>";
+            }
+            output += "</tr>";
+        }
+        output += "</table>";
+
+
+        // document.write("<hr>");
+        // jagged 배열 : 행마다 열의 개수가 다른 배열
+        let jaggedArr = [[60, 70], [80, 90, 20], [50]];
+        // index = 0;
+        let output2 = "<table  class='tableC'>";
+        // for (let i = 0; i < jaggedArr.length; i++) {  //i = 0 1 2 3 4
+        for (i in jaggedArr) {
+            output2 += "<tr>";
+            // for (let j = 0; j < jaggedArr[0].length; j++) {
+            for (let j in jaggedArr[i]) {
+                output2 += "<td id='" + ++index + "' class='tdC'>" + jaggedArr[i][j] + "</td>";
+            }
+            output2 += "</tr>";
+        }
+        output += "</table>";
+
+        //----------숙제-------------------------
+        // 학생들 평균으로 정렬하기
+        // 주석 처리한 이유 : 랜덤으로 다양하게 나올줄 알았는데 획일화됐다.   
+        //한꺼번에 난수를 만드려면 어떻게 해야하나, 기존에 있는 중복 없는 함수로 할 수 있지 않을까
+        //중복없는 숫자들을 배열에 넣고 각각 변수에 넣어주자. 국영수 3개, 이름 3개 총 6개
+        // let kor = Math.floor(Math.random() * (100 - 50) + 49);
+        // let math = Math.floor(Math.random() * (100 - 50) + 50);
+        // let eng = Math.floor(Math.random() * (100 - 50) + 51);
+        let kor = 0;
+        let math = 0;
+        let eng = 0;
+        let sum = kor + math + eng;
+        let avg = parseInt(sum / 3);
+        let grade = ((4.5 * avg) / 100).toFixed(1);  //4.5 기준 100 : 4.5 = 내점수 : ?
+        let howMany = 10;
+        let stdDbleArr = [];   // 학생들 배열 이차배열로 만들 것이다.
+        let stdTmpArr = []; //각 넣을 임시 학생 배열
+        // document.write("kor : " + kor + "math : " + math + "eng : " + eng + "sum : " + sum + "avg : " + avg + "grade : " + grade);
+        //이름 랜덤으로 생성
+        let nameFirstLettArr = ["김", "이", "박", "최", "장", "남궁"];
+        let nameMidLettArr = ["민", "희", "영", "순", "철", "종"];
+        let nameLastLettArr = ["주", "경", "지", "빈", "재", "휘"];
+
+        //(new : 객체를 생성하는 연산자)
+
+
+        function isDuplicate(tmp, Arr) { // 중복검사를 하는 곳            
+            let flag = false;
+            // 중복인지 아닌지 검사를 함.
+            for (let i = 0; i < Arr.length; i++) {
+                if (tmp == Arr[i]) { // 중복
+                    flag = true;
+                    break;
+                }
+            }
+
+            if ((Arr.indexOf(tmp)) != -1) {
+                flag = true;
+            }
+            // 중복이라면 true, 중복이 아니라면 false
+            return flag;
+        }
+
+        // function for4RandNum(howMany, maxRange, minRange, arr) {
+        //         for (let i = 0; i < howMany; i++) {
+        //             let tmp = 0;
+        //             do { // 중복된 수가 나오지 않을 때까지 계속 난수 생성
+        //                 tmp = Math.floor(Math.random() * (maxRange - minRange) + minRange); // 난수 생성 (60 ~ 100)
+        //                 // console.log("호출하기 전 tmp : " + tmp);
+        //             } while (isDuplicate(tmp, arr));
+        //             randNum4Std.push(tmp);
+        //         }
+        //     }
+        //국어, 영어, 수학 난수 howMany 학생수만큼 국영수 점수를 출력
+        // for4RandNum((3 * howMany), 100, 60, randNum4Std);
+
+        let randNum4Std = []; // 빈 배열 생성 //국영수값 난수 생성
+        for (let i = 0; i < 3 * howMany; i++) {
+            let tmp = 0;
+            do { // 중복된 수가 나오지 않을 때까지 계속 난수 생성
+                tmp = Math.floor(Math.random() * (100 - 60) + 60); // 난수 생성 (60 ~ 100)
+                // console.log("호출하기 전 tmp : " + tmp);
+            } while (isDuplicate(tmp, randNum4Std));
+            randNum4Std.push(tmp);
+        }
+
+        //국영수 값 집어넣기
+
+
+        // for(let i = 0; i < 9; i++){
+        //     stdTmpArr.push(randNum4Std[0 + 3 * i]);
+        //     stdTmpArr.push(randNum4Std[1 + 3 * i]);
+        //     stdTmpArr.push(randNum4Std[2 + 3 * i]);
+        //     stdDbleArr.push(stdTmpArr);
+        // }
+        //     stdTmpArr.push(randNum4Std[0 * i]);
+        //     stdTmpArr.push(randNum4Std[1 * i]);
+        //     stdTmpArr.push(randNum4Std[2 * i]);
+        //     stdDbleArr.push(stdTmpArr);
+        // }
+
+        console.log(stdDbleArr);
+
+        let randNum4Name = [];
+        // 학생이름 난수생성, 이름은 3개씩 세트로 가야 하니까 (3 * howMany), 
+        //난수는 randNum4Std에 이미 있으니까 난수 0~5만 이으면 된다.
+        //randNum4Std에서 %7한 값을 그대로 randNum4Name에 넣으면 되겠다.
+        for (i in randNum4Std) {
+            randNum4Name.push(randNum4Std[i] % 7);
+        }
+        // console.log(randNum4Name);
+        //각각의 이름을 어떻게 할까... 난수도 있고 각자리수마다 배열도 있고 
+        //
+        let nameArr = [];
+        for (let i = 0; i < randNum4Name.length; i++) {
+            nameArr.push("" + nameFirstLettArr[0] + nameMidLettArr[0] + nameLastLettArr[0]);
+        }
+
+        // console.log(nameArr);
+
+        // let name = nameFirstLettArr[Math.floor(Math.random() * (nameFirstLettArr.length))] + nameMidLettArr[Math.floor(Math.random() * (nameMidLettArr.length))] + nameLastLettArr[Math.floor(Math.random() * (nameLastLettArr.length))];
+
+        // document.write(name);
+        let inputListArr = [nameArr, kor, math, eng, sum, avg, grade];
+        let stdArr = []; //[name, kor, math, eng, sum, avg, grade]
+        // stdArr.push(inputListArr)        
+
+        //시간으로 랜덤을 준다면 이렇게 안해도 되지 않을까
+        stdArr.push(["김민주", 90, 80, 70, (90 + 80 + 70), ((90 + 80 + 70) / 3).toFixed(1), ((4.5 * (90 + 80 + 70) / 3) / 100).toFixed(1)]);
+        stdArr.push(["이순휘", 80, 82, 69, (80 + 82 + 69), ((80 + 82 + 69) / 3).toFixed(1), ((4.5 * (80 + 82 + 69) / 3) / 100).toFixed(1)]);
+        stdArr.push(["박영지", 70, 92, 79, (70 + 92 + 79), ((70 + 92 + 79) / 3).toFixed(1), ((4.5 * (70 + 92 + 79) / 3) / 100).toFixed(1)]);
+        stdArr.push(["최철재", 70, 80, 90, (80 + 82 + 69), ((80 + 82 + 69) / 3).toFixed(1), ((4.5 * (80 + 82 + 69) / 3) / 100).toFixed(1)]);
+        stdArr.push(["남궁종빈", 90, 95, 90, (90 + 95 + 90), ((90 + 95 + 90) / 3).toFixed(1), ((4.5 * (80 + 82 + 69) / 3) / 100).toFixed(1)]);
+
+        // for(let i = 0; i < stdArr.length; i++){
+
+        //     document.write(stdArr[i] + "<br>");
+        // }
+
+        function sortFunc() {
+            //버블소트, 평균을 정렬하려고 불렀다.
+            for (let i = 0; i < stdArr.length - 1; i++) {
+                for (let j = i + 1; j < stdArr.length; j++) {
+                    if (stdArr[i][5] < stdArr[j][5]) {
+                        let temp = stdArr[j];
+                        stdArr[j] = stdArr[i];
+                        stdArr[i] = temp;
+                    }
+                }
+            }
+        }
+
+
+        let output3 = "<table  class='tableC'>";
+        output3 += "<tr>";
+        output3 += "<th class='thC'>이름 </th>";
+        output3 += "<th class='thC'>국어 </th>";
+        output3 += "<th class='thC'>영어 </th>";
+        output3 += "<th class='thC'>수학 </th>";
+        output3 += "<th class='thC'>총점 </th>";
+        output3 += "<th class='thC'>평균 </th>";
+        output3 += "<th class='thC'>학점 </th>";
+        output3 += "</tr>";
+        // let index = 0;
+        for (let i = 0; i < stdArr.length; i++) {
+            output3 += "<tr>";
+            for (let j = 0; j < stdArr[0].length; j++) {
+                output3 += "<td id='" + ++index + "' class='tdC'>" + stdArr[i][j] + "</td>";
+            }
+            output3 += "</tr>";
+        }
+        output3 += "</table>";
+
+        sortFunc();
+        let output4 = "<table  class='tableC'>";
+        output4 += "<tr>";
+        output4 += "<th class='thC'>이름 </th>";
+        output4 += "<th class='thC'>국어 </th>";
+        output4 += "<th class='thC'>영어 </th>";
+        output4 += "<th class='thC'>수학 </th>";
+        output4 += "<th class='thC'>총점 </th>";
+        output4 += "<th class='thC'>평균 </th>";
+        output4 += "<th class='thC'>학점 </th>";
+        output4 += "</tr>";
+        // let index = 0;
+        for (let i = 0; i < stdArr.length; i++) {
+            output4 += "<tr>";
+            for (let j = 0; j < stdArr[0].length; j++) {
+                output4 += "<td id='" + ++index + "' class='tdC'>" + stdArr[i][j] + "</td>";
+            }
+            output4 += "</tr>";
+        }
+        output4 += "</table>";
+
+        //로또번호 만들기
+        let lottArr = []; // 빈 배열 생성(new : 객체를 생성하는 연산자)
+
+        function isDuplicate(tmp, Arr) { // 중복검사를 하는 곳            
+            let flag = false;
+            // 중복인지 아닌지 검사를 함.
+            for (let i = 0; i < Arr.length; i++) {
+                if (tmp == Arr[i]) { // 중복
+                    flag = true;
+                    break;
+                }
+            }
+
+            if ((Arr.indexOf(tmp)) != -1) {
+                flag = true;
+            }
+            // 중복이라면 true, 중복이 아니라면 false
+            return flag;
+        }
+
+        for (let i = 0; i < 31; i++) {
+            let tmp = 0;
+            do { // 중복된 수가 나오지 않을 때까지 계속 난수 생성
+                tmp = Math.floor(Math.random() * 45 + 1); // 난수 생성
+                // console.log("호출하기 전 tmp : " + tmp);
+            } while (isDuplicate(tmp, lottArr));
+
+            lottArr.push(tmp);
+        }
+        // document.write("lotto Num : " + lottArr);
+
+        let output5 = "<table  class='tableC'>";
+        // let index = 0;
+        let lottIndex = 0;
+        for (let i = 0; i < 5; i++) {
+            output5 += "<tr>";
+            for (let j = 0; j < 6; j++) {
+                output5 += "<td id='" + ++index + "' class='tdC'>" + lottArr[++lottIndex] + "</td>";
+            }
+            output5 += "</tr>";
+        }
+        output5 += "</table>";
+    </script>
+</head>
+
+<body>
+    <div id="output"></div>
+    <div id="output2"></div>
+    <div id="output3"></div>
+    <div>
+        <p>정렬 후</p>
+    </div>
+    <div id="output4"></div>
+    <div>
+        <p>로또번호 자동</p>
+    </div>
+    <div id="output5"></div>
+    <script>
+        document.getElementById("output").innerHTML = output;
+        document.getElementById("output2").innerHTML = output2;
+        document.getElementById("output3").innerHTML = output3;
+        document.getElementById("output4").innerHTML = output4;
+        document.getElementById("output5").innerHTML = output5;
+    </script>
+</body>
+
+</html>

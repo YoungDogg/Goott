@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> 내장 함수</title>
+    <meta charset="UTF-8">
+    <!-- head definitions go here -->
+    <script>
+        //1. eval()
+        let result = eval("2 * 3 + 5");
+        document.write(result);
+
+        //2. parsInt() : 정수로 변환, 안되면 NaN 반환 Not a Number
+        console.log(parseInt(3.15));
+        console.log(parseInt("woeifjowfe"));
+        console.log(parseInt("3.15efeeff"));
+
+        //3. parsFloat() : 실수로 바꿀 수 있는 부분까지
+        console.log(parseInt(3.15));
+        console.log(parseInt("woeifjowfe"));
+        console.log(parseInt("3.15efeeff"));
+
+        // 4. isNan() : 숫자냐? 아니면 true
+        let input = 0;
+        do {
+            input = Number(window.prompt("isNan() 용도의 숫자 입력", "0"));
+        } while (isNaN(input));    //숫자가 아니면 계속 반복 돈다
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

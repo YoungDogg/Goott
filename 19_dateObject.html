@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> 날짜 </title>
+    <meta charset="UTF-8">
+    <!-- head definitions go here -->
+    <script>
+        let now = new Date();
+        document.write("현재 : " + now + "<br>");
+        document.write(now.getFullYear() + "<br>");
+
+        //날짜 계산.
+        //오늘 - 알고싶은날짜
+        let startDate = new Date(2021, 4, 18);
+        // document.write(startDate);
+        let passedDay = now - startDate;
+        // document.write(passedDay);  //밀리세컨드로 나타낸다.
+        
+        let sec2Date = Math.floor(passedDay / (1000 * 60 * 60 * 24)); // 일로 만든다.
+
+
+        // 달력에서 특정 날짜를 선택하면 오늘로부터 몇일이 지났는지 출력하는 프로그램 작성
+        //inputType : date 사용
+        
+        // document.write(datePicked);  
+        
+        function saveDate1(){
+            let datePicked = new Date(document.getElementById("dateId").value); // value값은 텍스트다
+            let passedDay = now - datePicked;
+            let sec2Date = Math.floor(passedDay / (1000 * 60 * 60 * 24));            
+            console.log(sec2Date);
+            document.getElementById("here").innerHTML = sec2Date;
+        }
+    </script>
+</head>
+
+<body>
+    <div><input type="date" id = "dateId"><button id="dataBtn" onclick="saveDate1();">날짜저장</button></div>
+    <div>당신은 태어난지 <span id="here"></span> 되었다.</div>
+
+</body>
+
+</html>
