@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">       
+        <title>ObjectEx3</title>
+     
+        <script>
+            window.onload = function(){
+                let p = document.getElementById("firstP");
+                console.log(p);
+                
+                let output = "p.id : " + p.id + "\n";
+                output += "p.tagName : " + p.tagName + "\n";
+                output += "p.innerHTML : " + p.innerHTML + "\n";
+                output += "p.innerText : " + p.innerText + "\n";
+                output += "p.style.color : " + p.style.color + "\n";
+                output += "p.onclick : " + p.onclick + "\n";
+                output += "p.childElementCount : " + p.childElementCount + "\n";
+                // alert(output);
+                
+                let output2 = "p.childNodes : " + p.childNodes + "\n";
+                output2 += "p.children : " + p.children + "\n";
+                alert(output2);
+            }
+        </script>
+    </head>
+
+    <body>
+        <h3>dom 객체 p태그의 프로퍼티, 스타일, 이벤트 리스너, ...</h3>
+        <p id="firstP" style="color :burlywood; background-color:yellow;" onclick="this.style.color = 'red';">hiihihihihi <span>inside Tag</span></p>
+    </body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> string 객체 함수</title>
+    <meta charset="UTF-8">    
+    <script>
+        
+        // let str = "weoijewfo";
+        let str = new String("owefjweoifj");
+        console.log(str);
+        
+        document.write(str[0] +"<br>")
+        
+        document.write(str.charAt(2) +"<br>");
+        document.write(str.concat("내랴더재랴ㅓㅈ대랴") +"<br>");
+        
+        str = "우리 나라 좋은 나라";
+        document.write(str.indexOf('나') +"<br>");
+        document.write(str.indexOf('밥') +"<br>");
+        document.write(str.indexOf('나',8) +"<br>");//8번째 위치부터 검색
+        document.write(str.lastIndexOf('나') +"<br>");
+        document.write(str.lastIndexOf('나',5) +"<br>");
+        document.write(str.lastIndexOf('나',10) +"<br>");
+        
+        document.write(str.indexOf('나라') +"<br>");
+        document.write(str.lastIndexOf('나라') +"<br>");
+        
+        document.write(str.substr(3, 7) + "<br>");
+        document.write(str.substring(3, 7) + "<br>");
+        
+        let statement1 = "I am a Student";
+        document.write(statement1.toLocaleLowerCase() + "<br>");
+        document.write(statement1.toLocaleUpperCase() + "<br>");
+        
+        // student단어 추출, 대문자로 출력
+        document.write(statement1.substring(6, 15).toLocaleUpperCase() + "<br>");
+        
+        document.write(statement1.substr(statement1.indexOf('Student'), 'Student'.length).toLocaleUpperCase() + "<br>");
+        
+        let statement2 = " 홍 길 동 ";
+        document.write(statement2);
+        //띄어쓰기 없애는 것
+        document.write(statement2.trim() + "<br>");
+        
+        let tmpStatement ='';        
+        for(let i = 0; i < statement2.length; i++){
+            if(statement2.charAt(i) != " "){
+                tmpStatement += statement2.charAt(i);
+            }
+        }
+        document.write(tmpStatement+ "<br>");
+        
+        document.write(statement2.replace(/\s/gi,"") + "<br>");
+        
+        
+        //시험 
+        let statement3 = "ab c def ghi";
+        let ar = statement3.split(" "); //특정문자를 기준으로 분리, 반환
+        document.write(ar[2] + "<br>");
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

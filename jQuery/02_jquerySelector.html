@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>jQuery selector</title>
+        <meta charset="UTF-8">
+        <script src="jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("li > u").addClass("bg");
+                $("#myFavorites li").addClass("hori");
+                $(".myC").css("font-size", "20px");
+                $("#jquery").click(function(){
+                   $("#myFavorites li").removeClass("hori"); 
+                });
+            });
+        </script>
+        <style>
+            .bg {
+                background-color: yellowgreen;
+            }
+            .hori {
+                float: left;
+                list-style: none;
+                padding: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>관심 사항</h3>
+        <ul id="myFavorites">
+            <li><u>html5</u></li>
+            <li class="myC">css</li>
+            <li class="myC">javascript</li>
+            <li id="jquery">j<u>Query</u></li>
+        </ul>
+    </body>
+
+</html>

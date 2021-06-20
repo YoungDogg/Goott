@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<personalInfo>
+    <person>
+        <name>둘리</name>
+        <tel>000-000-0000</tel>
+        <address>서울시 서울구 서울동</address>
+        <!-- <pic img = 'something.jpg'></pic> 나쁜 표현 -->
+        <!-- <pic>something.jpg</pic> 좋은 표현 -->
+        <pic>00.jpg</pic>
+        
+    </person>
+    <person>
+        <name>둘리1</name>
+        <tel>000-000-0001</tel>
+        <address>서울시 서울구 서울동1</address>
+        <!-- <pic>00.jpg</pic> -->
+        <pic></pic>
+    </person>
+    <person>
+        <name>둘리2</name>
+        <tel>000-000-0002</tel>
+        <address>서울시 서울구 서울동2</address>
+        <pic>00.jpg</pic>
+    </person>
+</personalInfo>

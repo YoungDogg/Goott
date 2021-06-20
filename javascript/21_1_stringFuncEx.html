@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> 쿼리스트링 써서 데이터 주고 받기</title>
+        <meta charset="UTF-8">
+        <script src="externalJS.js"></script>
+        <script>
+            // function click() {
+            window.onload = function () {
+                // let url = location.href;
+                // console.log(typeof url);
+
+                // let queryString = url.split("?")[1];
+                // console.log(queryString);
+
+                // let tempArr = queryString.split("&");
+                // console.log(tempArr);
+
+                // let name = tempArr[0].split("=")[1];
+                // console.log(name);
+                // let kor = Number(tempArr[1].split("=")[1]);
+                // console.log(kor);
+                // let eng = Number(tempArr[2].split("=")[1]);
+                // console.log(eng);
+                // let math = Number(tempArr[3].split("=")[1]);
+                // console.log(math);
+
+                // let sum = kor + eng + math;
+                // let avg = Number(sum / 3).toFixed(2);
+                // let grade = Number((4.5 * avg) / 100).toFixed(1)// 100 : 4.5 = avg : x
+                // let grade2 = "";
+                // if(avg <= 100 && avg >= 90){ grade2 ="수";}
+                // else if(avg < 90 && avg >= 80){ grade2 ="우";}
+                // else if(avg < 80 && avg >= 70){ grade2 ="미";}
+                // else if(avg < 70 && avg >= 60){ grade2 ="양";}
+                // else if(avg < 60){ grade2 ="가";}
+                
+                // console.log("sum : " + sum + " avg : " + avg + " grade : " + grade);
+                // document.getElementById("kor").innerHTML = kor;
+                // document.getElementById("eng").innerHTML = eng;
+                // document.getElementById("math").innerHTML = math;
+                // document.getElementById("sum").innerHTML = sum;
+                // document.getElementById("avg").innerHTML = avg;
+                // document.getElementById("grade").innerHTML = grade;
+                // document.getElementById("grade2").innerHTML = grade2;
+                // }
+                
+                // let tempArr = queryString.split("&");
+                // console.log(tempArr);
+
+                
+                // let name = tempArr[0].split("=")[1];
+                let name;
+                name = getParam("Name");    //대문자로 해도 된다. 로어케이스 했으니까                
+                console.log("name : " + name);
+                // let height = tempArr[1].split("=")[1];
+                let height = getParam("height");
+                // console.log(height);
+                console.log("height : " + height);
+                // let weight = tempArr[2].split("=")[1];
+                let weight = getParam("weight");
+                // console.log(weight);
+                console.log("weight : " + weight);
+                
+                let bmi =  Number(weight/(height * height) * 10000).toFixed(2);//kg/(m*m)
+                
+                document.getElementById("name").innerHTML = name;
+                document.getElementById("height").innerHTML = height;
+                document.getElementById("weight").innerHTML = weight;
+                document.getElementById("bmi").innerHTML = bmi;
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- <div><button onclick="click();">버튼</button></div> -->
+        <!-- <div id="name"></div>
+        <div>kor : <span id="kor"></span> </div>
+        <div id="">eng : <span id="eng"></span></div>
+        <div id="">math : <span id="math"></span></div>
+        <div> sum : <span id="sum"></span> avg : <span id="avg"></span> grade : <span id="grade"></span> 등급 : <span id="grade2"></span></div> -->
+        
+        <div id="name"></div>
+        <div>height : <span id="height"></span> </div>
+        <div id="">weight : <span id="weight"></span></div>
+        <div id="">bmi : <span id="bmi"></span></div>        
+    </body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">       
+        <title>ex2</title>
+     <script>
+         window.onload= function(){
+             let obj = document.getElementById("parent");
+             
+             let newDiv = document.createElement("div")
+             newDiv.innerHTML = "애랴재랴ㅓ";
+             newDiv.setAttribute("id", "newDiv");
+             newDiv.addEventListener("click", function(){
+                 obj.removeChild(this);
+             });
+             obj.appendChild(newDiv);
+             
+             let newBtn = document.createElement("button");
+             newBtn.innerHTML ="버튼";
+             newBtn.setAttribute("id","btn1");
+             newBtn.addEventListener("click", function(){
+                 let div1 = document.getElementById("div1");
+                 div1.innerHTML = "<img src='img/01.jpg' alt=''>";
+                 
+             });
+             obj.insertBefore(newBtn, newDiv);
+         }
+     </script>
+    </head>
+
+    <body id="parent">
+        <h3>weoifweoifj</h3>
+        <div id="div1">div1</div>
+        
+    </body>
+
+</html>

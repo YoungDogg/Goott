@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>cookie</title>
+        <meta charset="UTF-8">
+        <style>
+            .tableC {
+                border: 1px solid;
+                /* border-collapse: collapse; */
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                let json = [
+                    { "prodName": "새우강", "prodWeight": "120", "prodPrice": "2000", "prodQty": "3", "prodSomething": ["weeee", "wee1"] },
+                    { "prodName": "커피", "prodWeight": "320", "prodPrice": "2500", "prodQty": "2", "prodSomething": ["weeee", "wee1"] }
+                ]
+                let output = "";
+                output += "<table class='tableC'><tr><th>제품명</th><th>중량</th><th>가격</th><th>기타</th></tr>"
+                $.each(json, function (i, item) {
+                    //    console.log(json[i]); 
+                    output += "<tr><td>" + item.prodName + "</td><td>" + item.prodWeight + "</td><td>" + item.prodPrice + "</td>";
+                    output += "<td><ul>";
+                    $.each(item.prodSomething, function (i, data) {
+                        output += "<li>" + data + "</li>";
+                    });
+                    output += "</ul></td></tr>"
+                });
+                output += "</table>";
+
+                $("#output").html(output);
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="output"></div>
+    </body>
+
+</html>

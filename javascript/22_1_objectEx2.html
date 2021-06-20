@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ObjectEx2</title>
+  <script>
+        let account = new Object(); //숫자빼곤 다 힙에 들어가있다.
+        account.owner = "홍길동";
+        account.accNum = "1111-1111-11-113";
+        account.balance = 500;
+        account.inquery = inquery;
+        account.deposite = deposite;
+        account.withdraw = withdraw;
+      
+    //   console.log(account);
+        document.write(account.owner + "<br>");
+        document.write("계좌변호 : " + account.accNum + "<br>");
+        document.write(account.inquery() + "<br>");
+        account.deposite(40000);
+        document.write(account.inquery() + "<br>");
+        account.withdraw(2000);
+        document.write(account.inquery() + "<br>");
+        
+        document.write(account.inquery() + "<hr>");
+        
+        let account2 = new Object(); //숫자빼곤 다 힙에 들어가있다.
+        account2.owner = "고길동";
+        account2.accNum = "2222-1111-11-113";
+        account2.balance = 7000000;
+        account2.inquery = inquery;
+        account2.deposite = deposite;
+        account2.withdraw = withdraw;
+        
+        document.write(account2.owner + "<br>");
+        document.write("계좌변호 : " + account2.accNum + "<br>");
+        document.write(account2.inquery() + "<br>");
+        account2.deposite(40000);
+        document.write(account2.inquery() + "<br>");
+        account2.withdraw(200);
+        document.write(account2.inquery() + "<br>");
+        
+        function inquery(){
+            return this.balance;
+        }
+        function deposite(money){
+            this.balance += money;;
+        }
+        function withdraw(money){
+            if(this.balance >= money){
+                this.balance -= money;                
+                return;
+            }
+            alert('돈 부족');
+            return;
+        }
+  </script>
+</head>
+<body>
+
+ 
+</body>
+</html>

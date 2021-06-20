@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>메인 페이지</title>
+        <script src="externalJS.js"></script>
+        <script>
+            window.onload = function () {
+                let url = "25_3sub.html";
+                let time = "11111111111";
+                //새 창을 띄우자
+                function winLoad() {
+                    // location.href = url;
+                    
+                    
+                    window.open(url+"?time="+time, "myPage,창이름을 나타낸다", "left=300, top=300, width=400, height=400");
+                }
+                //CROSS Origin 오류로 안된다.
+                //2) 자식창을 객체로, 객체의 멤버로 정보를 넘겨줄 수 있다.
+                // let childWin = window.open(url, "notice", "left=300, top=300, width=400, height=400");
+                
+                // childWin.document.getElementById("time").innerHTML = time;
+                winLoad();
+            }
+        </script>
+    </head>
+
+    <body>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>cookie</title>
+        <meta charset="UTF-8">
+        <style>
+            .tableC {
+                border: 1px solid;
+                /* border-collapse: collapse; */
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                let json = 
+                [
+                    {
+                        "employees": [{
+                            "name": "Shyam",
+                            "email": "shyamjaiswal@gmail.com"
+                        },
+                        {
+                            "name": "Bob",
+                            "email": "bob32@gmail.com"
+                        },
+                        {
+                            "name": "Jai",
+                            "email": "jai87@gmail.com"
+                        }
+                        ]
+                    }
+                ]
+                let output = "";
+                output += "<table class='tableC'><tr><th>이름</th><th>이메일</th></tr>"
+                $.each(json[0].employees, function (i) {
+                    // for(let i = 0; i < json[0].employees.length; i++){
+                    
+                    output += "<tr><td>" + json[0].employees[i].name + "</td><td>" + json[0].employees[i].email + "</td>";
+                    output += "<td><ul>";
+                    output += "</ul></td></tr>"
+                });
+                    // }
+                output += "</table>";
+
+                $("#output").html(output);
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="output"></div>
+    </body>
+
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>성적표(객체, 성적을 표, 차트로 출력)</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="../jQuery/jquery-3.6.0.min.js"></script>
+        <script>
+
+            function std(name, kor, eng, math) {
+                this.name = name;
+                this.kor = kor;
+                this.eng = eng;
+                this.math = math;
+                this.sum = function () {
+                    return this.kor + this.math + this.eng;
+                }
+                this.avg = function () {
+                    return Number(this.sum() / 3).toFixed(2);
+                }
+                this.grade = function () {
+                    return Number((4.5 * this.avg()) / 100).toFixed(1);
+                }
+            }
+            function inputData(stdArr) {
+                // stdArr.length = 0;          //버튼 다시 눌렀을 때 개수 누적되지 않게, JS에서는 이렇게 하면 되지만 다른 언어에서 이렇게 하면 안된다
+                // for(let i = 0; i < 3; i++){
+                $('#score tr').first().siblings().map(function (i, e) {  //첫번째 tr은 th니까 그거 제외하고
+                    // let stuName = $(".stuName").eq(i).val();
+                    let stuName = $(e).children()[0].firstElementChild.value;   //클래스를 쓰지 않고 태그 거는 법ㄴ
+                    // let stuKor = $(".stuKor").eq(i).val();
+                    let stuKor = $(e).children()[1].firstElementChild.value;
+                    // let stuEng = $(".stuEng").eq(i).val();
+                    let stuEng = $(e).children()[2].firstElementChild.value;
+                    let stuMath = $(e).children()[3].firstElementChild.value;
+                    // console.log(stuName);
+                    // console.log(stuKor);
+                    // console.log(stuEng);                    
+                    stdArr.push(new std(stuName, stuKor, stuEng, stuMath));
+                })
+                return stdArr;
+                // }
+                // console.log(stdArr);
+            }
+            function outputTable(stdArr) {
+                $('#resultTable').empty();
+                let output = '<table border="1" id="score"><tr><th>이름</th><th>국어</th><th>영어</th><th>수학</th><th>총점</th><th>평균</th></tr>';
+                for (let i in stdArr) {
+                    console.log(stdArr[i].name);
+                    output += '<tr><td>' + stdArr[i].name + '</td>';
+                    output += '<td>' + stdArr[i].kor + '</td>';
+                    output += '<td>' + stdArr[i].eng + '</td>';
+                    output += '<td>' + stdArr[i].math + '</td>';
+                    output += '<td>' + stdArr[i].sum() + '</td>';
+                    output += '<td>' + stdArr[i].avg() + '</td></tr>';
+                }
+                // console.log(output);
+                output += "</table>"
+                $('#resultTable').append(output);
+            }
+            function outputChart(stdArr) {
+                // google.charts.load("current", { packages: ['corechart'] });
+                // google.charts.setOnLoadCallback(drawChart);
+                // function drawChart() {
+                //     let scoreDate = new Array();    // 이중 배열로 넣어야 해서 배열 바꾸는 용으로 만들었다.
+                    
+                //     for (let i = 0; i < stdArr.length; i++) {
+                //         scoreDate[i + 1] = [stdArr[i].name, stdArr[i].kor, stdArr[i].eng, stdArr[i].math];
+                //         // scoreDate[2] = ["홍길동1", 8.94, 10, 40];
+                //         // scoreDate[3] = ["홍길동2", 8.94, 10, 50];
+                //         // console.log(scoreDate[1][0]);
+                //     }
+                //     var data = google.visualization.arrayToDataTable([
+                //         // ["이름", "국어","영어", "수학"],
+                //         // ["홍길동", 8.94, 10, 30],
+                //         // ["홍길동1", 8.94, 10, 40],
+                //         // ["홍길동2", 8.94, 10, 50]
+                //         // scoreDate[0],
+                //         // scoreDate[1],
+                //         // scoreDate[2],
+                //         // scoreDate[3],
+                //     ]);
+
+                //     var view = new google.visualization.DataView(data);
+                //     view.setColumns([0, 1, 2,
+                //         {
+                //             calc: "stringify",
+                //             sourceColumn: 1,
+                //             type: "string",
+                //             role: "annotation"
+                //         },
+                //         3]);
+
+                //     var options = {
+                //         title: "성적표",
+                //         width: 600,
+                //         height: 400,
+                //         bar: { groupWidth: "95%" },
+                //         legend: { position: "none" },
+                //     };
+                //     var chart = new google.visualization.ColumnChart(document.getElementById("resultChart"));
+                //     chart.draw(view, options);
+                // }
+            }
+            
+            function outputChart2(stdArr) {
+                google.charts.load('current', { 'packages': ['bar'] });
+                google.charts.setOnLoadCallback(drawChart);
+
+                let scoreDate = new Array();    // 이중 배열로 넣어야 해서 배열 바꾸는 용으로 만들었다.
+                scoreDate[0] = ["이름", "국어", "영어", "수학"];
+                console.log('weoifjweoifjewoifejw');
+                for (let i = 0; i < stdArr.length; i++) {
+                    scoreDate[i + 1] = [stdArr[i].name, stdArr[i].kor, stdArr[i].eng, stdArr[i].math];                    
+                }
+
+                function drawChart() {
+                    
+                    scoreDate[0] = ["이름", "국어", "영어", "수학"];
+                    var data = google.visualization.arrayToDataTable([
+                        // ['Year', 'Sales', 'Expenses', 'Profit'],
+                        scoreDate[0],
+                        scoreDate[1],
+                        scoreDate[2],
+                        scoreDate[3],
+                    ]);
+
+                    var options = {
+                        chart: {
+                            title: '성적표',
+                            subtitle: '',
+                        }
+                    };
+
+                    var chart = new google.charts.Bar(document.getElementById('resultChart2'));
+
+                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                }
+            }
+            $(function () {
+                $('#resultBtn').click(function () {
+                    //배열에 학생들 저장
+                    let stdArr = new Array();
+                    stdArr = inputData(stdArr);
+                    
+                    //출력 표로, 그래프로
+                    outputTable(stdArr);
+                    // outputChart(stdArr);
+                    outputChart2(stdArr);
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <table border='1' id="score">
+            <tr>
+                <th>이름</th>
+                <th>국어</th>
+                <th>영어</th>
+                <th>수학</th>
+                <th>총점</th>
+                <th>평균</th>
+            </tr>
+            <tr>
+                <td><input type="text" class="stuName" /></td>
+                <td><input type="text" class="stuKor" /></td>
+                <td><input type="text" class="stuEng" /></td>
+                <td><input type="text" class="stuMath" /></td>
+                <td><input type="text" class="stuTot" readonly /></td>
+                <td><input type="text" class="stuAvg" readonly /></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="stuName" /></td>
+                <td><input type="text" class="stuKor" /></td>
+                <td><input type="text" class="stuEng" /></td>
+                <td><input type="text" class="stuMath" /></td>
+                <td><input type="text" class="stuTot" readonly /></td>
+                <td><input type="text" class="stuAvg" readonly /></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="stuName" /></td>
+                <td><input type="text" class="stuKor" /></td>
+                <td><input type="text" class="stuEng" /></td>
+                <td><input type="text" class="stuMath" /></td>
+                <td><input type="text" class="stuTot" readonly /></td>
+                <td><input type="text" class="stuAvg" readonly /></td>
+            </tr>
+        </table>
+        <input type="button" id="resultBtn" value="결과보기" />
+
+        <hr />
+
+        <div id="resultTable">
+
+        </div>
+
+        <div id="resultChart"></div>
+        <div id="resultChart2"></div>
+        <div>
+            <ul>
+                <li>표마다 + - 버튼 만들면 좋겠다.</li>
+            </ul>
+        </div>
+    </body>
+
+</html>

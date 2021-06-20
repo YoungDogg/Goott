@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>성적표 v2</title>
+    <meta charset="utf-8">
+    <script>
+        // 5_scoreV1.html의 if문을 switch~case문으로 바꾸어 똑같이 실행 되도록 하세요.
+       
+        // 유저에게 국어, 영어, 수학 점수를 입력받고, 총점과 평균을 구하세요.
+        // 평균 점수로 등급을 수(90 ~ 100), 우(80 ~ 90), 미(70 ~ 80), 양(60 ~ 70), 가(60 미만)를 판단하여 총점, 평균, 등급을 출력하세요.
+        
+        // let stuName = window.prompt("이름을 입력하세요", "");
+        // let kor = Number(window.prompt("국어 점수를 입력하세요", "0"));
+        // let eng = Number(window.prompt("영어 점수를 입력하세요", "0"));
+        // let math = Number(window.prompt("수학 점수를 입력하세요", "0"));
+        let stuName = "홍길동"
+        let kor = 90;
+        let eng = 90;
+        let math = 90;
+
+        let tot = kor + eng + math;
+        let avg = tot / 3;
+        avg = 80;
+        let rest = Math.floor(avg / 10);
+        console.log(stuName, kor, eng, math, tot, avg);
+        
+        // grade 변수는 프로그램 종료까지 살아 있어야 한다. (지역변수로 선언되면 안됨)
+        let grade = ''; // 선언과 함께 초기화 
+
+        // if (avg >= 90 && avg <= 100) {
+        //     // let grade = '수'; // {} 블록 안에서 선언된 변수는 그 블록 안에서만 존재한다!! (지역변수).
+        //     grade = '수';
+        //     console.log(typeof grade, grade);
+        // } else if (avg >= 80 && avg < 90) {
+        //     grade = '우';
+        // } else if (avg >= 70 && avg < 80) {
+        //     grade = '미';
+        // } else if (avg >= 60 && avg < 70) {
+        //     grade = '양';
+        // } else {
+        //     grade = '가';
+        // }
+
+        switch(rest) {
+            case 10:
+            case 9:            
+            grade = '수';
+            break;
+            case 8:
+            grade = '우';
+            break;
+            case 7:
+            grade = '미';
+            break;
+            case 6:
+            grade = '양';
+            break;
+            default:
+            grade = '가';  
+            break;                      
+        }
+        let output = "<table border='1'><tr><th>이름</th><th>국어</th><th>영어</th><th>수학</ th>               <th>총점</th><th>평균</th><th>등급</th></tr>";
+        output += "<tr><td>" + stuName + "</td><td>" + kor + "</td><td>" + eng + "</td><td>" + math + "</td><td>" + tot + "</td><td>" + avg + "</td><td>" + grade + "</td></tr></table>";
+        
+        console.log(output);
+
+        let output2 = "<ul><li>뜨거운 아이스아메리카노</li><li>카페라떼는말이야</li><li>카페모카</li><li>밀크티</li></ul>";
+
+        
+
+    </script>
+    <style>
+        table {
+            width: 100%;
+        }
+        table, th, tr, td {
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        th {
+            color : brown;
+            background-color: yellow;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <h1>성적표 v2</h1>
+    <div id="output">
+        
+    </div>
+
+    
+
+    <script>
+        document.getElementById("output").innerHTML = output;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>cookie</title>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            // 쿠키 : 개인이 저장하는 파일(64kb이내)
+            // 활용 : 하루동안 이 창 열지 않기, 자동 로그인
+
+            //매개변수 : 만료일
+            function cookSave() {
+                // 쿠키이름 = 값, expires = 쿠키만료일;
+                let now = new Date();
+                now.setDate(now.getDate + 1);   // 현재날짜 + 1 
+
+                let now2 = new Date();
+                now2.setDate(now2.getDate + 7);   // 현재날짜 + 7 
+                
+                let myCookie = "";
+                myCookie += "myCook=jsh;expires=" + now.toUTCString();
+                document.cookie = myCookie; //쿠키저장
+                
+                let myCookie2 = "today=tue;expires=" + now2.toUTCString();
+                document.cookie = myCookie2; //쿠키저장
+                
+                // saveFunc("yourCook", "wasMine", 3);
+                
+                // console.log(myCookie);
+            }
+            function saveFunc(cookName, cookVal, expDay) {
+                // 쿠키이름 = 값, expires = 쿠키만료일;
+                let now = new Date();
+                now.setDate(now.getDate + expDay);   // 현재날짜 + 1                 
+                
+                let myCookie = "";
+                myCookie += String(cookName)+"=" +String(cookVal) +";expires=" + now.toUTCString();
+                document.cookie = myCookie; //쿠키저장
+            }
+            function cookRead() {
+                // console.log(document.cookie);
+                // let findValue = "";
+                $('#output').html(getCookieValue("yourCook"));
+                $('#output2').html(getCookieValue("myCook"));                
+            }
+            //매개변수를 줘서 일반화 했다. ----------숙제
+            function cookDel(cookName) {
+                let now = new Date();
+                
+                let cook = cookName + "=;expires" + now.toUTCString;
+                
+                document.cookie = cook;
+            }
+            function getCookieValue(param) {   //param, 얻고 싶은 매개변수 이름
+                let returnVal;  //리턴할 값 저장
+                let cookie = document.cookie;
+                // console.log(cookie);
+                
+                let cookArr = cookie.split(";");
+                // console.log(cookArr);
+                
+                //원하는 값이 있는지 확인,     
+                for (let i in cookArr) {
+                    if (cookArr[i].indexOf(param) != -1) { //param이 있다면
+                        returnVal = cookArr[i].split("=")[1];
+                        console.log(returnVal);
+                        return returnVal;   //문자열이 아니라면 여길 출력
+                    }
+                }
+                console.log("failed to load");
+                return -1;//오류가 났다는 뜻
+            }
+        </script>
+    </head>
+
+    <body>
+        <input type="button" value="쿠키 저장" onclick="cookSave()">
+        <input type="button" value="쿠키 읽기" onclick="cookRead()">
+        <input type="button" value="쿠키 삭제" onclick="cookDel('yourCook')">
+        <div id="output"></div>
+        <div id="output2"></div>
+    </body>
+
+</html>

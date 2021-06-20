@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>window 객체</title>
+        <script src="externalJS.js"></script>
+        <script>
+            function pageLoad() {
+                let selectedVal = document.getElementById("site").value;
+                // console.log(document.getElementById("site").options); //value찾으려고 했는데 없네... 뭐 이런게 있다라고만 생각하자.
+                
+                // 옵션 인덱스들을 보여준다.
+                // console.log(document.getElementById("site").options[document.getElementById("site").selectedIndex]);
+                location.href = selectedVal //URL
+                
+                
+            }
+            function pageLoad2() {
+                let selectedVal = document.getElementById("lunch");
+                // console.log(document.getElementById("site").options); //value찾으려고 했는데 없네... 뭐 이런게 있다라고만 생각하자.
+                
+                // 옵션 인덱스들을 보여준다.
+                // console.log(selectedVal.options[document.getElementById("lunch").selectedIndex].innerHTML);
+                // document.getElementById("lunchOnboard").innerText = selectedVal;
+                document.getElementById("lunchOnboard").innerHTML =  selectedVal.options[selectedVal.selectedIndex].innerHTML
+            }
+        </script>
+    </head>
+
+    <body>
+        <div>이동할 페이지를 선택</div>
+        <select id="site">
+            <option value="https://www.naver.com/">네이버</option>
+            <option value="https://duckduckgo.com/">덕덕고</option>
+            <option value="https://www.daum.net/">다음</option>
+        </select>
+        <button onclick="pageLoad();">이동</button>
+        
+        <div>점심 선택</div>
+        <select id="lunch">
+            <option>백반</option>
+            <option>짜장면</option>
+            <option>피자</option>
+        </select>
+        <button onclick="pageLoad2();">이동</button>
+        <div id="lunchOnboard"></div>
+        <button onclick="history.back();">이전페이지</button>
+        <button onclick="history.forward();">다음페이지</button>
+        <div><button onclick="history.go(-2);">2페이지 이전</button></div>
+        <div><button onclick="history.go(2);">2페이지 이후</button></div>
+    </body>
+
+</html>

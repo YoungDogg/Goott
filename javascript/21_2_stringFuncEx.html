@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> 쿼리스트링 써서 데이터 주고 받기</title>
+        <meta charset="UTF-8">
+        <script>
+            // 이름, 국어, 영어, 수학 점수 입력, 계산 버튼 누르면, 
+            //데이터가 21_1_stringFuncEx.html 전송
+            //그 페이지에서 총점, 평균, 학점까지 계산하여 출력
+            
+            function gradeCalc(){
+                let name = document.getElementById("name").value;
+                let kor = document.getElementById("kor").value;
+                let eng = document.getElementById("eng").value;
+                let math = document.getElementById("math").value;
+                
+                // console.log("userId : " + userId + " userPwd : " + userPwd);
+                let baseUrl  = "21_1_stringFuncEx.html";
+                baseUrl += "?name=" + name + "&kor=" + kor+ "&eng=" + eng+ "&math=" + math;
+                location.href = baseUrl;    //페이지 이동
+            }
+            function bmiCalc(){//이름, 키, 몸무게 입력 다음 페이지에 출력
+                let name = document.getElementById("name").value;
+                let height = document.getElementById("height").value;
+                let weight = document.getElementById("weight").value;                
+                
+                // console.log("userId : " + userId + " userPwd : " + userPwd);
+                let baseUrl  = "21_1_stringFuncEx.html";
+                baseUrl += "?name=" + name + "&height=" + height+ "&weight=" + weight;
+                location.href = baseUrl;    //페이지 이동
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- <div> 이름 : <input type="text" id="name"> </div> -->
+        <div> 국어점수 : <input type="text" id="kor"> </div>
+        <div> 영어점수 : <input type="text" id="eng"> </div>
+        <div> 수학점수 : <input type="text" id="math"> </div>
+        <div><input type="button" value="성적 계산" onclick="gradeCalc();"></div>
+        
+        <div> 이름 : <input type="text" id="name"> </div>
+        <div> height : <input type="text" id="height"> </div>
+        <div> weight : <input type="text" id="weight"> </div>
+        <div><input type="button" value="bmi 계산" onclick="bmiCalc();"></div>
+    </body>
+
+</html>

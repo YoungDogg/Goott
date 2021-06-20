@@ -1,0 +1,4 @@
+[
+    {"prodName" :  "새우강", "prodWeight" : "120", "prodPrice" : "2000", "prodQty" : "3", "prodSomething" : "weeee"},
+    {"prodName" :  "커피", "prodWeight" : "320", "prodPrice" : "2500", "prodQty" : ["2","20"]}
+]

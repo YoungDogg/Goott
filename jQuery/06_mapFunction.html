@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>cookie</title>
+        <meta charset="UTF-8">
+        <style>
+            #table{                
+                border: 1px solid;
+                border-collapse: collapse;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myUl li").map(function(i, e){
+                //    alert('!') ;
+                // console.log($(e).html());
+                });        
+                
+                //map 이용, 짝수번째 td에 배경색 노랑
+                $("#tableC td").map(function(i){
+                    $("#tableC td:even").css("background-color", "yellow");
+                });
+                //map 이용, 홀수번째 td에 속성 (claa='aaa') 넣어라
+                $("#tableC td:odd").map(function(i){
+                    $(this).attr("class","aaa");                    
+                });
+            });
+        </script>
+      </head>
+
+    <body>  
+        <ul id="myUl">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        
+        <table id="tableC">
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </table>
+    </body>
+
+</html>

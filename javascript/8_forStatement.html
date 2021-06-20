@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .tableC{
+                border: 1px solid coral
+            }
+            .trC {
+                border-collapse: collapse;
+            }
+        </style>
+        <!-- head definitions go here -->
+        <script>
+            let hi = '안녕하세요</br>';
+            let hiTable = '<table class = "tableC">';
+                
+            for(let i = 0; i< 5; i++){
+                console.log("안녕");
+                hiTable += '<tr class = "trC"><td>안녕하신교</td></tr>';
+                // document.write(hi);
+            }
+            //별찍기
+                hiTable += '</table>';
+            for(let i = 0; i< 10; i++){
+                document.write("**********<br>");
+            }
+            // 1~5까지 합
+            let sum1To5 = 0;
+            for(let i = 1; i<=5; i++){
+                sum1To5 += i;                
+            }
+            document.write("1부터 5까지 합 : " + sum1To5 +  "<br>");
+            
+            // 구구단
+            let table9Input = Number(window.prompt());
+            for(let i = 1; i<=9; i++){
+                document.write(table9Input + " X " + i + " = " + table9Input * i +"<br>");
+            }
+            
+            //짝수합 홀수합 1~100
+            let sumOdd = 0;
+            let sumEven = 0;
+            for(let i = 0; i<=100; i++){
+                if(i %2 != 0){
+                    sumOdd += i;  
+                }else{sumEven += i;}              
+            }
+            document.write("1부터 100까지 짝수합 : " + sumEven +  "<br>");
+            document.write("1부터 100까지 홀수합 : " + sumOdd +  "<br>");
+            sum1To100 = 0;
+            for(let i = 0; i<=100; i++){
+                sum1To100 += i;
+            }
+            // if(sum1To100 == (sumOdd + sumEven))
+            //  {
+            //     document.write("맞았다<br>")
+            // };
+            // console.log("correct");
+        </script>
+    </head>
+    <body>
+        <div id = "hiDiv">
+            
+        </div>
+    </body>
+    <script>
+        document.getElementById("hiDiv").innerHTML = hiTable;
+    </script>
+</html>

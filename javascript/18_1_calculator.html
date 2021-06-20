@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> 내장 함수</title>
+    <meta charset="UTF-8">
+    <style>
+        .tableC {
+            border: 1px solid blanchedalmond;
+            border-collapse: collapse;
+            width: 50%;
+            height: 400px;
+        }
+        .tdC{
+            border: 1px solid blanchedalmond;
+            border-collapse: collapse;
+            width: 10%;
+        }
+        .inputC{
+            width: 100%;
+            height: 100%;
+            padding: 3%;
+            margin: 3%;
+        }
+        .input2C{
+            width: 90%;
+            height: 70%;
+
+        }
+    </style>
+    <script>
+        function display(val){
+            document.getElementById("res").value += val;     
+            let writtenNums = "";       
+            writtenNums += val;
+            return writtenNums;
+        }
+        function resultFunc(){
+
+            let result =  eval(document.getElementById("res").value);
+            document.getElementById("res").value = result;
+
+            
+        }        
+        function clearCalc(){
+            document.getElementById("res").value = " ";
+        }
+    </script>
+</head>
+
+<body>
+    <table class="tableC">
+        <tr>
+            <td colspan="4" class="result">
+                <input type="text" class="input2C" id = "res">
+            </td>
+        </tr>
+        <tr>
+            <td class="tdC"><input type="button" value="7" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="8" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="9" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="*" class="inputC" onclick="display(this.value);"></td>
+        </tr>
+        <tr>
+            <td class="tdC"><input type="button" value="4" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="5" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="6" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="-" class="inputC" onclick="display(this.value);"></td>
+        </tr>
+        <tr>
+            <td class="tdC"><input type="button" value="1" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="2" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="3" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="+" class="inputC" onclick="display(this.value);"></td>
+        </tr>
+        <tr>
+            <td class="tdC"><input type="button" value="C" class="inputC" onclick="clearCalc();"></td>
+            <td class="tdC"><input type="button" value="0" class="inputC" onclick="display(this.value);"></td>
+            <td class="tdC"><input type="button" value="=" class="inputC" onclick="resultFunc();"></td>
+            <td class="tdC"><input type="button" value="/" class="inputC" onclick="display(this.value);"></td>
+        </tr>
+    </table>
+</body>
+
+</html>

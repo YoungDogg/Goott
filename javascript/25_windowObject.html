@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>window 객체</title>
+        <script src="externalJS.js"></script>
+        <script>
+            // window.alert('윈도우객체는 최상위 객체, 생략가능');
+            // alert('윈도우객체는 최상위 객체, 생략가능');
+
+            // window.setTimeout(function(){
+            //     alert('alert');
+            //     // location.href = "https://www.naver.com";
+            // }, 3000);
+
+            // window.setInterval(function(){  // 특정 시간마다 함수가 수행되게
+            //     // location.href = "https://www.github.com";
+            //     // alert('weoifj');
+            // }, 2000);
+
+            window.onload = function () {
+                //시간을 알려준다.
+                window.setInterval(function () {
+                    let now = new Date();
+                    document.getElementById("now").innerHTML = now.toLocaleString();
+                }, 500);
+            }
+
+            //새 창 열리게 하자
+            function winLoad(url) {
+                // location.href = url;
+                window.open(url, "myPage,창이름을 나타낸다", "left=300, top=300, width=400, height=700");
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- <h3>학생 성적표</h3> -->
+        <div id="now"></div>
+
+        <a href="javascript:winLoad('https://www.naver.com/')">네이버</a>
+        <a href="javascript:winLoad('https://www.daum.net/')">다음</a>
+    </body>
+
+</html>

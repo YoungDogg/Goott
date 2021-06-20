@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>hello jQuery</title>
+        <meta charset="UTF-8">
+        <script src="../jQuery/jquery-3.6.0.min.js"></script>
+        <script>
+            // ajax : 비동기 전송방식
+            // 서버에 이 파일을 출력해보자
+            function txtLoad() {
+                let xhhtp = new XMLHttpRequest();   //create ajax object
+                if (xhhtp != null) {
+                    // connection prepared...
+                    xhhtp.onreadystatechange = function () {  
+                        if (this.readyState == 4 && this.status == 200) {
+                            //if connected
+                            document.getElementById("output").innerHTML = this.responseText;
+                        } else {  //not connected
+                            // alert('failed to connect');
+                            console.log('failed to connect');
+                        }
+                    }
+                    //set the file to connect
+                    // xhhtp.open("GET", "http://someone09@someone09.cafe24.com/LJH/ajax/01_helloAjax.txt");
+                    xhhtp.open("GET", "http://www.mbn.co.kr/rss/enter/");
+                    xhhtp.send();
+                } else {
+                    alert('no Ajax support in this web browser');
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <input type="button" name="" value="로딩" onclick="txtLoad()" id="">
+        <div id="output"></div>
+    </body>
+
+</html>

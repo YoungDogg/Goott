@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ObjectEx3</title>
+  <script>
+        function Account(owner, accNum, balance){
+            this.owner = owner;
+            this.accNum = accNum;
+            this.balance = balance;
+            
+            this.inquiry = function(){
+                return this.balance;
+            }
+            this.deposite = function(money){
+                this.balance += money;
+            }
+            this.withdraw = function(money){
+                this.balance -= money;
+            }
+        }
+        
+       let account1 = new Account("홍길동", "111-111-12-111", 1000);
+//    document.write(account1);
+        console.log(account1);
+        console.log(account1.inquiry());
+        console.log(account1.deposite(40000));
+        console.log(account1.inquiry());
+        console.log(account1.withdraw(40000));
+        console.log(account1.inquiry());
+  </script>
+</head>
+<body>
+
+ 
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>screen 객체</title>
+        <script src="externalJS.js"></script>
+        <script>
+         function myEvent(event){
+             console.log(event.type);
+            // console.log(event.target);
+             if(event.type == "click"){
+                 alert('click!');
+             }else if(event.type == "mouseover"){
+                //  console.log(document.getElementsByTagName("img")[0]);
+                 document.getElementsByTagName('img')[0].style.width = "100%";
+                 document.getElementsByTagName('img')[0].style.opacity = "100%";
+             }else if(event.type == "mouseout"){
+                //  console.log(document.getElementsByTagName("img")[0]);
+                 document.getElementsByTagName('img')[0].style.width = "50%";
+                 document.getElementsByTagName('img')[0].style.opacity = "30%";
+             }
+         }
+            window.onload = function () {
+                
+            }
+            
+        </script>
+    </head>
+
+    <body>
+        <div id="output"><img src="img/04.jpg" alt="" width="50%" style="opacity: 30%;"onclick="myEvent(event);" onmouseover="myEvent(event);" onmouseout="myEvent(event);"></div>        
+        <!-- <button onclick="myEvent(event);" onmouseover="myEvent(event);" onmouseout="myEvent(event);">클릭</button> -->
+    </body>
+
+</html>

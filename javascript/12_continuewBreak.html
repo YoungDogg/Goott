@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <script>      
+        // 1 ~ 100까지 홀수 합
+        // let oddSum = 0;
+        // for(let i = 1; i <= 100; i+=2){
+        //     oddSum += i;    // oddSum + i
+        // }
+
+        // document.write(oddSum);
+
+        //합 1500넘으면 종료
+        //1부터 1씩 누적합
+        // let sum = 0;
+        // let i = 0;
+        // while(true){
+        //     if(sum >= 1500) break;
+        //     sum += i;
+        //     i++;
+        // }
+        // document.write("  " + sum);
+
+        //가위바위보
+        // let mine = 3;
+        // let com = 3;
+
+        let mine = Math.floor(Math.random() * 3) + 1;
+        let com =  Math.floor(Math.random() * 3) + 1;
+
+        switch(mine){
+            case 1:
+                document.write("나 : 가위");
+                    switch(com){
+                        case 1:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 가위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 비겼다<br>");
+                            break;
+                        case 2:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 바위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 졌다.<br>");
+                            break;
+                        case 3:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 보");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 이겼다.<br>");
+                            break;
+                    }
+                break;
+            case 2:
+            document.write("나 : 바위");
+            switch(com){
+                        case 1:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 가위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 이겼다<br>");
+                            break;
+                        case 2:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 바위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 비겼다.<br>");
+                            break;
+                        case 3:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 보");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 졌다.<br>");
+                            break;
+                    }
+                    break;
+            case 3:
+            document.write("나 : 보");
+            switch(com){
+                        case 1:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 가위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 졌다<br>");
+                            break;
+                        case 2:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 바위");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 이겼다.<br>");
+                            break;
+                        case 3:
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 컴 : 보");
+                            document.write("&nbsp;&nbsp;&nbsp;&nbsp; 비겼다.<br>");
+                            break;
+                    }
+                    break;
+        }
+
+        document.write("<br>");
+        document.write("<br>");
+        document.write("<br>");
+        document.write("<br>");
+        document.write("<br>");
+        document.write("<br>");
+
+
+        //두 수를 입력받아, 첫번째 수에서 두번째 수를 나루 때 몫을 구하는 프로그램을 작성하세요
+        
+        //숫자 입력 받는다
+        //변수 하나 추가 : 큰 숫자에서 작은숫자의 배수만큼 뺀 나머지를 담기 위해
+        //추가한 변수와 num1을 나눈다. 
+        //기존 나눈값과 추가변수의 나눈값을 뺀다.
+        //출력
+
+        let num1 = 27;
+        let num2 = 7;
+        let num3 = 0;        
+        let i = 1;
+
+        while (num3 >= 0){
+            num3 =  num1 - (num2 * i);
+            i++;
+            if(num3 < num2) break;
+            // document.write("num3 : "+num3 + "<br>");
+        }
+        
+        let numDNum = num1 / num2;
+        let numDNum2 = num3 / num2;            
+        let result = numDNum - numDNum2;
+        let result2 = numDNum - result;
+
+        document.write("num1 : "+num1 + "<br>");
+        document.write("num2 : "+num2 + "<br>");
+        document.write("num3 : "+num3 + "<br>");
+        document.write("numDNum : num1 / num2 : "+numDNum + "<br>");
+        document.write("numDNum2 : num3 / num2 : "+numDNum2 + "<br>");
+        document.write("몫 : "+ result + "<br>");
+        document.write("나머지 : "+ result2 + "<br>");
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>PC or Mobile</title>
+        <script src="externalJS.js"></script>
+        <script>
+            let filter = ["win16", "win32", "win64", "mac", "macintel"]; //플랫폼에서 이런 말들이 나타난다.
+            let find = false;
+            let goSite = "";
+            for (let i = 0; i < filter.length; i++) {
+                if (filter[i] == navigator.platform.toLowerCase()) {
+                    // document.getElementById("display") = filter[i];
+                    goSite = "https://www.naver.com/";
+                    // location.href = "https://www.naver.com/";    //onLoad 함수는 location.href 만난다고 해서 바로 넘어가는 게 아니다. 따라서 flag를 써야 한다.
+                    find = true;
+                    break;  //이게 있어야 한다.
+                }
+            }
+            if (!find) {
+                goSite = "https://m.naver.com/";
+            }
+            location.href = "" + goSite + "";
+        </script>
+    </head>
+
+    <body>
+        <div id="display"></div>
+    </body>
+
+</html>

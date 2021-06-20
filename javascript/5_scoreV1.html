@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <style>
+        .tableC {
+            border-collapse: collapse;
+            
+        }
+        .trC {
+            border-collapse: collapse;
+        }
+    </style>
+    <script>
+        //2. 국어, 영어, 수학 입력, 평균 90, 수, 80, 우, 미, 양, 가 출력
+        // let name = String(window.prompt("input name "));
+        // let kor = Number(window.prompt("input kor ", "0"));
+        // let eng = Number(window.prompt("input eng ", "0"));
+        // let math = Number(window.prompt("input math ", "0"));
+        let name = "홍길동";    
+        let kor = 80;
+        let eng = 80;
+        let math = 80;
+        let sum = (kor + eng + math);
+        let stdScore = Number((kor + eng + math) / 3);
+        let grade = "";
+        // console.log("stdScore : " + stdScore);
+        if (100 >= stdScore && stdScore >= 90) {
+            grade="수";
+            // console.log("수");
+        } else if (90 > stdScore && stdScore >= 80) {
+            grade="우";
+            // console.log("우");
+        } else if (80 > stdScore && stdScore >= 70) {
+            grade="미";
+            // console.log("미");
+        } else if (70 > stdScore && stdScore >= 60) {
+            grade="양";
+            // console.log("양");
+        } else if (60 > stdScore) {
+            grade="가";
+            // console.log("가");
+        }
+
+        
+        let output = "<table border = '1' class ='tableC'>"+"<tr class='trC'><th>"+"이름"+"</th><th>"+"국어"+"</th><th>"+"영어"+"</th><th>"+"수학"+"</th><th>"+"총점"+"</th><th>"+"평균"+"</th><th>"+"등급"+"</th></tr>";
+        output += "<tr class='trC'><td>" + name +"</td>"+"<td>"+kor+"</td><td>"+eng+"</td><td>"+math+"</td><td>"+sum+"</td><td>"+stdScore+"</td><td>"+grade+"</td></tr></table>";
+
+        // let output = "<table border = '1'>"+"<tr><th>"+"등급"+"</th></tr>";
+        // output += "<tr><td>" + grade +"</td></tr></table>";
+        
+
+        // console.log(output);
+        let output2 = "<ui>";
+        output2 += "<li>안녕하세요</li>";
+        output2 += "<li>안녕하세요</li>";
+        output2 += "<li>안녕하세요</li>";
+        output2 += "<li>안녕하세요</li>";
+        output2 += "</ui>";
+        
+    </script>
+
+</head>
+
+<body>
+
+    <h1>성적표</h1>
+    <div id="output">
+        <!-- 2행 7열 -->           
+    </div>
+    <hr>
+    <div id = "output2">
+    <!-- 아래의 내용을 output2에 저장, 그리고 여기에 출력  -->
+    </div>
+    <script>
+        document.getElementById("output").innerHTML = output;
+        document.getElementById("output2").innerHTML = output2;
+    </script>
+</body>
+
+</html>

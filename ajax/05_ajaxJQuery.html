@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>jQuery ajax() 함수</title>
+        <meta charset="UTF-8">
+        <script src="../jQuery/jquery-3.6.0.min.js"></script>
+        <script>
+            // click me -> helloAjax.txt  파일 전송 및 출력
+            $(function(){
+               $("#btn").click(function(){
+                  $("#output").load("http://someone09@someone09.cafe24.com/LJH/ajax/01_helloAjax.txt", function(statusTxt, xhr){//콜백함수
+                      console.log("!");
+                      
+                      if(statusTxt == "error"){
+                          console.log("errer : " + xhr.statusTxt);
+                      }
+                  });
+               });
+            });
+        </script>
+    </head>
+
+    <body>
+        <button id="btn">click me!</button>
+        <div id="output"></div>
+    </body>
+
+</html>

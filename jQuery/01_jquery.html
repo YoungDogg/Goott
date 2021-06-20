@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>hello jQuery</title>
+        <meta charset="UTF-8">
+        <script src="jquery-3.6.0.min.js"></script>
+        <script>
+            function turnYellow() {
+                document.getElementById("myDiv").style.backgroundColor = "yellow";
+            }
+
+            $(document).ready(function () { //window.onload = function(){}
+                $("#myDiv2").click(function () {
+                    $(this).css("background-color", "grey");
+                });
+            });
+
+
+        </script>
+    </head>
+
+    <body>
+        <div id="myDiv" onclick="turnYellow()">hello, jQuery!</div>
+
+        <div id="myDiv2">Hello, jQuery!</div>
+    </body>
+
+</html>

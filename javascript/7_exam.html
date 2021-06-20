@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>성적표 v2</title>
+    <meta charset="utf-8">
+    <script>
+        // bmi 몸무게 키 받아서 출력
+        
+        let stuName = "홍길동";
+        // let weight = Number(window.prompt("국어 점수를 입력하세요", "0"));
+        // let height = Number(window.prompt("영어 점수를 입력하세요", "0"));
+        
+        let weight = 80;
+        let height = 180;        
+        let heightTemp = height / 100;
+        let tot = weight + height;
+        let bmi4Each = (weight / (heightTemp * heightTemp)).toFixed(2);        
+        let avg = tot / 2;        
+        // let bmi4Each1 = bmi4Each.toFixed(2);
+        let bmi4Each1 = bmi4Each;
+        let bmi4Each2 = Math.round(bmi4Each * 100) / 100;
+        console.log(bmi4Each1 + " " + bmi4Each2);
+        // console.log(stuName, weight, height, math, tot, avg);
+        
+        // grade 변수는 프로그램 종료까지 살아 있어야 한다. (지역변수로 선언되면 안됨)
+        let grade = ''; // 선언과 함께 초기화 
+        
+        if(bmi4Each >= 30){grade = 'Obese';}
+        else if(bmi4Each >= 25 && bmi4Each <29) grade = 'Overweight';
+        else if(bmi4Each >= 18.5 && bmi4Each < 25) grade = 'Normal';
+        else grade = 'Underweight';
+        // switch(rest) {
+        //     case 9:            
+        //     case 10:
+            
+        //     break;
+        //     case 8:
+            
+        //     break;
+        //     case 7:
+        //     grade = 'Normal';
+        //     break;
+        //     default:
+        //     grade = 'Underweight';            
+        // }
+        let output = "<table border='1'><tr><th>이름</th><th>몸무게</th><th>키</th><th>bmi</th><th>등급</th></tr>";
+        output += "<tr><td>" + stuName + "</td><td>" + weight + "</td><td>" + height + "</td><td>" + bmi4Each + "</td><td>" + grade + "</td></tr></table>";
+        
+        console.log(output);
+
+        let output2 = "<ul><li>뜨거운 아이스아메리카노</li><li>카페라떼는말이야</li><li>카페모카</li><li>밀크티</li></ul>";
+
+        
+
+    </script>
+    <style>
+        table {
+            width: 100%;
+        }
+        table, th, tr, td {
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        th {
+            color : brown;
+            background-color: yellow;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <h1>성적표 v2</h1>
+    <div id="output">
+        
+    </div>
+
+    
+
+    <script>
+        document.getElementById("output").innerHTML = output;
+    </script>
+</body>
+
+</html>

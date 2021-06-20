@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>cookie</title>
+        <meta charset="UTF-8">
+        <style>
+            .container {
+                background-color: lightpink;
+            }
+        
+            .modalClass {
+                display: none;
+                width: 200px;
+                height: 160px;
+                background-color: lime;
+                z-index: 999;
+                position: absolute;
+                top: 15%;
+                left: 30%;
+                box-shadow: 10px 15px rgba(132, 34, 230, 0.582);
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            //하루동안 안띄우기 창 만들기            
+            // 창을 띄운다.
+            // 창에 관한 플레그 변수를 만들어서 X를 눌렀는지 확인한다.
+            // 눌렀다면 hide()함수를 만든다. 모달창 none, 쿠키를 만들어서 저장, 플레그도 트루
+            // 새로고침 한다. $(document).ready(function() 안에서 저장한 쿠키값이 없으면 
+            // 창을 띄우지 않는다.
+            
+            let isChecked = false;                        
+            function saveFunc(cookName, cookVal, expDay) {
+                // 쿠키이름 = 값, expires = 쿠키만료일;
+                let now = new Date();
+                now.setDate(now.getDate() + Number(expDay));   // 현재날짜 + 1                 
+                
+                let myCookie = "";
+                myCookie += String(cookName)+"=" +String(cookVal) +";expires=" + now.toUTCString();
+                document.cookie = myCookie; //쿠키저장
+            }                                    
+            function getCookieValue(param) {   //param, 얻고 싶은 매개변수 이름
+                let returnVal;  //리턴할 값 저장
+                let cookie = document.cookie;
+                // console.log(cookie);
+                
+                let cookArr = cookie.split(";");
+                // console.log(cookArr);
+                
+                //원하는 값이 있는지 확인,     
+                for (let i in cookArr) {
+                    if (cookArr[i].indexOf(param) != -1) { //param이 있다면
+                        returnVal = cookArr[i].split("=")[1];
+                        console.log(returnVal);
+                        return returnVal;   //문자열이 아니라면 여길 출력
+                    }
+                }
+                console.log("failed to load");
+                return -1;//오류가 났다는 뜻
+            }            
+    
+            function hide() {
+                // document.getElementById("modal").style.display = "none";
+                $("#modal").css("display","none");
+                isChecked = true;
+                saveFunc("dailyTimer", "aDayThenExpire", 1);
+            }
+            //새창 띄웠을 때
+            $(document).ready(function(){
+                //만약 쿠키가 있다면 모달을 안보이게 한다.
+                let dailyCookie = getCookieValue("dailyTimer");
+                if(dailyCookie != -1){  //쿠키 있다면, x 버튼 눌렀다면                                        
+                    $("#modal").css("display","none");
+                }
+            });
+            function hideNormal(){
+                $("#modal").css("display","none");
+            }
+        </script>
+    </head>
+
+    <body>        
+        <div id="output"></div>
+        <div id="output2"></div>
+        
+        <div id="modal" class="modalClass" style="display: block;">
+            modal popup
+            <p></p>
+            <div > 하루동안 이 창을 닫습니다. <span id="close" onclick="hide();">X</span> 
+            <div id="closeNormal" onclick="hideNormal()">그냥닫기</div>
+            </div> 
+        </div>
+    
+        <!-- <button onclick="show();">모달창 열기</button> -->
+        <button onclick="hide();">모달창 닫기</button>
+        <script>
+            
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>screen 객체</title>
+        <script src="externalJS.js"></script>
+        <script>
+            function upload() {
+                let file1 = document.getElementById("imgFile1").value;
+                console.log(file1);
+
+                //웹에서 되는 파일형식 : bmp, jpg, png, jpeg, gif
+                //
+            }
+            function verify1() {
+                let file1 = document.getElementById("imgFile1").value;
+                // console.log("file1.value : "+ file1);
+
+                //이미지 타입 배열 만들고
+                let imgTypeArr = ["bmp", "jpg", "png", "jpeg", "gif"];
+
+                //플래그변수 줘서 
+                let imgFlag = false;
+
+                let inputFile = file1;
+                // lastIndexOf를 통해 뒤에서부터 문자를 자른다
+                // let inputFile2 = inputFile.slice(inputFile.lastIndexOf(".") + 1);
+                // let inputFile3 = inputFile.split(".")[1];
+                let inputFile3 = file1.split(".")[1];
+                let index = -1;
+                //배열만큼 포문 돌리고
+                for (let i in imgTypeArr) {
+                    //내가 입력한 값과 배열값이 같으면 출력 혹은 아니면 다르게 출력
+                    // if((imgTypeArr[i] == inputFile.indexOf(""+imgTypeArr[i]+"")) != 1){ 
+                    if (inputFile3 == imgTypeArr[i]) {
+                        imgFlag = true;
+                        index = i;
+                        break;
+                    }
+                    else imgFlag = false;
+                }
+                if (imgFlag) {
+                    alert('이미지 파일입니다. : ' + imgTypeArr[index]);
+                    // document.getElementById("output").innerHTML = "";
+                }
+                else {
+                    alert('이미지 파일 아닙니다.');
+                }
+                // 웹에서 사용하는 이미지인지 아닌지 출력하는 프로그램 작성
+                // alert 사용, 이미지 파일입니다, 아닙니다 출력
+            }
+            function typing(){
+                // alert('!');
+            }
+            window.onload = function () {
+
+            }
+            
+        </script>
+    </head>
+
+    <body>
+        <div>이미지 파일을 선택하고 업로드 버튼을 눌러주세요!</div>
+        <div>
+            <!-- onchange  value 값이 변할 때 실행된다. -->
+            <!-- <input type="file" id="imgFile1" onchange="verify1();">  -->
+            <input type="file" id="imgFile1">
+            <button onclick="verify1();">업로드</button>
+        </div>
+        <div><input type="text" onchange="typing();"></div>
+        <div id="output"></div>
+    </body>
+
+</html>

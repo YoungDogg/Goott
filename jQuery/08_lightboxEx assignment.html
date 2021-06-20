@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="js/lightbox-plus-jquery.js"></script>
+        <link rel="stylesheet" href="css/lightbox.css">
+        <script>
+            $(document).ready(function () {
+
+            });
+            lightbox.option({
+                'resizeDuration': 50,
+                'wrapAround': true,
+                'alwaysShowNavOnTouchDevices': false,
+                'maxWidth': 300
+            })
+
+        </script>
+    </head>
+    <style>
+        /* navigation bar CSS */
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+
+        /* contents CSS */
+
+        .imgContainer {
+            float: left;
+            width: 15%;
+            padding: 9px;
+            position: relative;
+        }
+
+        .bigImg {
+            position: absolute;
+            width: 300%;
+            /* left: 33px; */
+            top: 30%;
+            display: none;
+            z-index: 1000;
+        }
+
+        .imgContainer:hover .bigImg {
+            display: block;
+            width: 150%;
+        }
+
+        .smallImg {
+            opacity: 30%;
+        }
+
+        img {
+            opacity: 100%;
+        }
+
+        img:hover {
+            opacity: 100%;
+        }
+
+        .im p {
+            clear: left;
+        }
+
+        .description {
+            border: 1px solid #333;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+
+    <body>
+        <h1>clear2</h1>
+        <!-- navigation bar -->
+        <ul>
+            <li><a class="active" href="#home">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <!-- contents -->
+        <div class="clear">
+            <div class="imgContainer">
+                <img src="img/02.jpg" alt="" width="100%" class="smallImg">
+                <div class="bigImg">
+                    <img src="img/02.jpg" alt="" width="100%">
+                </div>
+                <div class="description">빡빡이 아저씨</div>
+            </div>
+            <div class="imgContainer">
+                <img src="img/01.jpg" alt="" width="100%" class="smallImg">
+                <div class="bigImg">
+                    <img src="img/01.jpg" alt="" width="100%">
+                </div>
+                <div class=" description ">사진</div>
+            </div>
+            <div class=" imgContainer ">
+                <img src="img/03.jpg" alt=" " width="100% " class="smallImg">
+                <div class="bigImg "><img src="img/03.jpg" alt=" " width="100% "></div>
+                <div class="description ">사진</div>
+            </div>
+        </div>
+
+        <div class="clear">
+            <a href="img/02.jpg" data-lightbox="roadtrip" data-title="피카추">
+                <!-- <img src="img/01.jpg" alt="" style="width: 10%;"> -->
+                <div class="imgContainer">
+                    <img src="img/02.jpg" alt="" width="100%" class="smallImg">
+                    <div class="bigImg">
+                        <img src="img/02.jpg" alt="" width="100%">
+                    </div>
+                    <!-- <div class="description">빡빡이 아저씨</div> -->
+                </div>
+            </a>
+            <a href="img/01.jpg" data-lightbox="roadtrip">
+                <!-- <img src="img/02.jpg" alt="" style="width: 10%;"> -->
+                <div class="imgContainer">
+                    <img src="img/01.jpg" alt="" width="100%" class="smallImg">
+                    <div class="bigImg">
+                        <img src="img/01.jpg" alt="" width="100%">
+                    </div>
+                    <!-- <div class=" description ">사진</div> -->
+                </div>
+            </a>
+            <a href="img/03.jpg" data-lightbox="roadtrip">
+                <!-- <img src="img/03.jpg" alt="" style="width: 10%;"> -->
+                <div class=" imgContainer ">
+                    <img src="img/03.jpg" alt=" " width="100% " class="smallImg">
+                    <div class="bigImg "><img src="img/03.jpg" alt=" " width="100% "></div>
+                    <!-- <div class="description ">사진</div> -->
+                </div>
+            </a>
+
+        </div>
+
+        <div class="clear">
+            <p>반갑습니다</p>
+        </div>
+
+</html>

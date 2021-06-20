@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script>
+        //정렬된 배열에서 랜덤으로 가져오는 거였네
+        var nums = [1,2,3,4,5,6,7,8,9,10,11,12];
+        var gen_nums = [];
+
+        function in_array(array, el) {
+        for(var i = 0 ; i < array.length; i++) 
+            if(array[i] == el) return true;
+        return false;
+        }
+
+        function get_rand(array) {
+            var rand = array[Math.floor(Math.random()*array.length)];
+            if(!in_array(gen_nums, rand)) { 
+            //만약 중복이 아니라면 이걸 꺼낸다
+            gen_nums.push(rand); 
+            return rand;
+            }
+            return get_rand(array); 
+            //중복이면 재귀로 들어간다 나올때까지
+        }
+
+        for(var i = 0; i < 20; i++) {
+            document.write(get_rand(nums) + " ");
+        }
+
+    </script>
+</head>
+
+<body>
+    
+</body>
+</html>

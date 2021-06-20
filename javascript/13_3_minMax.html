@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello CSS2</title>
+    <meta charset="UTF-8">
+    <style>        
+        .tableC{
+            border: 1px solid;
+            border-collapse: collapse;
+            min-width: 100%;
+            max-width: 100%;
+        }
+        .trC{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        .tdC{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        .minClass{
+            background-color: pink;
+        }
+        .maxClass{
+            background-color: yellowgreen;
+        }
+
+        /* #minC{ */
+            /* background-color: pink; */
+        /* }  */
+        /* #maxC{
+            /* background-color: yellowgreen; */
+        /* }  */
+        .textC{
+            border: 1px solid tan;
+            padding: 15%;
+            text-align: left;            
+        }
+    </style>
+    <script>      
+        //최대 최소 구하기    
+        //찾기 버튼을 누르면 최대 최소에 색깔 집어넣기   
+
+        //중복 찾기 왜? 아이디값을 받아야 하니까 
+        //왜 아이디값을 받아? 아이디값에 min, max 값을 넣어야 하니까 
+ 
+        let output="<table class='tableC'>";
+        let randArr = [];
+        let nonDuplArr = [];
+        let nonDuplArr2 = [];
+        let max = 0;        
+        let min = 100000;
+        // let maxIndex = 0;
+        // let minIndex = 0;
+        // let rowIdx = 100;
+        // let columnIdx = 100;
+        let rowIdx = Number(window.prompt("위아래로 몇칸? "));
+        let columnIdx = Number(window.prompt("옆으로 몇칸?"));
+        let arrIndex = 0;
+        let arrNumRange = rowIdx * columnIdx;
+        let funcClicked = false;
+        
+        // 버튼 클릭 했냐
+        function clickTrue(){
+            console.log('funcClicked : ' + funcClicked);            
+            funcClicked = true;
+            console.log('funcClicked : ' + funcClicked);
+        }
+        
+        //랜덤의 중복 없애는 함수
+        function insideArr(array, el) {
+        for(var i = 0 ; i < array.length; i++) 
+            if(array[i] == el) return true; //배열값 중 el값과 같은 게 있으면 참
+        return false; //중복 없으면 거짓
+        }
+        function findNum(){
+            // console.log("min : " + min);
+            // console.log("max : " + max);
+            
+            if(nonDuplArr2[arrIndex] == min){                     
+                    output += " id = 'minC'";
+                } 
+                else if(nonDuplArr2[arrIndex] == max){
+                    output += " id = 'maxC'";
+                }  
+            }              
+        function get_rand(array) {
+            var rand = array[Math.floor(Math.random()*array.length)];
+            if(!insideArr(nonDuplArr, rand)) {             
+                nonDuplArr.push(rand); //만약 중복이 아니라면 이걸 넣는다
+                return rand;
+            }
+            return get_rand(array); //중복이면 재귀로 들어간다 나올때까지
+        }        
+        // 1 부터 100까지 randArr에 순차적으로 집어넣어라
+        for(let i = 0; i < arrNumRange * 10; i++){
+            randArr[i] = i + 1;
+            // console.log(randArr[i]);
+        }
+                
+        // randArr[i]의 값을 nonDuplArr2에  arrNumRange만큼 넣어라
+        for(let i = 0; i < arrNumRange; i++){                            
+            // randArr[i] = Math.floor(Math.random() * 100 + 1);            
+            // console.log(get_rand(randArr) + " " );
+            nonDuplArr2[i] = get_rand(randArr);
+        }
+        // 넣어진 거 확인
+        // for(let i = 0; i < arrNumRange; i++){        
+        //     console.log("nonDuplArr2 : " + nonDuplArr2[i] + " " );                    
+        // }
+        
+        function display(){
+            // max min을 아래 따로 구분한 이유 : 안그러면 여러 표들이 최소, 최대가 되기 때문
+            for(let i = 0; i < rowIdx; i++){                                 
+                for(let j = 0; j < columnIdx; j++){
+                    // if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex]; maxIndex = arrIndex;}
+                    // if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex]; minIndex = arrIndex;}
+                    // 주석한 이유 : minIndex, maxIndex 삭제, 안쓴다
+                    if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex];}
+                    if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex];}   
+                    if(arrIndex < arrNumRange) arrIndex++;
+                    else{ arrIndex = 0;}
+                }
+            }   
+            console.log('max : ' + max + 'min : ' + min);
+            arrIndex = 0;   // 인덱스 다시 써야 하니까 0으로 바꾼다
+            
+            for(let i = 0; i < rowIdx; i++){                        
+                output += "<tr class = 'trC'>";
+                for(let j = 0; j < columnIdx; j++){
+                    // 주석처리한 이유 : 태그들이랑 같이 있는 for문에서 찾으면 여러개의 최소, 최대값이 태그로 찍힌다.
+                    // if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex]; maxIndex = arrIndex;}
+                    // if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex]; minIndex = arrIndex;}   
+
+                    // 주석처리한 이유 : 위애다 따로 randArr[j]을 대체할 배열을 만들었고 이미 위에서 값을 집어넣어서
+                    // randArr[j] = Math.floor(Math.random() * 100 + 1);
+                    // 주석처리한 이유 : 숫자로 태그를 주면 최대,최소값이 바뀌면 태그도 변경되어야 하는데 그게 잘 안된다.
+                    //               차라리 아래처럼 조건문으로 태그를 쓰면 낫다.
+                    output += "<td id = '" + nonDuplArr2[arrIndex]+ "' class='tdC'";
+                    // output += "<td class='tdC'";
+                    // if(nonDuplArr2[arrIndex] == min){                     
+                    //     output += " id = 'minC' >";
+                    // } 
+                    // else if(nonDuplArr2[arrIndex] == max){
+                    //     output += " id = 'maxC' >";
+                    // }
+                    // else output += ">";
+                    // console.log('funcClicked : ' + funcClicked);
+                    // if(funcClicked) {findNum();} //버튼클릭이 안되네
+                    // console.log('funcClicked : ' + funcClicked);
+                    findNum(); // 작동은 해야지..
+                    output += ">";
+                    // if(arrIndex >= randArr.length) arrIndex = 0;
+                    output += nonDuplArr2[arrIndex] + "</td>";
+                    if(arrIndex < arrNumRange) arrIndex++;
+                    else{ arrIndex = 0;}
+                }
+                output += "</tr>";
+            }
+
+                output += "</table>";                       
+    }
+    function displayClicked(){                  
+            // max min을 아래 따로 구분한 이유 : 안그러면 여러 표들이 최소, 최대가 되기 때문
+            // for(let i = 0; i < rowIdx; i++){                                 
+            //     for(let j = 0; j < columnIdx; j++){
+            //         // if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex]; maxIndex = arrIndex;}
+            //         // if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex]; minIndex = arrIndex;}
+            //         // 주석한 이유 : minIndex, maxIndex 삭제, 안쓴다
+            //         if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex];}
+            //         if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex];}   
+            //         if(arrIndex < arrNumRange) arrIndex++;
+            //         else{ arrIndex = 0;}
+            //     }
+            // }   
+            // arrIndex = 0;   // 인덱스 다시 써야 하니까 0으로 바꾼다
+            
+            // for(let i = 0; i < rowIdx; i++){                        
+            //     output += "<tr class = 'trC'>";
+            //     for(let j = 0; j < columnIdx; j++){
+            //         // 주석처리한 이유 : 태그들이랑 같이 있는 for문에서 찾으면 여러개의 최소, 최대값이 태그로 찍힌다.
+            //         // if(max < nonDuplArr2[arrIndex]) {max = nonDuplArr2[arrIndex]; maxIndex = arrIndex;}
+            //         // if(min > nonDuplArr2[arrIndex]) {min = nonDuplArr2[arrIndex]; minIndex = arrIndex;}   
+
+            //         // 주석처리한 이유 : 위애다 따로 randArr[j]을 대체할 배열을 만들었고 이미 위에서 값을 집어넣어서
+            //         // randArr[j] = Math.floor(Math.random() * 100 + 1);
+            //         // 주석처리한 이유 : 숫자로 태그를 주면 최대,최소값이 바뀌면 태그도 변경되어야 하는데 그게 잘 안된다.
+            //         //               차라리 아래처럼 조건문으로 태그를 쓰면 낫다.
+            //         // output += "<td id = '" + nonDuplArr2[arrIndex]+ "' class='tdC'";
+            //         output += "<td class='tdC'";
+            //         // if(nonDuplArr2[arrIndex] == min){                     
+            //         //     output += " id = 'minC' >";
+            //         // } 
+            //         // else if(nonDuplArr2[arrIndex] == max){
+            //         //     output += " id = 'maxC' >";
+            //         // }
+            //         // else output += ">";
+            //         // console.log('funcClicked : ' + funcClicked);
+            //         // if(funcClicked) {();} //버튼클릭이 안되네
+            //         findNum(); //밖으로 끄집어 냈다.
+            //         // console.log('funcClicked : ' + funcClicked);
+                    
+            //         output += ">";
+            //         // if(arrIndex >= randArr.length) arrIndex = 0;
+            //         output += nonDuplArr2[arrIndex] + "</td>";
+            //         if(arrIndex < arrNumRange) arrIndex++;
+            //         else{ arrIndex = 0;}
+            //     }
+            //     output += "</tr>";
+            // }
+
+            //     output += "</table>";  
+            //내가 min, max 이렇게 하면 안되는 이유 : id 값을 숫자로 안줬기 때문 -> 난 안줘도 된다. 숫자 중복이 없으니까 
+            //만약 id가 숫자라면 이게 가능하다
+            document.getElementById(min).style.backgroundColor = "pink";
+            document.getElementById(max).style.backgroundColor = "grey";                     
+            
+            // document.getElementById("minC").style.backgroundColor = "pink";
+            // document.getElementById("maxC").style.backgroundColor = "grey";                     
+    }
+    
+    
+    display(); //그려준다
+    </script>
+</head>
+
+<body>
+    <script>
+        
+    </script>
+    <div id="output">
+    <!--          2 X 10 arr     -->
+
+    </div>
+    <!-- 최소 분홍, 최대 회색 -->
+    <div>
+        <!-- <button onclick="findNum();">찾기</button> -->
+        <!-- <button id = 'colorBtn' onclick="clickTrue();">찾기</button> -->
+        <button id = 'colorBtn' onclick="displayClicked();">찾기</button>
+    </div>
+    <div id = 'textC'>
+        <p>버튼클릭을 시도했지만 안됐던 것</p>
+        <p>
+            <ol>
+                <p> <li> &lt;button onclick="findNum();"&gt;찾기&lt;/button&gt;</li></p>
+                <p><li> document.getElementById('colorBtn').onclick = clickTrue();</li></p>
+                <p><li>  document.getElementById('colorBtn').onclick = function() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert("button was clicked"); <br>
+                    }​;
+                ​</li></p>
+                
+                <li>clickTrue() 함수로 안에 bool값으로 플래그를 만드려고 했으나
+                     <p> 함수안으로 들어가서 플래그변수가 참이 되었지만  </p>
+                     <p> 조건문 안으로 들어가지지 않았다.   </p>
+                     <p> 캐시에 같은 저장공간에 플래그 바뀐 변수의 값을 저장하고 새로고침을 해야하는데 거기까진...</p>                         
+                </li>
+            </ol>
+        </p>
+        <p>
+            <hr>
+            해ㅡ결 <br>
+            버튼에 이렇게 넣으면 된다 <br>
+            document.getElementById("minC").style.backgroundColor = "pink"; <br>
+            document.getElementById("maxC").style.backgroundColor = "grey"; 
+        </p>
+    </div>
+    <script>         
+        // document.getElementById('colorBtn').onclick = clickTrue();
+        // 이거 왜 안되지?
+        // document.getElementById('colorBtn').onclick = function() {
+        //     alert("button was clicked");
+        // }​;​
+        document.getElementById("output").innerHTML = output;
+    </script>
+</body>
+
+</html>

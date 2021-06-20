@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>news Bootstrap</title>
+        <meta charset="UTF-8">
+        <style>
+            /* .titleC{                
+                float: top;     
+            }
+            .newsDataC{
+                
+                position: relative;     
+             }  */
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            window.onload = function () {
+                let xhhtp = new XMLHttpRequest();   //create ajax object
+                if (xhhtp != null) {
+                    // connection prepared...
+                    xhhtp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            //if connected                            
+                            console.log("this.responseXML : " + this.responseXML);//responseXML로 받으면 서버에서 받을 수 있다.
+                            xmlParsing(this.responseXML);
+                        } else {  //not connected
+                            // alert('failed to connect');
+                            console.log('failed to connect');
+                        }
+                    }
+                    //set the file to connect                    
+                    xhhtp.open("GET", "http://someone09@someone09.cafe24.com/LJH/ajax/mdnNews.xml");
+                    xhhtp.send();
+                } else {
+                    alert('no Ajax support in this web browser');
+                }
+            };
+
+            // 역할 : 파싱 및 출력, 매개변수 : xml
+            function xmlParsing(xmlDoc) {
+                let output = "<h2>뉴스 기사</h2>";  //let output; 이러면 undefined 나온다.
+                output += '<div class="list-group">';
+
+                //-------------수정할 부분 --------------------
+                let personArr = xmlDoc.getElementsByTagName('item');
+                console.log(personArr);
+                let newsLink, title, newsDate;
+                // for (let i; personArr) { //이렇게 하면 안된다
+                for (let i = 0; i < personArr.length; i++) {
+                    // for (let i = 0; i < 1; i++) {                    
+                    let person = personArr[i].children; 
+                    // console.log(person);
+                    //getElementsByTagName('item'); 이걸로도 찾을 수 있다
+                    //장점 : 배열 위치가 바뀌어도 동작한다.
+                    newsLink = xmlDoc.getElementsByTagName('link')[i+1].textContent;
+                    // console.log(newsLink);
+                    // title = person[0].textContent;
+                    title = xmlDoc.getElementsByTagName('title')[i+1].textContent;
+                    // newsDate = person[4].textContent;
+                    newsDate = xmlDoc.getElementsByTagName('pubDate')[i].textContent;
+                    newsDate = String(newsDate).substr(0, newsDate.lastIndexOf(' ')); //날짜 깔끔하게
+
+                    output += '<a href="' + newsLink + '" class="list-group-item">';
+                    output += "<h4 class='titleC'>" +  title + "</h4>";
+                    output += "<div class='newsDataC'>" + newsDate + "</div>" + '</a>';
+
+                }
+                output += "</div>";
+                // 다른 게 준비되면 주석 풀자
+                document.getElementById("output").innerHTML = output;
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- <input type="button" name="" value="로딩" onclick="txtLoad()" id=""> -->
+        <div id="output">
+            <!-- <h2>뉴스 기사</h2>
+            <div class="list-group">
+                <a href="#" class="list-group-item">First item</a>
+                <a href="#" class="list-group-item">Second item</a>
+                <a href="#" class="list-group-item">Third item</a>
+            </div> -->
+        </div>
+
+    </body>
+
+</html>

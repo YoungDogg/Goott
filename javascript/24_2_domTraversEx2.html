@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">       
+        <title>ex2</title>
+     <script>
+         window.onload= function(){
+             let myTd = document.getElementById("myTd");
+             console.log(myTd);
+             console.log(myTd.innerHTML);
+             console.log(myTd.parentElement);
+             console.log(myTd.parentElement.children);
+             console.log(myTd.parentElement.children[1]);
+             
+             console.log(myTd.nextElementSibling.nextElementSibling.innerHTML);
+             console.log(myTd.parentElement.nextElementSibling.firstElementChild.nextElementSibling.innerHTML);
+             
+             let myTd4 = document.getElementById("myTd4");
+            //  console.log(myTd4.parentElement.parentElement.firstElementChild.lastElementChild);
+            // myTd4.parentElement.parentElement.firstElementChild.lastElementChild.style = "background-color: yellow";
+            myTd4.parentElement.parentElement.firstElementChild.lastElementChild.style.backgroundColor = "grey";
+            // myTd4.parentElement.parentElement.firstElementChild.lastElementChild.innerHTML = "<span style='background-color : pink'>3</span>"
+            
+            console.log(document.getElementsByClassName("aaa"));
+            console.log(document.getElementsByTagName("tr"));
+         }
+     </script>
+    </head>
+
+    <body>
+        <table>
+            <tr>
+                <td id="myTd">1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td class="aaa">4</td>
+                <td class="aaa">5</td>
+                <td class="aaa">6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td id="myTd4">9</td>
+            </tr>
+        </table>
+    </body>
+
+</html>

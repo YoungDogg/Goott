@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>jQuery로 DOM 조작</title>
+        <meta charset="UTF-8">
+        <!-- <script src="jquery-3.6.0.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                let productArr = new Array();
+                //click이벤트로 처리시 동적으로 생성된 객체에는 클릭 안됨
+                //jQuery에서는 on메서드 활용
+                //    $(".addBtn").click(function(){
+                let cnt = 1;
+                $("#prodInput").on("click", ".addBtn", function () {
+                    //    console.log($(this).parent().parent());
+                    let copyTr = $(this).parent().parent();
+                    // let idNo = copyTr.attr("id");                                
+                    // idNo = Number(idNo.substr(4, idNo.length)) + 1;        
+                    let newTr = copyTr.clone();
+
+                    // newTr.attr("id", "prod" + ++cnt);
+                    newTr.insertAfter("#prod1");
+                    // console.log(newTr.attr("id"));
+
+                    alignId();  //tr의 id속성을 재 정렬 새롭게 부여
+                });
+                $("#prodInput").on("click", ".removeBtn", function () {
+                    //    console.log($(this).parent().parent());
+                    let copyTr = $(this).parent().parent();
+                    // let newTr = copyTr.clone();
+                    // console.log(newTr);
+                    // if($("#prod1").parent().parent() != $("#prodHead")){                    
+                    // copyTr.remove("#prod1");               
+                    // }
+                    let trLen = $("#prodInput tr").length; //tr의 길이가 2개 이상일 때만 삭제되도록
+                    if (trLen > 2) {
+                        copyTr.remove();
+                        alignId();
+                    }
+                });
+
+                function alignId() {
+                    $("#prodInput tr").map(function (i) {
+                        // for(let i = 0 ; i < $("#prodInput tr").length; i++){ //이건 안되네
+                        // i : tr의 index(몇 번째 tr인지)
+                        if (i != 0)  //0번째 tr은 상품명 등등 이다.
+                            $(this).attr("id", "prod" + i)
+                    });
+                    // }
+                }
+                $("#mySave").click(function () {
+                    $("#prodInput tr").map(function (i) {
+                        if (i != 0) {  //0번째 tr은 상품명 등등 이다.
+                            // let prodName = $(this).children()[0].firstElementChild.value;
+                            let prodName = $(this).children()[0].firstElementChild.value;
+                            let prodQty = $(this).children()[1].firstElementChild.value;
+                            let prodPrice = $(this).children()[2].firstElementChild.value;
+                                                        
+                            productArr.push(new Products(prodName, prodQty, prodPrice));
+                            $("#output").html(JSON.stringify(productArr));
+                        }
+                    });                    
+                });
+                function Products(prodName, prodQty, prodPrice) {
+                    this.prodName = prodName;
+                    this.prodQty = prodQty;
+                    this.prodPrice = prodPrice;
+                }
+            });
+
+        </script>
+    </head>
+
+    <body>
+        <table border="1" id="prodInput">
+            <tr id="prodHead">
+                <td>상품명</td>
+                <td>수량</td>
+                <td>가격</td>
+                <td>추가</td>
+                <td>삭제</td>
+            </tr>
+            <tr id="prod1" class="prod">
+                <td><input type="text" name="prodName" id="prodName"></td>
+                <td><input type="number" name="prodQty" id="prodQty"></td>
+                <td><input type="text" name="prodPrice" id="prodPrice"></td>
+                <td><input type="button" value="+" class="addBtn" width="100%"></td>
+                <td><input type="button" value="-" class="removeBtn" width="100%"></td>
+            </tr>
+        </table>
+        <input type="button" name="mySave" id="mySave" value="저장">
+        <input type="button" name="myCancel" id="myCancel" value="취소" onclick="location.reload();">
+
+        <hr>
+        <div id="output">
+
+        </div>
+    </body>
+
+</html>

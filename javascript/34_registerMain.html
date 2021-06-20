@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>event cancel</title>
+        <script src="externalJS.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            //가입 버튼 누르면 유효처리 하고
+            // 34_registerSub.html 사이트에 전송, 아님 에러
+            // 아이디 : 4자 이상 8자 이하(소문자)
+            // 비밀번호 : 4자 이상 12자 이하, 비밀번호 확인과 동일할 것
+            // 이메일 : 이메일 형식인지 검사
+            // 휴대전화 : 전화번호 형식인지 아닌지 검사
+            // 가입 조항 동의에 체크 있는지 검사
+
+            function idCheck(userId) {
+                let isOk = false;
+                // console.log(isOk);
+                if (userId == "") { //아이디 안썼을 때
+                    document.getElementById("idError").innerHTML = "not typed";
+                    // console.log("none ID");
+                    document.getElementById("userId").focus();
+                    isOk = false;
+                    return isOk;
+                    // alert('ID please');
+                } else if (userId.length < 4 || userId.length > 8) { //아이디 4자 미만이거나 8자 초과일 때                    
+                    document.getElementById("idError").innerHTML = 'ID shorter than 4 or longer than 8';
+                    document.getElementById("userId").focus();
+                    isOk = false;
+                    return isOk;
+                } else {
+                    document.getElementById("idError").innerHTML = '';
+                    isOk = true;
+                    return isOk;
+                }
+            }
+            function CheckPwd(userPwd) {
+                let isOk = false;
+                // console.log(isOk);
+                if (userPwd == "") { //아이디 안썼을 때
+                    document.getElementById("pwdError").innerHTML = "not typed";
+                    console.log("none ID");
+                    document.getElementById("userPwd").focus();
+                    isOk = false;
+                    return isOk;
+                    // alert('ID please');
+                } else if (userPwd.length < 4 || userPwd.length > 8) { //아이디 4자 미만이거나 8자 초과일 때
+                    // alert('ID shorter than 4 or longer 8');
+                    document.getElementById("pwdError").innerHTML = 'Password shorter than 4 or longer than 8';
+                    console.log("4 or 8");
+                    document.getElementById("userPwd").focus();
+                    isOk = false;
+                    return isOk;
+                } else {
+                    document.getElementById("pwdError").innerHTML = '';
+                    isOk = true;
+                    return isOk;
+                }
+            }
+            function CheckPwd2(userPwd, userPwd2) {
+                let isOk = false;
+                // console.log(isOk);
+
+                console.log("userPwd : ", userPwd + " userPwd2 :" + userPwd2);
+                if (userPwd != userPwd2) {
+                    document.getElementById("pwdError2").innerHTML = 'not matched password';
+                } else {
+                    document.getElementById("pwdError2").innerHTML = '';
+                    isOk = true;
+                }
+
+                return isOk;
+            }
+            function emailCheck(email) {
+                let result = false;
+
+                let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                if (email.match(regExp) != null) //이메일 형식이면 
+                {
+                    document.getElementById("emailError").innerHTML = "";
+                    result = true;
+                } else {
+                    document.getElementById("emailError").innerHTML = "email please";
+                }
+                // cons.log(email);
+                return result;
+            }
+            function nameCheck(userName) {
+                let result = false;
+                if (userName != "") {   // 이름칸에 뭔가 있을 때
+                    document.getElementById("nameError").innerHTML = "";
+                    result = true;
+                } else {    //이름칸에 뭐 안적었을 때
+                    document.getElementById("nameError").innerHTML = "name please";
+                    document.getElementById("userName").focus();
+                }
+                return result;
+            }
+            function birthdayCheck(birthday) {
+                let result = false;
+                birthday = String(birthday);
+                if (birthday != "") { //뭔가 입력됐다면
+                    document.getElementById("birthdayError").innerHTML = "";
+                    result = true;
+                } else {  // 입력이 안돼있다면
+                    document.getElementById("birthdayError").innerHTML = "not typed ";
+                    result = false;
+                }
+                return result;
+            }
+            function mobileCheck(mobile) {
+                let result = false;
+                var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+
+                if (mobile.match(regExp) != null) //전화번호 형식이면 
+                {
+                    result = true;
+                    document.getElementById("mobileError").innerHTML = "";
+                } else {
+                    result = false;
+                    document.getElementById("mobileError").innerHTML = "phone number please";
+                }
+
+                return result; // 형식에 맞는 경우 true 리턴
+            }
+            function addressCheck(address) {
+                let result = false;
+
+                if (address != "") {    //주소가 있다면
+                    result = true;
+                    document.getElementById("addressError").innerHTML = "";
+                } else {  //주소 안쳤다면
+                    result = false;
+                    document.getElementById("addressError").innerHTML = "type please";
+                }
+                return result;
+            }
+            function validateCheck() {
+                let isChecked = false;
+                //아이디 검증
+                let userId = document.getElementById("userId").value;
+                userId = String(userId).toLowerCase();
+
+                // //비번 검증
+                let userPwd = document.getElementById("userPwd").value;
+                let userPwd2 = document.getElementById("userPwd2").value;
+                // //이름
+                let userName = document.getElementById("userName").value;
+                // if (nameCheck(userName)) {
+                //     userName = userName.replace(/^(?![\s-])[\w\s-]+$/, ""); //띄어쓰기 없애기
+                //     console.log(userName);
+                // }
+                //생일 가져오기
+                let birthday = document.getElementById("birthday").value;
+
+                //이메일
+                let email = document.getElementById("email").value;
+                // emailCheck(email);
+                //폰
+                let mobile = document.getElementById("mobile").value;
+                // 성별 가져오기
+                let sexes = document.getElementsByName("sex");
+                let sex = "";
+                for (let i in sexes) {
+                    if (sexes[i].checked)
+                        sex = sexes[i].value;
+                }
+
+                //regi path
+                let regiPathSelect = document.getElementById("registerPath");
+                let regiPath = regiPathSelect.options[regiPathSelect.selectedIndex].value;
+
+                //address
+                let address = document.getElementById("address").value;
+
+                // agreement
+                let isAgreement = false;
+                if (document.getElementById("agreement").checked) {
+                    isAgreement = true;
+                }
+                if (idCheck(userId) && CheckPwd(userPwd) && CheckPwd2(userPwd, userPwd2) && nameCheck(userName) && emailCheck(email) && mobileCheck(mobile) && addressCheck(address) && isAgreement) {
+                    isChecked = true;
+                }
+                return isChecked;
+            }
+        </script>
+    </head>
+
+    <body>
+        <form action="34_registerSub.html">
+            <h3>Sign in</h3>
+            <div class="form-group">
+                <label for="userId">ID :</label>
+                <input type="text" class="form-control" id="userId" placeholder="Enter ID" name="userId">
+                <div id="idError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="userPwd">Password:</label>
+                <input type="password" class="form-control" id="userPwd" placeholder="Enter password" name="userPwd"
+                    onchange="CheckPwd(this);">
+                <div id="pwdError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="userPwd2">Password Again :</label>
+                <input type="password" class="form-control" id="userPwd2" placeholder="Enter password again">
+                <div id="pwdError2" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                <div id="emailError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="userName">Name :</label>
+                <input type="text" class="form-control" id="userName" placeholder="Enter Name" name="userName">
+                <div id="nameError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="birthDay">Birthday :</label>
+                <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Enter Birthday">
+                <div id="birthdayError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile :</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Phone Number">
+                <div id="mobileError" class="text-danger"></div>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="sex" value="man" checked>남자</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="sex" value="woman">여자</label>
+            </div>
+            <div class="form-group">
+                <label for="registerPath">How'd you find this site :</label>
+                <select name="registerPath" id="registerPath">
+                    <option value="friend">지인</option>
+                    <option value="internet">인터넷</option>
+                    <option value="somewhere">기타</option>
+                </select>
+            </div>
+            <label for="address">Address :</label>
+            <div class="form-group">
+                <!-- <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address"> -->
+                
+                <input type="text" id="sample3_postcode" placeholder="우편번호">
+                <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
+                <input type="text" id="sample3_address" placeholder="주소"><br>
+                <input type="text" id="sample3_detailAddress" placeholder="상세주소">
+                <input type="text" id="sample3_extraAddress" placeholder="참고항목">
+                
+                <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                <img src="https://t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                </div>
+                
+                <div class="checkbox">
+                    <label><input type="checkbox" name="agreement" id="agreement">Agree all the statements</label>
+                </div>
+                <button type="submit" class="btn btn-success" onclick="return validateCheck();">Submit</button>
+                <button type="reset" class="btn btn-warning">Cancle</button>
+            </div>
+        </form>
+
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            // 우편번호 찾기 찾기 화면을 넣을 element
+            var element_wrap = document.getElementById('wrap');
+        
+            function foldDaumPostcode() {
+                // iframe을 넣은 element를 안보이게 한다.
+                element_wrap.style.display = 'none';
+            }
+        
+            function sample3_execDaumPostcode() {
+                // 현재 scroll 위치를 저장해놓는다.
+                var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+        
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+        
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+                        
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if(data.userSelectedType === 'R'){
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if(extraAddr !== ''){
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다.
+                            document.getElementById("sample3_extraAddress").value = extraAddr;
+                        
+                        } else {
+                            document.getElementById("sample3_extraAddress").value = '';
+                        }
+        
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample3_postcode').value = data.zonecode;
+                        document.getElementById("sample3_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample3_detailAddress").focus();
+        
+                        // iframe을 넣은 element를 안보이게 한다.
+                        // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                        element_wrap.style.display = 'none';
+        
+                        // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                        document.body.scrollTop = currentScroll;
+                    },
+                    // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+                    onresize : function(size) {
+                        element_wrap.style.height = size.height+'px';
+                    },
+                    width : '100%',
+                    height : '100%'
+                }).embed(element_wrap);
+        
+                // iframe을 넣은 element를 보이게 한다.
+                element_wrap.style.display = 'block';
+            }
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>ex2</title>
+        <style>
+            .tableC {
+                border: 1px solid black;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            .thC {
+                border: 1px solid black;
+                background-color: blanchedalmond;
+            }
+
+            .tdC {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+        <script src="externalJS.js"></script>
+        <script>
+            window.onload = function () {
+                let obj = document.getElementById("parent");
+
+                //  let newDiv = document.createElement("div")
+                //  newDiv.innerHTML = "애랴재랴ㅓ";
+                //  newDiv.setAttribute("id", "newDiv");
+                //  newDiv.addEventListener("click", function(){
+                //      obj.removeChild(this);
+                //  });
+
+
+                //  let newBtn = document.createElement("button");
+                //  newBtn.innerHTML ="정렬 버튼 로그에서 확인하세요";
+                //  newBtn.setAttribute("id","btn1");
+                //  newBtn.addEventListener("click", function(){
+                //     //  let div1 = document.getElementById("btn1");
+                //     //  div1.innerHTML = "<img src='img/01.jpg' alt=''>";
+                //     sortFuncObj(stdArr);
+                //     console.log(stdArr);                    
+                //  });
+                //  obj.insertBefore(newBtn, newDiv);
+                // obj.appendChild(newBtn);
+
+                //5명 입력을 클래스로, 성적표
+
+                function std(name, kor, eng, math) {
+                    this.name = name;
+                    this.kor = kor;
+                    this.eng = eng;
+                    this.math = math;
+                    this.sum = function () {
+                        return this.kor + this.math + this.eng;
+                    }
+                    this.avg = function () {
+                        return Number(this.sum() / 3).toFixed(2);
+                    }
+                    this.grade = function () {
+                        return Number((4.5 * this.avg()) / 100).toFixed(1);
+                    }
+                }
+
+                function display(arr, where, isSort) {
+                    arr = sortFunc(arr);
+                    let isSortFlag = isSort;
+                    if (isSortFlag) {
+                        sortFuncObj(arr);
+                    }
+
+                    let output3 = "<table  class='tableC'>";
+                    output3 += "<tr>";
+                    output3 += "<th class='thC'>이름 </th>";
+                    output3 += "<th class='thC'>국어 </th>";
+                    output3 += "<th class='thC'>영어 </th>";
+                    output3 += "<th class='thC'>수학 </th>";
+                    output3 += "<th class='thC'>총점 </th>";
+                    output3 += "<th class='thC'>평균 </th>";
+                    output3 += "<th class='thC'>학점 </th>";
+                    output3 += "</tr>";
+                    console.log(output3);
+                    let index = 0;
+                    for (let i = 0; i < arr.length; i++) {
+                        output3 += "<tr>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].name + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].kor + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].math + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].eng + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].sum() + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].avg() + "</td>";
+                        output3 += "<td id='" + ++index + "' class='tdC'>" + arr[i].grade() + "</td>";
+                        output3 += "</tr>";
+                    }
+                    output3 += "</table>";
+
+                    // console.log(output3);
+                    document.getElementById(where).innerHTML = output3;
+                }
+                let stdArr = new Array();
+                stdArr.push(new std("고길동", 80, 90, 90));
+                stdArr.push(new std("둘리", 80, 60, 90));
+                stdArr.push(new std("도우너", 60, 90, 90));
+                stdArr.push(new std("희동", 60, 40, 70));
+                stdArr.push(new std("마이콜", 60, 90, 70));
+                // for(let i in stdArr)
+                // console.log(stdArr[i].avg());
+                // sortFuncObj(stdArr);
+                display(stdArr, "output", false);
+                display(stdArr, "output2", true);
+            }
+        </script>
+    </head>
+
+    <body id="parent">
+        <h3>학생 성적표</h3>
+        <div id="output"></div>
+        <p></p>
+        <div id="output2"></div>
+
+        <!-- <div>
+            
+            <tr>
+                <th class='thC'>이름 </th>
+                <th class='thC'>국어 </th>
+                <th class='thC'>영어 </th>
+                <th class='thC'>수학 </th>
+                <th class='thC'>총점 </th>
+                <th class='thC'>평균 </th>
+                <th class='thC'>학점 </th>
+            </tr>
+            <tr>
+                <td id='1' class='tdC'>80</td>
+                <td id='2' class='tdC'>90</td>
+                <td id='3' class='tdC'>90</td>
+                <td id='4' class='tdC'>260</td>
+                <td id='5' class='tdC'>86.67</td>
+                <td id='6' class='tdC'>3.9</td>
+            </tr>
+            <tr>
+                <td id='7' class='tdC'>80</td>
+                <td id='8' class='tdC'>90</td>
+                <td id='9' class='tdC'>60</td>
+                <td id='10' class='tdC'>230</td>
+                <td id='11' class='tdC'>76.67</td>
+                <td id='12' class='tdC'>3.5</td>
+            </tr>
+            <tr>
+                <td id='13' class='tdC'>60</td>
+                <td id='14' class='tdC'>90</td>
+                <td id='15' class='tdC'>90</td>
+                <td id='16' class='tdC'>240</td>
+                <td id='17' class='tdC'>80.00</td>
+                <td id='18' class='tdC'>3.6</td>
+            </tr>
+            </table>
+
+        </div> -->
+    </body>
+
+</html>

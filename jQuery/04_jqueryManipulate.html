@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>jQuery로 DOM 조작</title>
+        <meta charset="UTF-8">
+        <!-- <script src="jquery-3.6.0.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function(){
+               $("#list1 li:odd").css("background", "yellow");
+               $("#list1 li:even").css("background", "grey");
+               $("#list1 li:first").css("color", "red");
+               $("#list1 li:last").css("color", "green");
+               
+               $("#list1 li").eq(1).css("font-style", "italic");
+               
+               $("list2 li").find("a").css("texgt-decoration", "none");
+               
+            //    ($(".theTitle").html("html 조작이다."));
+               ($(".theTitle").text("html 조작아니다."));
+               $(".obj1").text("이렇게 바뀐다");
+               $("#list3").append("<li>뒤에 추가한 것</li>");
+               $("#list3").prepend("<li>앞에 추가한 것2</li>");
+               $("<li>새로운태그 4.5</li>").insertBefore("#list3");
+               $("<li><u>마지막태그추가</u></li>").insertAfter($("#list3 li").eq(2));
+            });
+                        
+            function myRemove(){
+                $("#list1").remove();   //부모 태그까지 모두 삭제    
+                $("#list2").empty();   //하위 태그만 삭제 *(중요)
+            }            
+        </script>
+    </head>
+    <body>
+        <div id="wrap">
+            <h1>탐색 및 조작</h1>
+            <h2>탐색 선택자</h2>
+            <ul id="list1">                
+                <li>list1</li>
+                <li>list2</li>
+                <li>list3</li>
+                <li>list4</li>
+                <li>list5</li>
+                <li>list6</li>
+                <li>list7</li>
+            </ul>
+            <ul id="list2">                
+                <li>list8</li> 
+                <li class="theobj">list9</li>
+                <li><span>list10</span></li>
+                <li>list11</li>
+                <li><a href="#">list12</a></li>
+                <li>list13</li>
+                <li>list14</li>
+            </ul>
+            
+            <h2 class="theTitle">html 조작</h2>
+            <ul id="list3">
+                <li>리스트_1</li>
+                <li class="obj1"><b>리</b>스트_2</li>
+                <li>리스트_3</li>
+                <li>리스트_4</li>
+                <li>리스트_5</li>
+            </ul>
+            
+            <button onclick="myRemove()" >삭제</button>
+        </div>
+    </body>
+
+</html>

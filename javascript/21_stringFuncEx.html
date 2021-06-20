@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> 쿼리스트링 써서 데이터 주고 받기</title>
+    <meta charset="UTF-8">    
+    <script>
+        // window.prompt("숫자 입력");
+        
+        function login(){
+            let userId = document.getElementById("userId").value;
+            let userPwd = document.getElementById("userPwd").value;
+            
+            console.log("userId : " + userId + " userPwd : " + userPwd);
+            let baseUrl  = "21_1_stringFuncEx.html";
+            baseUrl += "?userId=" + userId + "&userPwd=" + userPwd;
+            location.href = baseUrl;    //페이지 이동
+            
+        }
+    </script>
+</head>
+
+<body>
+    아이디 : <input type="text" name="" id="userId"> <br>
+    패스워드 : <input type="password" name="" id="userPwd"><br>
+    <button onclick="login();">login</button>
+</body>
+
+</html>
