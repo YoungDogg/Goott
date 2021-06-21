@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                dataLoading();
+            })
+
+            function dataLoading() {
+                // 한국관광공사_국문 관광정보 서비스 키
+                const key = "Ym9Btk6FDZy0KioD2zctPWIF0W2RVaxCbQ2yCbV2%2F8BSFT9U5DK4xQkWqi%2Bd4LVltFcMik%2FKrRoeY1%2B6MEdTNw%3D%3D";
+                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=" + key + "&contentTypeId=12&areaCode=1&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1";
+
+                $.ajax({
+                    url: dataUrl,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        parsingJson(data);
+                    }
+                });
+            }
+            function parsingJson(data) {
+                let itemsArr = data.response.body.items.item;
+                // console.log(itemsArr);
+
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">WebSiteName</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="jumbotron text-center">
+            <h1>My First Bootstrap Page</h1>
+            <p>Resize this responsive page to see the effect!</p>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>갈산근린공원</h3>
+                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/62/2612062_image2_1.bmp" alt=""
+                            style="max-width: 100%;"></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+                <div class="col-sm-4">
+                    <h3>감로암</h3>
+                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/85/2031885_image2_1.jpg" alt=""
+                            style="max-width: 100%;"></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+                <div class="col-sm-4">
+                    <h3>강남</h3>
+                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/08/1984608_image2_1.jpg" alt=""
+                            style="max-width: 100%;"></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
