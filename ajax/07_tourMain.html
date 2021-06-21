@@ -5,33 +5,111 @@
         <title>Bootstrap Example</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .tourImg {
+                max-width: 50%;
+                float: left;
+            }
+
+            .tourTitle {
+                /* float: right; */
+                text-align: center;
+            }
+
+            .tourItem {
+                overflow: auto;
+            }
+
+            /* @media screen and (min-width: 480px) {
+
+                480 < 브라우저이면
+                .tourItem {
+                    margin: 5px;
+                    border: 1px solid #ccc;
+                    overflow: auto;
+                    width: 200px;
+                }
+
+                .tourImg {
+                    margin: auto 0;
+                    max-width: 50%;
+                    float: left;
+                }
+
+                .tourTitle {
+                    text-align: center;
+                    padding: 20px;
+                }
+            } */
+        </style>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script>
+        <script>            
+            let pageNo = 1; //현재 페이지
             $(function () {
-                dataLoading();
+                dataLoading(pageNo);
             })
 
-            function dataLoading() {
+            function dataLoading(pageNo) {
                 // 한국관광공사_국문 관광정보 서비스 키
                 const key = "Ym9Btk6FDZy0KioD2zctPWIF0W2RVaxCbQ2yCbV2%2F8BSFT9U5DK4xQkWqi%2Bd4LVltFcMik%2FKrRoeY1%2B6MEdTNw%3D%3D";
-                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=" + key + "&contentTypeId=12&areaCode=1&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1";
-
+                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=" + key + "&contentTypeId=12&areaCode=1&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=" +pageNo;
+                
+                console.log(pageNo);
+                
                 $.ajax({
                     url: dataUrl,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                         parsingJson(data);
                     }
                 });
             }
+
+            //primary key : 데이터 구분하는 키
+            // pk의 조건 : null이 아니어야 한다, 유일해야 한다
+            // pk 쿼리로 전송 -> sub에서 받기
             function parsingJson(data) {
                 let itemsArr = data.response.body.items.item;
                 // console.log(itemsArr);
 
+                let output = '<div class="list-group">';
+                $.each(itemsArr, function (i, item) {
+                    output += '<a href="07_1_tourSub.html?contentId=' + String(item.contentid) + '&class=list-group-item tourItem">';
+                    if (item.firstimage != null) {
+                        output += '<img src="' + item.firstimage + '" alt="" class="tourImg";>';
+                    } else {
+                        output += '<img src="noImage.png" alt=""class="tourImg";>';
+                    }
+                    output += "<h4 class='tourTitle'>" + item.title + "</h4>";
+                    output += '</a>';
+                });
+                output += "</div>";
+                
+                let pageNo = data.response.body.pageNo;
+                let totalCnt = data.response.body.totalCount;
+                let numOfRows = data.response.body.numOfRows;
+                output += '<button id="btnMore" type="button" class="btn btn-block" onclick="more('+totalCnt + ', '+ pageNo+ ', '+ numOfRows+ ',this)">더보기</button>';    //this는 변수가 아니다
+                // $(".container").html(output); 
+                $(".container").append(output); //줄줄이 나온다
+            }
+            //버튼 누르면 
+            function more(totalCnt, pageNo, numOfRows, obj){
+                
+                $(obj).remove();
+                
+                // 전체 / 페이지 = 페이지 수, 올림한다. +1 하려고
+                let totalPage = Math.ceil(totalCnt / numOfRows); 
+                console.log(totalCnt, pageNo, numOfRows);
+                
+                pageNo++; //페이지 증가
+                if( pageNo <= totalPage ) {dataLoading(pageNo);}
+                else {alert('마지막 페이지')};
+                
+                // dataLoading(totalPage);
             }
         </script>
     </head>
@@ -56,29 +134,10 @@
         </div>
 
         <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h3>갈산근린공원</h3>
-                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/62/2612062_image2_1.bmp" alt=""
-                            style="max-width: 100%;"></p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-                </div>
-                <div class="col-sm-4">
-                    <h3>감로암</h3>
-                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/85/2031885_image2_1.jpg" alt=""
-                            style="max-width: 100%;"></p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-                </div>
-                <div class="col-sm-4">
-                    <h3>강남</h3>
-                    <p><img src="http://tong.visitkorea.or.kr/cms/resource/08/1984608_image2_1.jpg" alt=""
-                            style="max-width: 100%;"></p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-                </div>
-            </div>
+
+
+
+        </div>
         </div>
 
     </body>
