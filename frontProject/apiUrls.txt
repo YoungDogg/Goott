@@ -1,0 +1,19 @@
+축제
+https://api.visitkorea.or.kr/guide/inforArea.do
+
+날씨
+https://openweathermap.org/api
+참고 유튜브 https://www.youtube.com/watch?v=_oEsqYYoQ3s
+
+숙박
+서울 : http://data.seoul.go.kr/dataList/OA-16045/S/1/datasetView.do
+전국 : https://api.visitkorea.or.kr/search/commonList.do
+
+시골체험
+https://data.mafra.go.kr/opendata/data/indexOpenDataDetail.do?data_id=20150401000000000424&service_ty=O&filter_ty=O&sort_id=rdcnt&s_data_nm=&cl_code=&instt_id=&shareYn=
+
+지도
+https://apis.map.kakao.com/web/
+좌표로 주소 얻어내기
+https://apis.map.kakao.com/web/sample/coord2addr/
+주소로 장소 표시하기
