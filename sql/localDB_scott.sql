@@ -96,3 +96,19 @@ SELECT  EMPNO, ENAME, JOB,case when JOB= 'ANALYST' then SAL + (SAL * 0.05)
                             else SAL
                             end as "salary + commission"
                             FROM EMP;
+
+
+
+-- chapter3 그룹함수 연습문제 
+
+-- 1. 직업의 종류가 몇개인지, 즉 중복되지 않은 직업의 갯수를 카운트 하는 sql문 작성
+SELECT COUNT(distinct JOB) from emp;
+-- 2. 부서별로 사원의 수와 커미션을 받는 사원의 수를 각각 카운트 하는 sql문 작성
+--SELECT DEPTNO, COUNT(DEPTNO), COUNT(COMM) from emp --- NULL값이 없는 * 쓴다 
+SELECT DEPTNO, COUNT(DEPTNO), COUNT(COMM) from emp
+group by DEPTNO;
+-- 3. 부서별 급여 최대값과 급여 최소값을 구하되, 최대 급여가 3000 이상인 부서만 출력하는 sql문 작성
+SELECT DEPTNO, max(SAL), min(SAL)
+from EMP
+group by DEPTNO
+having max(SAL) >= 3000;

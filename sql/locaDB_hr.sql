@@ -167,8 +167,9 @@ SELECT
 FROM employees;
 
 --nvl2 함수 : NULL을 문자열로 변환하는 함수 
+--0 같은 숫자만 옴
 SELECT
-    FIRST_NAME, COMMISSION_PCT, nvl2(COMMISSION_PCT, '널 아님', '널 맞음')  --0 같은 숫자만 옴
+    FIRST_NAME, COMMISSION_PCT, nvl2(COMMISSION_PCT, '널 아님', '널 맞음')  
 FROM employees;
 
 -- decode 
@@ -185,29 +186,113 @@ SELECt  department_id, case when department_id=10 then 'Administration'
                             end
                             from employees;
                             
--- 2021년 6월 23일 chapter2. 연습 문제
 
--- 1. 사번이 짝수인 사원들의 사번, 이름, 직급을 출력
-SELECt EMPLOYEE_ID, FIRST_NAME, JOB_ID from employees
-where substr(EMPLOYEE_ID, -1, 1)in(0, 2, 4, 6, 8);
+------------------------------------------------------
+--그룹함수 행 갯수 상관없이 결과 하나     NULL 제외
 
--- 2. 'Smith'란 이름을 가진 사원의 사번, 이름, 급여, 커미션을 출력
--- 2-1. initcap 사용
--- 2-2. upper 사용
-SELECt EMPLOYEE_ID, FIRST_NAME, SALARY, COMMISSION_PCT  from employees
-where  (FIRST_NAME ) = 'Smith';
--- 3. 이름의 두번째 자리에 A가 있는 사원의 사번, 이름, 직급 출력
--- 3-1. substr 사용
--- 3-2. instr 사용
+SELECT to_char(sum(salary), 'L9,999,999') as "sum" from employees;
 
--- 4. 이름이 K로 끝나는 직원의 사번, 이름, 직급 출력
+SELECT to_char(avg(salary), 'L9,999,999.99') as "avg" from employees;
 
--- 5. 82년도에 입사한 사원의 사번, 이름, 입사일 출력
+SELECT to_char(max(salary), 'L9,999,999.99') as "max" from employees;
 
--- 6. 이름이 6글자 이상인 사원의 사번, 이름, 급여 출력
+SELECT to_char(min(salary), 'L9,999,999.99') as "min" from employees;
 
--- 7. 모든 사원은 자신의 상관이 있다. 하지만 emp 테이블에 상관이 없는 사원이 있는데, 
--- 그 사원의 mgr 컬럼 값이 null이다. 상관이 없는 사원만 출력하되, mgr 컬럼 값 null대신 'CEO'라고 출력해라
+SELECT to_char(COUNT(*), '9,999,999') as "min" from employees; --데이터 개수 셀 때
+--데이터 개수 셀 때 Primary Key: no null
+SELECT to_char(COUNT(EMPLOYEE_ID), '9,999,999') as "min" from employees; 
 
--- 8. 직급에 따라 급여를 인상하도록 한다. 직급이 'ANALYST'인 사원은 5%, 'SALESMAN'인 사원은 10%
---  'MANAGER'인 사원은 15%, 'CLERK'인 사원은 20% 인상하여 출력한다
+-- stddev : 표준편차
+SELECT STDDEV(salary) FROM employees;
+
+-- variance : 분산값
+SELECT variance(salary) FROM employees;
+
+--group by
+SELECT department_id FROM employees GROUP BY department_id;
+SELECT JOB_ID FROM employees GROUP BY JOB_ID;
+
+SELECT department_id, to_char(sum(salary), '9,999,999') "sum", 
+to_char(avg(salary), '9,999,999') "avg"
+FROM employees 
+GROUP BY department_id;
+
+SELECT department_id, to_char(max(salary), '9,999,999') "max", 
+to_char(min(salary), '9,999,999') "min"
+FROM employees 
+GROUP BY department_id;
+
+--having 그룹 행에 제한
+-- 부서별 평균급여가 5000이상인 부서의 번호, 평균 급여를 출력
+SELECT department_id, avg(salary)
+from employees
+GROUP BY department_id
+having  avg(salary) >= 10000;
+
+----sub query
+SELECT department_id FROM employees where employee_id = 100;
+
+SELECT department_name FROM departments WHERE department_id = 90;
+
+SELECT department_name FROM departments WHERE department_id = 
+(SELECT department_id FROM employees where employee_id = 100);
+
+--90번 부서의 우편번호 출력
+SELECT POSTAL_CODE FROM LOCATIONS WHERE LOCATION_ID = 
+(SELECT LOCATION_ID FROM DEPARTMENTS WHERE DEPARTMENT_ID = 90 );
+
+--100번 사원의 우편번호, 도로명주소, 시, 도, 나라 출력
+SELECT POSTAL_CODE, STREET_ADDRESS, CITY, STATE_PROVINCE, COUNTRY_ID 
+FROM LOCATIONS WHERE LOCATION_ID = 
+( SELECT LOCATION_ID FROM DEPARTMENTS WHERE DEPARTMENT_ID = 100);
+
+-- 204번 사원이 근무하느 대륙
+--- 1) 204번 사원의 근무 부서 번호
+SELECT DEPARTMENT_ID from employees where  employee_id = 204;
+--- 2) 70번 부서의 location_id?
+SELECT location_id from departments where DEPARTMENT_ID = 70;
+--- 3) location_id 2700번 컨트리 아이디?
+SELECT COUNTRY_ID from LOCATIONS where LOCATION_ID = 2700;
+-- 4) 컨트리 테이블에서 컨트라 아이디가 'DE'인 region_id?
+SELECT REGION_ID from COUNTRIES where COUNTRY_ID = 'DE';
+-- 5) 리전 테이블에서 리전 아이디가 1번인 리전 이름?
+select  REGION_NAME from REGIONS where REGION_ID = 1;
+
+select  REGION_NAME from REGIONS where REGION_ID = 
+(SELECT REGION_ID from COUNTRIES where COUNTRY_ID =
+(SELECT COUNTRY_ID from LOCATIONS where LOCATION_ID = 
+(SELECT location_id from departments where DEPARTMENT_ID = 
+(SELECT DEPARTMENT_ID from employees where  employee_id = 204))));
+
+-- 단위 행 서브쿼리 : 내부 쿼리의 결과가 1개의 row가 되는 쿼리
+-- > >= < <= = != 이것만 사용 가능
+--사원들의 평균 급여보다 급여를 더 많이 받는 사원을 검색
+select employee_id, FIRST_NAME, salary from employees
+where salary >
+(select avg(salary) from employees);
+
+---다중행 서브쿼리 : 괄호 두 개 이상일 떄
+-- in : or
+-- any : or, 연산자 사용
+-- all : and
+
+--5000이상 받는 사원의 부서, 그 부서 사람들의 사번, 이름, 급여 출력
+SELECT employee_id, FIRST_name, salary from employees where department_id in
+(select DISTINCT department_id  from employees where salary >= 5000);
+
+-- 30번 부서 사원 중 가장 많이 받는 사람보다 더 많이 받는 사람의 사번, 이름, 급여, 
+-- 부서번호 출력
+select EMPLOYEE_ID, FIRST_NAME, SALARY, DEPARTMENT_ID 
+from employees where salary > all 
+(select salary from employees where department_id = 30);
+
+-- 50번 부서 사원 중 가장 적게 받는 사람보다 많은 급여 받는 사람의 사번, 이름, 급여 출력
+select EMPLOYEE_ID, FIRST_NAME, SALARY, DEPARTMENT_ID 
+from employees where salary > any
+(select salary from employees where department_id = 50);
+
+-- 101번 사원이 언제부터 언제까지 어떤 직무를 수행했는지 출력
+--select FIRST_NAME, HIRE_DATE, JOB_ID 
+--from employees 
+--where sysdate -  HIRE_DATE > any 
+select START_DATE, END_DATE, job_id from JOB_HISTORY where EMPLOYEE_ID = 101;
