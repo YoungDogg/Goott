@@ -52,3 +52,47 @@ ORDER by sal DESC;
 select  EMPNO, ENAME, HIREDATE
 from emp
 ORDER by HIREDATE DESC;
+
+
+-- 2021년 6월 23일 chapter2. 연습 문제
+
+-- 1. 사번이 짝수인 사원들의 사번, 이름, 직급을 출력
+SELECT  EMPNO, ENAME, JOB FROM EMP 
+--where substr(EMPNO, -1, 1)in(0, 2, 4, 6, 8);
+where mod(EMPNO,2) = 0;
+-- 2. 'Smith'란 이름을 가진 사원의 사번, 이름, 급여, 커미션을 출력
+-- 2-1. initcap 사용
+-- 2-2. upper 사용
+SELECT  EMPNO, ENAME, SAL, COMM FROM EMP 
+WHERE upper(ENAME) = 'SMITH';
+
+SELECT  EMPNO, ENAME, SAL, COMM FROM EMP 
+WHERE initcap(ENAME) = 'Smith';
+
+-- 3. 이름의 두번째 자리에 A가 있는 사원의 사번, 이름, 직급 출력
+-- 3-1. substr 사용
+-- 3-2. instr 사용
+SELECT EMPNO, ENAME, JOB FROM EMP 
+WHERE substr(ENAME, 2, 1) = 'A';
+-- 4. 이름이 K로 끝나는 직원의 사번, 이름, 직급 출력
+SELECT  EMPNO, ENAME, JOB FROM EMP 
+WHERE substr(ENAME, -1, 1) = 'K';
+-- 5. 82년도에 입사한 사원의 사번, 이름, 입사일 출력
+SELECT  EMPNO, ENAME, HIREDATE FROM EMP 
+WHERE substr(HIREDATE, 1, 2) = '82';
+-- 6. 이름이 6글자 이상인 사원의 사번, 이름, 급여 출력
+SELECT  EMPNO, ENAME, SAL FROM EMP 
+WHERE length(ENAME) >= 6;
+-- 7. 모든 사원은 자신의 상관이 있다. 하지만 emp 테이블에 상관이 없는 사원이 있는데, 
+-- 그 사원의 mgr 컬럼 값이 null이다. 상관이 없는 사원만 출력하되, mgr 컬럼 값 null대신 'CEO'라고 출력해라
+SELECT  EMPNO, ENAME, nvl2(MGR, 'has Manager','CEO') FROM EMP
+where MGR is NULL;
+-- 8. 직급에 따라 급여를 인상하도록 한다. 직급이 'ANALYST'인 사원은 5%, 'SALESMAN'인 사원은 10%
+--  'MANAGER'인 사원은 15%, 'CLERK'인 사원은 20% 인상하여 출력한다
+SELECT  EMPNO, ENAME, JOB,case when JOB= 'ANALYST' then SAL + (SAL * 0.05)
+                            when  JOB= 'SALESMAN' then SAL + (SAL * 0.1)
+                            when  JOB= 'MANAGER' then SAL + (SAL * 0.15)
+                            when  JOB= 'MANAGER' then SAL + (SAL * 0.2)
+                            else SAL
+                            end as "salary + commission"
+                            FROM EMP;
