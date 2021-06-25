@@ -16,7 +16,7 @@ where SAL < 2000;
 select EMPNO, ENAME, MGR
 from emp
 where ENAME = 'MILLER';
-
+ 
 -- 7. 커미션이 300 또는 500 또는 1400인 사원의 사번, 이름, 커미션을 출력하는 sql문
 -- 위 문제를 해결하는 방법이 2가지 있습니다. 둘 다 모두 쓰세요
 select EMPNO, ENAME, COMM
@@ -107,8 +107,78 @@ SELECT COUNT(distinct JOB) from emp;
 --SELECT DEPTNO, COUNT(DEPTNO), COUNT(COMM) from emp --- NULL값이 없는 * 쓴다 
 SELECT DEPTNO, COUNT(DEPTNO), COUNT(COMM) from emp
 group by DEPTNO;
--- 3. 부서별 급여 최대값과 급여 최소값을 구하되, 최대 급여가 3000 이상인 부서만 출력하는 sql문 작성
+-- 3. 부서별 급여 최대값과 급여 최소값을 구하되,
+-- 최대 급여가 3000 이상인 부서만 출력하는 sql문 작성
 SELECT DEPTNO, max(SAL), min(SAL)
 from EMP
 group by DEPTNO
 having max(SAL) >= 3000;
+
+
+--2021.06.25 서브쿼리 연습문제
+
+-- 1. smith와 동일한 직급을 가진 사원의 이름과 직급을 출력하는 sql
+Select ENAME, JOB from EMP where JOB = 
+(Select JOB from EMP where ENAME =  'SMITH');
+
+-- 2. 부서별로 가장 높은 급여를 받는 사원의 정보(사번, 이름, 급여, 입사일) 출력
+Select EMPNO, ENAME, SAL, HIREDATE from EMP where sal in
+(Select max(sal) from EMP GROUP by deptno);
+
+--3. 직급이 'salesman'인 사원이 받는 급여중 최소 급여보다 많이 받는 
+--사원의 이름, 급여 출력, 부서번호 20번인 사원 제외
+Select ENAME, SAL from EMP where DEPTNO != 20 and SAL >
+(Select min(SAL) from EMP where JOB = 'SALESMAN');
+
+-- 직급이 'salesman'인 사원이 받는 급여 중 최대 급여보다 급여를 많이 받는 
+--사원들의 이름, 급여를 출력하되, 부서번호 20번인 사원 제외
+Select ENAME, SAL from EMP where DEPTNO != 20 and SAL >
+(Select max(SAL) from EMP where JOB = 'SALESMAN');
+
+-- 사번, 이름, 급여, 호봉 출력(non equi join), and 붙으면
+Select EMPNO ,ENAME, SAL, s.GRADE
+from EMP e, SALGRADE s
+where  e.sal >= s.losal and e.sal <= s.hisal;
+
+--JOIN
+--1. 급여가 3000~5000 직원의 이름과 소속 부서명 출력
+Select e.ENAME, d.DNAME
+from EMP e, DEPT d
+where e.deptno  = d.deptno and SAL BETWEEN 3000 and 5000;
+
+--2. 직급이 manager 부서 직원 이름과 입사일 출력
+Select ENAME, HIREDATE
+from EMP
+where lower(JOB) = 'manager';
+
+--3. accounting 부서 직원 이름과 입사일 출력
+Select ENAME, HIREDATE
+from EMP 
+where DEPTNO = 
+(Select DEPTNO from DEPT where lower(DNAME) = 'accounting');
+
+--4. 커미션 받는 사원 이름, 부서명 출력
+Select e.ENAME, d.DNAME
+from EMP e, DEPT d
+where e.COMM is not null and e.DEPTNO = d.DEPTNO;
+
+--5. 뉴욕 근무 사원 이름, 급여 출력
+Select e.ENAME, e.SAL
+from EMP e, DEPT d
+where e.DEPTNO = d.DEPTNO and d.loc = 'NEW YORK';
+
+--6. 급여 1200 이하 사원 이름, 급여, 근무지 출력
+Select e.ENAME, e.SAL, d.loc
+from EMP e, DEPT d
+where e.DEPTNO = d.DEPTNO and e.SAL <= 1200;
+
+--7. smith와 같은 근무지 직원 이름 출력
+Select worker.ENAME
+from EMP smith, EMP worker
+where smith.ENAME = upper('smith') and smith.DEPTNO = worker.DEPTNO 
+and worker.ENAME != upper('smith');
+
+--8. 매니저 KING인 사원들의 이름, 직급 출력
+Select worker.ENAME,  worker.JOB
+from EMP worker, EMP mng 
+where worker.MGR = mng.EMPNO and mng.ENAME = 'KING';

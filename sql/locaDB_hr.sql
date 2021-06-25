@@ -214,7 +214,7 @@ SELECT JOB_ID FROM employees GROUP BY JOB_ID;
 
 SELECT department_id, to_char(sum(salary), '9,999,999') "sum", 
 to_char(avg(salary), '9,999,999') "avg"
-FROM employees 
+FROM employees
 GROUP BY department_id;
 
 SELECT department_id, to_char(max(salary), '9,999,999') "max", 
@@ -296,3 +296,153 @@ from employees where salary > any
 --from employees 
 --where sysdate -  HIRE_DATE > any 
 select START_DATE, END_DATE, job_id from JOB_HISTORY where EMPLOYEE_ID = 101;
+
+------------ JOIN
+
+--서브쿼리 단점 : 메인쿼리 데이터만 출력, 길다
+select department_name, manager_id from departments where department_id = 
+(SELECT department_id from employees where employee_id = 100);
+
+select department_name from departments, employees 
+where employees.department_id = departments.department_id
+and employees.employee_id = 100;
+
+--테이블 이름에도 별명을 준다, 동등 조인이다
+select department_name from departments d, employees e
+where e.department_id = d.department_id --조인 조건 : 테이블 개수 -1
+and e.employee_id = 100;
+
+--100번 사원이 소속된 부서의 주소까지, 동등 조인이다
+select e.first_name, l.city from departments d, employees e, LOCATIONS l
+where e.department_id = d.department_id --조인 개수 : 테이블 개수 -1
+and e.employee_id = 100
+and d.location_id = l.location_id;
+
+--모든 사원의 사번, 이름, 도시, 주소, 우편버호, 나라, 대륙 출력
+select EMPLOYEE_ID, FIRST_NAME, 
+l.CITY, l.STREET_ADDRESS, l.POSTAL_CODE, c.COUNTRY_NAME, r.REGION_NAME
+from EMPLOYEES e, LOCATIONS l, COUNTRIES c, REGIONS r, DEPARTMENTS d
+where e.DEPARTMENT_ID = d.DEPARTMENT_ID
+and d.LOCATION_ID = l.LOCATION_ID
+and l.COUNTRY_ID = c.COUNTRY_ID
+and c.REGION_ID = r.REGION_ID;
+
+-- not equi join 회원 등급 말곤 안씀
+
+--outer join 조건에 맞지 않아도 출력
+--이름, 부서이름 출력, null이어도 출력되게 하려면?
+select e.FIRST_NAME, d.DEPARTMENT_NAME, d.DEPARTMENT_ID
+from EMPLOYEES e, DEPARTMENTS d 
+where e.DEPARTMENT_ID = d.DEPARTMENT_ID (+); --null이어도 출력되게 하려면?
+
+--self join : 자기 자신의 테이블을 조인
+-- ! 내부에서 마치 2개의 서로 다른 테이블을 조인한다고 간주, 별명 다르게
+SELECT manager.employee_id, worker.first_name || '의 상사는 ' 
+ as relationship, manager.employee_id id, manager.first_name || '입니다' name
+from employees worker, employees manager
+where worker.manager_id = manager.employee_id;
+
+-- cross join : 테이블 2개를 곱연산
+-- 테이블 2개를 조인 조건없이 나열
+select e.first_name, e.DEPARTMENT_ID  -- 107 * 27
+from EMPLOYEES e, departments d; 
+ 
+SELECT COUNT(*) from employees;--- 107
+SELECT COUNT(*) from departments; --- 27
+
+-- ansi, mysql에서도 되는 거
+
+select * FROM employees cross join departments;
+
+select first_name, DEPARTMENT_ID 
+from EMPLOYEES e inner join departments d
+on e.DEPARTMENT_ID = d.DEPARTMENT_ID
+where e.employee_id = 100;
+
+select first_name, DEPARTMENT_ID 
+from EMPLOYEES e inner join departments d
+using(department_id);
+
+--natural join
+select first_name, DEPARTMENT_name
+from EMPLOYEES NATURAL join departments d;
+
+create table dept01(
+deptno number(2),
+dname VARCHAR2(14));
+
+INSERT INTO dept01
+VALUES ( 10, '총무부');
+
+INSERT INTO dept01
+VALUES ( 20, '개발부');
+
+select * from dept01;
+
+create table dept02(
+deptno number(2),
+dname VARCHAR2(14));
+------------------------------------------------
+select * 
+from dept01, dept02
+where dept01.deptno(+) = dept02.deptno;
+
+select * 
+from dept01
+dept01 right outer join dept02
+on dept01.deptno = dept02.deptno;
+
+------------------------------------------------
+select * 
+from dept01, dept02
+where dept01.deptno = dept02.deptno(+);
+
+select * 
+from dept01
+dept01 left outer join dept02
+on dept01.deptno = dept02.deptno;
+------------------------------------------------
+select * 
+from dept01
+dept01 full outer join dept02
+on dept01.deptno = dept02.deptno;
+
+-----------------------------
+--sql문의 종류
+-- DDL : create, alter, drop, truncate, ... 자동커밋
+-- DCL : commit, rollback
+-- DML : insert, update, , delete
+--------------------------------------------------
+--type: number, varchar2(가변), char(고정), date
+
+drop table DEPT01;
+drop table DEPT02;
+
+create table emp01(
+empno varchar2(4), --사번
+ename varchar2(12), -- 이름
+mobile varchar2(11), -- 전번
+email varchar2(50) -- 이메일
+);
+
+create table member(
+usrID varchar2(12), --ID
+usrPassword varchar2(14), -- PW
+usrName varchar2(36), -- 이름
+usrSex varchar2(1), -- sex M / F
+usrBirth date,
+usrRegi date
+);
+
+--기존 데이터에서 복사하면서 생성하기
+create table emp02 
+as 
+select * from EMPLOYEES; --일종의 서브쿼리
+
+-- 기존 테이블의 구조만 복사(데이터 빼고)
+create table emp03
+as 
+select * from employees where 1 = 0;
+--select * from employees where 999 = 100; -- 같은 의미, 데이터 안들어간다.
+
+---------------------------------------------------------------------------
