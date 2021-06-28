@@ -182,3 +182,58 @@ and worker.ENAME != upper('smith');
 Select worker.ENAME,  worker.JOB
 from EMP worker, EMP mng 
 where worker.MGR = mng.EMPNO and mng.ENAME = 'KING';
+
+
+--2021.06.28 DDL문 연습문제 
+-- 1. emp테이블의 사원번호, 이름, 직급, 매니저 칼럼을 복사 후 emp01 생성
+create table emp01
+as 
+select EMPNO, ENAME, JOB, MGR from emp; --일종의 서브쿼리
+-- 2. dept01 테이블 생성
+-- deptno 숫자2자리, dname 문자열 14자리, loc 문자열 15자리
+create table dept01(
+deptno NUMBER(2), 
+dname varchar2(14), 
+loc varchar2(15)
+);
+-- 3. emp01 테이블에 hiredate 날씨/시간 타입 칼럼 추가
+alter table emp01 
+add (hiredate date);
+-- 4. emp01 테이블에  직급 칼럼 크기 20으로 변경
+alter table emp01 
+modify (job varchar2(20));
+-- 5. emp01 테이블에  매니저 칼럼 삭제
+alter table emp01
+drop column mgr;
+-- 6. emp01 테이블 이름 emp02로 변경
+rename emp01 to emp02;
+-- 7. emp02, dept01 테이블 삭제
+drop table dept01;
+drop table emp02;
+
+--DML 연습문제
+-- 1. emp01 제거, emp 테이블 복사 이름 emp01
+drop table emp01;
+create table emp01 as select * from EMP;
+-- 2. emp01 데이터 추가, 
+-- 7969 smith clerk 7838 80/12/17 800 null 20
+-- 7499 allen saleseman 7369 87/12/20 1600 300 30
+-- 7839 king president null null 5000 null null
+insert into emp01
+values(7969, 'smith', 'clerk', 7838, '80/12/17', 800, null, 20);
+insert into emp01
+values(7499, 'allen', 'saleseman', 7369, '87/12/20', 1600, 300, 30);
+insert into emp01
+values(7839, 'king', 'president', null, null, 5000, null, null);
+-- 3. emp01 급여인상 10% 
+update emp01 set SAL = SAL + (SAL * 0.1);
+-- 4. emp01 king 입사일 sysdate
+update emp01 set HIREDATE = SYSDATE where lower(ENAME) = 'king'; --pk접근해라
+-- 5. emp01 85년 이후 입사한 직원 모두 삭제
+delete from emp01 where HIREDATE BETWEEN '85/01/01' and Sysdate;
+delete from emp01 where substr(HIREDATE, 1,2) >= '85';
+-- 6. emp01 커미션 못받는 사람 삭제
+select * from emp01;
+delete from emp01 where COMM is null;
+ROLLBACK;
+commit;

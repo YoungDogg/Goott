@@ -446,3 +446,310 @@ select * from employees where 1 = 0;
 --select * from employees where 999 = 100; -- 같은 의미, 데이터 안들어간다.
 
 ---------------------------------------------------------------------------
+
+
+--create 테이블 
+--alter table : 수정
+--add column 
+--modify column 
+--drop column 
+
+alter table EMP01 
+add (job varchar2(9));
+--수정 :데이터가 없는 경우 
+alter table EMP01 
+modify (job char(12));
+
+alter table EMP01 
+modify (job varchar2(6));
+
+insert into emp01 
+values('a001', '홍길동', '0100000000', 'hong@abc.com', 'itprog');
+
+--수정 :데이터가 있는 경우 
+alter table EMP01 
+modify (job char(12));
+
+alter table EMP01 
+modify (job varchar2(12));
+
+--drop
+alter table EMP01 
+drop column job;
+
+drop table emp01;
+
+-- rename
+rename emp02 to emp01;
+
+-- truncate : 모든행 삭제 (DDL문, 자동커밋)
+truncate table emp01;
+
+drop table EMP01;
+drop table EMP03;
+
+--------------------------
+--DML
+--insert into
+--update set
+-- delete from
+
+--insert into
+insert into member 
+values('userId', 'usrPwd', 'uName', 'M', '04/01/02', '06/02/03');
+
+insert into member (USRID, USRPASSWORD)
+values('userId2', 'userPwd2');
+
+--update set , where 없으면 모든값 변경
+update member set USRREGI = sysdate;
+--이름 중복이면 안된다. 제약조건이 PK이면 좋다
+update member set USRID = 'usedrId3' where USRID = 'userId';
+
+--로그인 쿼리문
+--성공
+select * from member where USRID = 'usedrId3' and USRPASSWORD = 'usrPwd';
+--실패
+select * from member where USRID = 'usedrId3' and USRPASSWORD = 'usrPwdddd';
+-- delete from
+delete from member where USRNAME = 'userId2';
+COMMIT;
+ROLLBACK;
+
+
+update MEMBER set USRSEX = (select USRSEX from MEMBER where USRID = 'usedrId3')
+where USRID = 'userId2';
+
+-------------------------------------
+-- DCL
+-- 트랜잭션
+-- commit
+-- 자동 commit : create, alter drop, truncate, rename, commit, rollback
+-- rollback
+
+--savepoint : 작업 임시저장
+create table DEPT01 
+as 
+select * from DEPARTMENTS;
+
+select * from DEPT01;
+
+delete from DEPT01 where mod(DEPARTMENT_ID, 20) = 0;
+savepoint after20delete;
+
+delete from dept01;
+
+ROLLBACK to after20delete;
+
+-------------------------------------
+-- !!! 무결성 제약 조건, 데이터 결함 엇ㅂ다
+-- not null
+-- unique
+-- primary key
+-- foreign key, 참조
+-- check, 범위, 조건 설정
+
+--craete table
+--column 지정, table 지정(복합키 사용 때)
+
+-- alter table
+
+drop table dept01;
+
+create table emp01(
+empno number(4) not null,
+ename varchar2(10)
+);
+
+insert into emp01 (empno, ename) values (1,'홍길동');
+select * from emp01;
+drop table dept01;
+
+create table emp01 (
+empno number(2) unique,
+ename varchar(12));
+
+insert into emp01 values(10, '홍길동');
+insert into emp01 values(10, '홍길동1');
+drop table emp01;
+
+create table emp01(
+empno number(4) not null,
+ename varchar2(10)
+);
+
+drop table emp01;
+
+create table dept01(
+deptno number(4) primary key,
+dname varchar2(15)
+);
+
+drop table dept01;
+select * from dept01;
+
+create table emp01(
+empno number(4) primary key,
+ename varchar2(15),
+deptno number(4) REFERENCES dept01(deptno)
+);
+--fk 제약조건
+--parent not found
+insert into dept01 values(10, '석율');
+
+--check 제약조건
+drop table emp01;
+
+create table emp01 (
+empno number(2) primary key,
+ename1 varchar2(15) not null,
+gender char(1) check (gender in ('M', 'F')),
+age number(3) check (age BETWEEN 1 and 120));
+
+insert into emp01 values(10, 'dd', 'C', 150);
+insert into emp01 values(10, 'dd', 'C', 150);
+
+select * from emp01;
+
+drop table emp01;
+
+--default 제약조건 아니지만 칼럼 단위에서 설정가능
+create table dept01(
+deptno number(2) primary key,
+dname varchar2(14),
+loc varchar2(21) default '서울');
+
+insert into dept01 values(10, '개발부', null);
+
+select * from dept01;
+
+insert into dept01(deptno, dname) values(20, '총무부');
+
+select * from dept01;
+
+--insert into dept01 values(30, '홍보부'); -- 3개 매개변수 다 써야 한다.
+
+--테이블레벨 제약조건 지정방식
+create table dept01(
+    deptno number(2),
+    dname varchar2(15),
+    loc varchar2(21) constraint dept01_loc_nn not null,
+    constraint dept01_deptno_pk primary key(deptno),
+    constraint dept01_dname_uk unique(dname)
+);
+create table emp01(
+empno number(2),
+ename varchar2(15) constraint emp01_ename_nn not null,
+job varchar2(9),
+age number check(age between 1 and 100),
+deptno number(2), 
+constraint emp01_empno_pk primary key(empno),
+constraint emp01_job_uk unique(job),
+constraint emp01_dept01_fk foreign key(deptno) references dept01(deptno)
+);
+drop table dept01;
+select * from emp01;
+
+drop table member;
+
+--회원 테이블(member) 만들기
+-- id : pk varchar2(15)
+-- password : not null varchar2(21)
+-- name : not null varchar2(8)
+-- sex : m or f only
+-- email : unique
+-- mileage : add 100 as default
+-- regDate : sysdate
+create table member (
+    id VARCHAR2(15),
+    pwd VARCHAR2(21) constraint member_pwd_nn not null,
+    name varchar2(12),  --오라클 한글 3바이트
+    sex varchar2(1) check (sex in ('m', 'f')),
+    email varchar2(50),
+    mileage NUMBER(5) default 100,
+    regDate date default sysdate,
+    constraint member_id_pk primary key(id),
+    constraint member_email_uq unique(email)
+);
+drop table member;
+drop table memberPoint;
+-- memberPoint table 
+-- id : references of member table id
+-- depositDate : date
+-- mileagePnt : number(3)
+create table memberPoint(
+    id VARCHAR2(15), -- fk
+    depositDate date,
+    mileagePnt number(3),
+    constraint member_memberPoint_id_fk foreign key(id) references member(id)
+);
+
+insert into member(ID, PWD, NAME, SEX, EMAIL) 
+values('abc123', 'aaa', 'name', 'm', 'weojif@aa.com');
+insert into memberPoint(id,mileagePnt) values ('abc123', 100);
+
+insert into member(ID, PWD, NAME, SEX, EMAIL) 
+values('abc1', 'aaa', 'name', 'm', 'weojif1@aa.com');
+insert into memberPoint(id,mileagePnt) values ('abc1', 100);
+
+insert into member(ID, PWD, NAME, SEX, EMAIL) 
+values('abc2', 'aaa', 'name', 'm', 'weojif2@aa.com');
+insert into memberPoint(id,mileagePnt) values ('abc2', 100);
+
+alter table memberPoint 
+modify (depositDate default sysdate);
+
+insert into member(ID, PWD, NAME, SEX, EMAIL) 
+values('abc3', 'aaa', 'name', 'm', 'weojif3@aa.com');
+insert into memberPoint(id,mileagePnt) values ('abc3', 100);
+
+--복합키 pk 2개 이상 , 둘 다 합쳐서 겹치지 않아야 한다.
+create table codeTest (
+code varchar2(2),
+sn number(10),
+constraint codeTest_code_sn_pk primary key(code, sn)
+);
+
+insert into codeTest values ('a', 1);
+insert into codeTest values ('a', 2);
+insert into codeTest values ('b', 1);
+insert into codeTest values ('a', 1); --오류
+insert into codeTest values ('a1', 2);
+
+----------------------------------
+--제약조건 추가하기
+-- alter table 테이블 명
+
+alter table emp01 
+add (hiredate date);
+
+drop table member;
+
+--제약조건 수정
+alter table member
+modify name constraint member_name_uq unique;
+--제약조건 삭제
+alter table member
+drop constraint member_pwd_nn;
+
+--------
+drop table emp01;
+drop table dept01;
+
+create table dept01(
+deptno number(2),
+dname varchar2(10),
+constraint dept01_deptno_pk primary key(deptno)
+);
+create table emp01(
+empno number(4),
+ename varchar2(10),
+deptno number(2),
+constraint emp01_dept01_fk foreign key(deptno) references dept01(deptno)
+);
+
+insert into dept01 values(10, '개발');
+
+--primary key 역할 삭제
+alter table dept01
+drop primary key cascade; 
