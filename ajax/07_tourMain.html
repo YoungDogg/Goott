@@ -74,7 +74,7 @@
             // pk 쿼리로 전송 -> sub에서 받기
             function parsingJson(data) {
                 let itemsArr = data.response.body.items.item;
-                // console.log(itemsArr);
+                console.log(itemsArr);
 
                 let output = '<div class="list-group">';
                 $.each(itemsArr, function (i, item) {

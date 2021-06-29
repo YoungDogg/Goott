@@ -86,6 +86,8 @@
                 else if (selectTemp == "imperial") tempUnit = tempUnitArr[1];
                 else if (selectTemp == "standard") tempUnit = tempUnitArr[2];
 
+                console.log(xmlDoc);
+                
                 //장점 : 배열 위치가 바뀌어도 동작한다.
                 cityName = xmlDoc.getElementsByTagName('city')[0].getAttribute('name');
                 cityTemp = xmlDoc.getElementsByTagName('temperature')[0].getAttribute('value'); // 속성을 얻어오려면 getAttribute()쓰자, jQuery : attr

@@ -44,18 +44,18 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script>
-            $(function () {
+            $(function () {                
                 let contentid = getParam('contentid');
                 dataLoading(contentid);
-
+                
                 // $('#cid').html(contentid);
             })
 
             function dataLoading(contentid) {
                 // 한국관광공사_국문 관광정보 서비스 키
                 const key = "Ym9Btk6FDZy0KioD2zctPWIF0W2RVaxCbQ2yCbV2%2F8BSFT9U5DK4xQkWqi%2Bd4LVltFcMik%2FKrRoeY1%2B6MEdTNw%3D%3D";
-                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=" + key + "&contentTypeId=12&contentId=" + contentid + "&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y"
-
+                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey="+key+"&contentTypeId=12&contentId="+contentid+"&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y"
+ 
                 $.ajax({
                     url: dataUrl,
                     type: "GET",
@@ -63,11 +63,6 @@
                     success: function (data) {
                         console.log(data);
                         parsingJson(data);
-                    }, error: function () {
-                        console.log('Fail');
-                    }, complete: function () {
-                        $("loading").hide();
-                        // $("loading").show();
                     }
                 });
             }
@@ -76,19 +71,19 @@
                 console.log(item);
 
                 let output = '<div class="list-group">';
-                output += "<h4 class='tourTitle'>" + item.title + "</h4>";
+                    output += "<h4 class='tourTitle'>" + item.title + "</h4>";
                 if (item.firstimage != null) {
                     output += '<img src="' + item.firstimage + '" alt="" class="tourImg";>';
                 } else {
                     output += '<img src="noImage.png" alt=""class="tourImg";>';
-                }
+                }                
                 output += "</div>";
                 // output += '<button type="button" class="btn btn-block">더보기</button>';
                 $(".container").html(output);
             }
 
-
-
+            
+            
             //쿼리에서 매개변수 값을 얻어오는 함수
             function getParam(param) {   //param, 얻고 싶은 매개변수 이름
                 let url = location.href.toLowerCase();  //유알엘 받아올 때 소문자로 받아온다.    
@@ -97,7 +92,7 @@
                 let returnVal;  //다양한 타입이 온다                
                 for (let i in tempArr) {
                     if (tempArr[i].indexOf(param.toLowerCase()) != -1) { //param이 있다면
-                        returnVal = tempArr[i].split("=")[1];
+                        returnVal = tempArr[i].split("=")[1];                        
                         // if (typeof returnVal != 'number') { //타입이 숫자가 아니라면, 문자열이라면                
                         //     //띄어쓰기 공백
                         //     let tmpStatement = '';
