@@ -3,12 +3,14 @@
 select * from emp;
 -- 2. 사원의 이름과 급여, 입사일을 출력하는 sql문
 select ENAME, SAL from emp;
--- 3. 사원들이 어떤 부서에 소속되어 있는지, 소속 부서 만을 출력하되, 중복 하지 않고 한번씩 출력하는 sql문
+-- 3. 사원들이 어떤 부서에 소속되어 있는지, 소속 부서 만을 출력하되,
+--중복 하지 않고 한번씩 출력하는 sql문
 select DISTINCT DEPTNO from emp;
 -- 4. 테이블 emp중에서 부서번호가 10번인 사원에 관한 모든 정보를 출력하는 sql문
 select * from emp
 where deptno = 10;
--- 5. 테이블 emp중에서 급여가 2000미만이 되는 사원의 정보 중에서 사번, 이름, 급여를 출력하는 sql문
+-- 5. 테이블 emp중에서 급여가 2000미만이 되는 사원의 정보 중에서
+--사번, 이름, 급여를 출력하는 sql문
 select EMPNO, ENAME, SAL 
 from emp
 where SAL < 2000;
@@ -84,10 +86,12 @@ WHERE substr(HIREDATE, 1, 2) = '82';
 SELECT  EMPNO, ENAME, SAL FROM EMP 
 WHERE length(ENAME) >= 6;
 -- 7. 모든 사원은 자신의 상관이 있다. 하지만 emp 테이블에 상관이 없는 사원이 있는데, 
--- 그 사원의 mgr 컬럼 값이 null이다. 상관이 없는 사원만 출력하되, mgr 컬럼 값 null대신 'CEO'라고 출력해라
+-- 그 사원의 mgr 컬럼 값이 null이다. 상관이 없는 사원만 출력하되,
+--mgr 컬럼 값 null대신 'CEO'라고 출력해라
 SELECT  EMPNO, ENAME, nvl2(MGR, 'has Manager','CEO') FROM EMP
 where MGR is NULL;
--- 8. 직급에 따라 급여를 인상하도록 한다. 직급이 'ANALYST'인 사원은 5%, 'SALESMAN'인 사원은 10%
+-- 8. 직급에 따라 급여를 인상하도록 한다. 
+--직급이 'ANALYST'인 사원은 5%, 'SALESMAN'인 사원은 10%
 --  'MANAGER'인 사원은 15%, 'CLERK'인 사원은 20% 인상하여 출력한다
 SELECT  EMPNO, ENAME, JOB,case when JOB= 'ANALYST' then SAL + (SAL * 0.05)
                             when  JOB= 'SALESMAN' then SAL + (SAL * 0.1)
@@ -237,3 +241,82 @@ select * from emp01;
 delete from emp01 where COMM is null;
 ROLLBACK;
 commit;
+
+-- 2021.06.29 DDL + 제약조건 연습문제 
+-- 1. member table 만들기
+create table member(
+id varchar2(20), --pk always not null
+name varchar2(20) constraint dept01_name_nn not null,
+regno varchar(13) constraint dept01_regno_nn not null,
+hp varchar(13),
+address varchar2(100),
+CONSTRAINT member_id_pk primary key(id),
+CONSTRAINT member_regno_hp_uq UNIQUE(regno, hp)
+);
+
+--2. create book table
+create table book(
+code number(4),
+title varchar2(50) CONSTRAINT book_count_nn not null,
+count number(6),
+price number(10) ,
+pulish varchar2(50),
+CONSTRAINT book_code_pk primary key(code)
+);
+
+drop table book;
+
+create table copyemp
+as 
+select * from emp;
+
+insert into copyemp
+select * from emp;
+
+
+--view
+-- 1. 사원번호, 사원이름, 부서이름, 부서위치 출력 뷰 작성 view_loc
+create or replace force view view_loc
+as 
+select e.EMPNO, e.ENAME, d.DNAME, d.loc
+from emp e, DEPT d
+where e.deptno = d.deptno;
+
+select * from view_loc;
+
+-- 2. 30번부서 사원이름, 임사일, 부서명 출력 뷰     view_dept30
+create or replace force view view_dept30
+as 
+select e.ENAME, HIREDATE, d.DNAME, d.loc
+from emp e, DEPT d
+where e.deptno = d.deptno and e.deptno = 30;
+
+-- 3. 부서별 최대 급여 정보를 가지는 뷰       view_dept_maxsal
+create or replace force view view_dept_maxsal
+as 
+select deptno, max(e.sal) as 최대급여
+from emp e 
+group by DEPTNO ;
+
+select * from view_dept_maxsal;
+
+-- 4. 급여를 많이 받는 순서 3명만 출력   view_sal_top5
+create or replace view view_sal_top5
+as 
+select e.ENAME 
+from emp e
+order by SAL asc;
+
+select ENAME 
+from emp
+where rownum <= 3;
+
+-- 붙여서, 별명을 줘야 오류가 안뜬다 rownum에다만 안줘도 된다
+-- 오류: ORA-00998: must name this expression with a column alias
+create or replace view view_sal_top5
+as select rownum 순위, ENAME 이름, sal 급여 from 
+--as select rownum , ENAME , sal from 
+(select rownum, ENAME, sal from EMP order by SAL asc)
+where rownum <= 3;
+
+select * from view_sal_top5;

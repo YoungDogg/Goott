@@ -753,3 +753,133 @@ insert into dept01 values(10, '개발');
 --primary key 역할 삭제
 alter table dept01
 drop primary key cascade; 
+
+----------------------------------
+--테이블을 조회하는 것처럼 뷰를 사용한다.
+select * from EMP_DETAILS_VIEW where COUNTRY_ID='US' order by salary desc;
+
+-- create view
+create or replace view view_emp10
+as
+select *
+from EMPLOYEES;
+
+create or replace view view_emp12
+as
+select EMPLOYEE_ID, FIRST_NAME, JOB_ID, DEPARTMENT_ID
+from EMPLOYEES;
+
+select * from view_emp10;
+
+-- 급여 5000 이상인 사람 사번, 이름, 급여 view_emp11 만들기
+create view view_emp_5000
+as 
+select EMPLOYEE_ID, FIRST_NAME, SALARY
+from EMPLOYEES
+where SALARY >= 5000;
+
+-- 뷰 종류
+-- 단순 뷰 : 테이블 하나, 그룹함수 불가능, distinct 불가능 DML 사용 가능
+-- 복합 뷰 : 테이블 여러개, 그룹함수 가능, distinct 가능 DML 사용 불가능
+
+insert into view_emp10 
+values(1000, '둘리', '공룡', 'dodo@ld.com', '123', sysdate, 'AD_ASST', 2400, null, 100, 10);
+
+update VIEW_EMP12 set DEPARTMENT_ID = 20 where EMPLOYEE_ID = 1000;
+
+create view view_emp_5000(사원번호, 이름, 급여)
+as 
+select EMPLOYEE_ID, FIRST_NAME, SALARY
+from EMPLOYEES
+where SALARY >= 5000;
+
+select * from view_emp_5000;
+
+-- 부서별 급여 총액, 급여 평균 구해서 view_dept_sal로 저장하자
+create view  view_dept_sal
+as
+select DEPARTMENT_ID as 부서ID, sum(SALARY) as 급여총액, avg(SALARY) as 급여평균 
+from EMPLOYEES
+group by DEPARTMENT_ID;
+
+-- insert into view_dept_sal values(50, 200, 20000); 오류 , 가상컬럼 DML안됨, 합계에 뭘 집어넣을 수 없잖아
+
+create or replace view view_emp_dept_join
+as
+select e.FIRST_NAME, d.DEPARTMENT_NAME
+from EMPLOYEES e, DEPARTMENTS d 
+where e.MANAGER_ID = d.MANAGER_ID;
+
+select  * from view_emp_dept_join;
+
+insert into view_emp_dept_join values('복합뷰는','수정할수없다');
+
+drop view VIEW_EMP10;
+
+create or replace force view view_noTable
+as
+select * from emp01 where department_id = 50
+with check option;
+
+create table emp01
+as 
+select * from EMPLOYEES;
+
+
+update view_notable set department_id = 20
+where salary > 3000;
+
+--with check option , 오류
+--뷰에 없는 조건절은 사용 가능
+
+--with check option
+create or replace force view view_noTable
+as
+select * from emp01 where department_id = 50
+with read only;
+
+-- view를 통해서 안된다( read only 일 땐)
+update view_noTable set salary = 100000 where employee_id = 130;
+
+----------------------------------------------------------------
+-- view, top-N
+select count(*) from employees;
+
+--사원 중 입사일 빠른 5명 출력
+-- 1 입사일 기준 오름차순 정렬
+select * from EMPLOYEES order by HIRE_DATE asc; -- 이걸 왜 하는 거지
+-- 2 rownum 컬럼 : 오라클 내부에서 자동으로 부여하는 숨겨진 컬럼 값, insert 순서따라
+select rownum, EMPLOYEE_ID, FIRST_NAME, HIRE_DATE from EMPLOYEES
+order by HIRE_DATE asc;
+-- 3 2.을 뷰로 만듦
+create or replace view view_hiredate
+as 
+select * from EMPLOYEES order by HIRE_DATE asc;
+-- rownum과 함께 조회
+select rownum, EMPLOYEE_ID, first_name, hire_date from view_hiredate
+where rownum < 6;
+
+-- 급여기준 많이 받는 top7
+create or replace view view_salaryTop7
+as 
+select * from EMPLOYEES order by SALARY asc;
+
+select rownum, EMPLOYEE_ID, first_name, hire_date from view_salaryTop7
+where rownum < 8;
+
+-- 급여기준 많이 받는 top7 view 없이   -> 테이블 하나 만들었다, 서브쿼리가 더 낫다
+create table salaryTop7 
+as 
+select * from EMPLOYEES
+order by SALARY asc;
+
+select * from salaryTop7;
+
+select rownum, EMPLOYEE_ID, first_name, hire_date, SALARY from salaryTop7
+where rownum < 8;
+
+-- 서브쿼리 이용하는 것
+select rownum, first_name, salary from 
+(select rownum, first_name, salary from EMPLOYEES order by salary asc)
+where rownum <= 7;
+
