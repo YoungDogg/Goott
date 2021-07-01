@@ -7,6 +7,7 @@
 	빌려진회수	number(5)	nn	-- 0 to 99999
 	장르		varchar2(6)	nn	
 	성인물인지	varchar2(2) 	nn 	-- yes or no	
+	빌리는게가능한지 	varchar2(2) 	nn 	-- yes or no	<-- 추가할 것
 
 회원
 	회원ID 		number(4) 	pk
@@ -31,6 +32,7 @@
 	대역끝나는날	DATE		f	-- 회원에서 가져온다	
 	과거연체됐었는지	varchar2(2)		-- yes or no
 	현재연체인지	varchar2(2)		-- yes or no
+	반납완료날짜	DATE			-- 회원에서 가져온다	<-- 추가할 것
 	연체날짜		DATE			-- 대여끝나는날부터+SYSDATE
 	대여개수		number(3)	f	-- 0 to 999
 	총연체료		number(7)		-- \999999 + 1일당 1000\
