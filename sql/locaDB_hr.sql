@@ -883,3 +883,205 @@ select rownum, first_name, salary from
 (select rownum, first_name, salary from EMPLOYEES order by salary asc)
 where rownum <= 7;
 
+
+-- 시퀀스 
+
+--생성
+-- create sequence 시퀀스 이름
+--[start with n] : 시퀀스 시작값
+-- [increment by n] : 시퀀스의 증가값
+--[maxvalue n | nomaxvalue]nomaxvalue로 지정하면 무한대. 시퀀스가 가질 수 있는 최대값
+--[minvalue n | nominvalue] 최솟값
+--[cycle | nocycle] 순환, 비순환
+--[cache n | noncache]서버가 시퀀스 배정개수 지정 (기본 2)
+
+-- 시작값이 1이고 1씩 증가, 최대값 1000000, 시퀀스 생성
+create sequence emp_seq
+start with 1
+increment by 1
+maxvalue 1000000;
+
+create table board(
+boardNo number(10),
+title varchar2(30) not null,
+writer varchar2(10) not null,
+contentOfboard varchar2(300),
+postedDate date default sysdate,
+viewCount number(3),
+likeCount number(3),
+constraint board_boardNo_pk primary key(boardNo)
+);
+drop table board;
+
+insert into board(boardNo,title, writer, contentOfboard, viewCount, likeCount)
+values (emp_seq.nextval, 'title of board', '작성자', 'something', 22, 1);
+insert into board(boardNo,title, writer, contentOfboard, viewCount, likeCount)
+values (emp_seq.nextval, 'title of board', '작성자2', 'something', 42, 33);
+insert into board(boardNo,title, writer, contentOfboard, viewCount, likeCount)
+values (emp_seq.nextval, 'title of board', '작성자3', 'something', 107, 1);
+
+select * from board order by boardNo desc;
+
+
+create sequence test_seq
+start with 1
+increment by 1
+nomaxvalue
+cache 5;
+
+insert into board(boardNo,title, writer, contentOfboard, viewCount, likeCount)
+values (test_seq.nextval, 'title of board', '작성자', 'something', 22, 1);
+-- nextval, insert 떄 오류나도 무조건 증가
+
+-- 현재 sequence값을 조회
+select test_seq.currval from dual;
+
+--시퀀스 수정
+-- alter sequence 시퀀스 이름
+--[start with n] : 시퀀스 시작값
+-- [increment by n] : 시퀀스의 증가값
+--[maxvalue n | nomaxvalue]nomaxvalue로 지정하면 무한대. 시퀀스가 가질 수 있는 최대값
+--[minvalue n | nominvalue] 최솟값
+--[cycle | nocycle] 순환, 비순환
+--[cache n | noncache]서버가 시퀀스 배정개수 지정 (기본 2)
+
+-- 시퀀스 삭제
+-- drop sequence 시퀀스명
+
+
+----------------------------------------------------
+-- index : 책 뒷면 찾아보기
+-- 검색속도를 향상시키기 위해 컬럼에 부여하는 객체 
+-- 인덱스 장점 : 검색속도 향상
+-- 인덱스 단점 : DML 문 (insert/ update / delete) 있으면 부하증가
+--                인덱싱을 위한 추가 공간이 필요하다
+--                인덱싱을 위한 추가 시간도 필요
+
+drop table emp01;
+
+create table emp01
+as 
+select * from employees;
+
+alter table emp01
+add constraint emp01_empid_pk primary key(employee_id);
+
+-- 수동으로 job_id 칼럼에 index 해보자
+create index inx_emp01_job
+on emp01(job_id);
+
+drop index inx_emp01_job;
+
+----------------------------------------------------------------
+-- 동의어(synonym) 
+-- 테이블 별칭, 컬럼 별칭처럼 
+--오라클 객체(테이블, 뷰, 사용자계정, 인덱스 시퀀스)에 별칭 영우적으로 붙임
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+-- 저장 프로시저
+-- 쿼리문 모듈화, 호출, 함수와 유사
+
+-- create [or replace] procedure 프로시저명
+-- (매개변수 1 [mode] 데이터타입, ... 매개변수2 [mode] 데이터타입)
+-- is
+-- 저장 프로시저 내부에서 사용될 변수를 선언
+-- BEGIN 
+-- 저장프로시저가 호출되면 수행할 문장들
+-- END;
+    
+create or replace procedure empoutproc (vdeptno employees.department_id%type)
+is 
+vemp employees%rowtype; --
+cursor cl   -- 만약 row 하나이상, 반속수행
+is 
+select * from employees where department_id  = vdeptno;
+begin 
+    dbms_output.put_line('사원 번호 / 이름 / 급여');
+    dbms_output.put_line('----------------------');
+    for vemp in cl loop
+            exit when cl%notfound;
+            dbms_output.put_line(
+            vemp.employee_id || '/' || vemp.first_name || '/' || vemp.salary);
+    end loop;
+end;    
+
+set serveroutput on  -- 서버 콘솔 출력 가능하도록
+
+execute empoutproc(20);
+
+------------------------
+-- 내가 한 것
+create or replace procedure empproc2 (vHireDate EMPLOYEES.HIRE_DATE%type)
+is 
+vemp EMPLOYEES%rowtype;
+cursor c1
+is 
+select EMPLOYEE_ID,FIRST_NAME, LAST_NAME from employees where HIRE_DATE >  vHireDate;
+BEGIN
+    dbms_output.put_line('사번 / 이름 / 성');
+    dbms_output.put_line('---------------');
+    for vemp in c1 loop
+        exit when c1%notfound;
+        dbms_output.put_line(
+            vemp.EMPLOYEE_ID || '/' ||vemp.FIRST_NAME || '/' || vemp.LAST_NAME);
+        end loop;    
+END;
+
+set serveroutput on  -- 서버 콘솔 출력 가능하도록
+
+execute empproc2('05/01/01');
+
+
+------------------------------------------------------------------------    
+-- 트리거(trigger) : dml 자동으로 수행
+
+create table empTrigger(
+empno number(4) primary key,
+ename varchar2(20),
+job varchar2(20)
+);
+
+create or replace trigger trg_test
+after insert -- 트리거 수행시점 before insert/update/delete
+on empTrigger
+begin
+    DBMS_OUTPUT.PUT_LINE('시입사원이 입사 했습니다');
+END;
+
+insert into empTrigger values(1000,'someone', 'CEO');
+delete from empTrigger where empno = 1;
+
+create table 재고(
+prodNo number(2) primary key,
+prodName varchar2(20),
+prodQty number(5)
+);
+
+insert into 재고 values(10,'콜라', 50);
+insert into 재고 values(20,'사이다', 30);
+insert into 재고 values(30,'초코파이', 20);
+
+create table 판매(
+saleDate date,
+who varchar2(20),
+prodNo number(5),
+qty number(5)
+);
+
+
+insert into 판매 values(sysdate, 'someone1', 100, 2);
+update 재고 set prodqty = prodqty -2 where prodno = 10;
+
+select * from 재고;
+
+create or replace trigger autodecrease
+after insert
+on 판매
+for each row
+begin 
+    update 재고 set prodQty = prodQty - :new.qty where prodno = :new.prodno;
+end;    
+/ --트리거 편집 안하겠다는 뜻의 슬래시
+
+insert into 판매 values(sysdate, 'someone2',30, 1);
