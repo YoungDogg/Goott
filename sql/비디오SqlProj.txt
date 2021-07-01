@@ -1,0 +1,39 @@
+﻿비디오 대여점
+
+비디오
+	비디오ID		number(4)	pk
+	이름		varchar2(41)	uq	-- '어' to '띄어쓰기없이'
+	비디오개수	number(5)	nn	-- 0 to 99999
+	빌려진회수	number(5)	nn	-- 0 to 99999
+	장르		varchar2(6)	nn	
+	성인물인지	varchar2(2) 	nn 	-- yes or no	
+
+회원
+	회원ID 		number(4) 	pk
+	연체ID 		number(4)	f
+	회원이름		varchar2(16)	nn
+	회원전화버호	number(12)	uq 	-- 000 000 0000 to 010 9999 9999
+	회원성인인지	varchar2(2) 	nn 	-- yes or no
+	회원대여가능상태	varchar2(2) 	nn 	-- yes or no
+	
+
+대여
+	대여ID 		number(4)	pk
+	회원ID 		number(4) 	f
+	총대여료		number(7)	nn	-- 0\ to \999999 (비성인물대여개수*500 + 성인물개수*1000)\
+	빌린비성인물대여개수number(3)	nn	-- 0 to 999,  500\
+	빌린성인물개수	number(3)	nn	-- 0 to 999, 1000\
+	총개수		number(3)	nn	-- 0 to 999, (비성인물대여개수 + 성인물개수)
+	반납일자		DATE							
+연체
+	연체ID 		number(4)	pk
+	회원ID 		number(4) 	f
+	대역끝나는날	DATE		f	-- 회원에서 가져온다	
+	과거연체됐었는지	varchar2(2)		-- yes or no
+	현재연체인지	varchar2(2)		-- yes or no
+	연체날짜		DATE			-- 대여끝나는날부터+SYSDATE
+	대여개수		number(3)	f	-- 0 to 999
+	총연체료		number(7)		-- \999999 + 1일당 1000\
+
+
+
