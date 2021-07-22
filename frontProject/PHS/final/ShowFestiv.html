@@ -1,0 +1,693 @@
+<!-- 1차 프로젝트에 반드시 들어가야할 요소
+1. 쿠키를 이용한 (하루동안 이 창 띄우지 않기)
+2. 데이터검색기능 //완료
+3. 데이터를 지도에 표시하기 //완료
+4. 여러 이미지를 슬라이더로 표시하기(jQuery 플러그인) //완료
+5. 즐겨찾기 기능 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <style>
+            .modalClass {
+                display: none;
+                width: 200px;
+                height: 160px;
+                background-color: rgb(114, 114, 114);
+                z-index: 999;
+                position: absolute;
+                top: 15%;
+                left: 30%;
+                /* box-shadow: 0 15px rgba(146, 146, 146, 0.582); */
+            }
+
+            .map_wrap,
+            .map_wrap * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+                font-size: 12px;
+            }
+
+            .map_wrap a,
+            .map_wrap a:hover,
+            .map_wrap a:active {
+                color: #000;
+                text-decoration: none;
+            }
+
+            .map_wrap {
+                position: relative;
+                width: 100%;
+                height: 500px;
+            }
+
+            #menu_wrap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 250px;
+                margin: 10px 0 30px 10px;
+                padding: 5px;
+                overflow-y: auto;
+                background: rgba(255, 255, 255, 0.7);
+                z-index: 1;
+                font-size: 12px;
+                border-radius: 10px;
+            }
+
+            .bg_white {
+                background: #fff;
+            }
+
+            #menu_wrap hr {
+                display: block;
+                height: 1px;
+                border: 0;
+                border-top: 2px solid #5F5F5F;
+                margin: 3px 0;
+            }
+
+            #menu_wrap .option {
+                text-align: center;
+            }
+
+            #menu_wrap .option p {
+                margin: 10px 0;
+            }
+
+            #menu_wrap .option button {
+                margin-left: 5px;
+            }
+
+            #placesList li {
+                list-style: none;
+            }
+
+            #placesList .item {
+                position: relative;
+                border-bottom: 1px solid #888;
+                overflow: hidden;
+                cursor: pointer;
+                min-height: 65px;
+            }
+
+            #placesList .item span {
+                display: block;
+                margin-top: 4px;
+            }
+
+            #placesList .item h5,
+            #placesList .item .info {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            #placesList .item .info {
+                padding: 10px 0 10px 55px;
+            }
+
+            #placesList .info .gray {
+                color: #8a8a8a;
+            }
+
+            #placesList .info .jibun {
+                padding-left: 26px;
+                background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
+            }
+
+            #placesList .info .tel {
+                color: #009900;
+            }
+
+            #placesList .item .markerbg {
+                float: left;
+                position: absolute;
+                width: 36px;
+                height: 37px;
+                margin: 10px 0 0 10px;
+                background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
+            }
+
+            #placesList .item .marker_1 {
+                background-position: 0 -10px;
+            }
+
+            #placesList .item .marker_2 {
+                background-position: 0 -56px;
+            }
+
+            #placesList .item .marker_3 {
+                background-position: 0 -102px
+            }
+
+            #placesList .item .marker_4 {
+                background-position: 0 -148px;
+            }
+
+            #placesList .item .marker_5 {
+                background-position: 0 -194px;
+            }
+
+            #placesList .item .marker_6 {
+                background-position: 0 -240px;
+            }
+
+            #placesList .item .marker_7 {
+                background-position: 0 -286px;
+            }
+
+            #placesList .item .marker_8 {
+                background-position: 0 -332px;
+            }
+
+            #placesList .item .marker_9 {
+                background-position: 0 -378px;
+            }
+
+            #placesList .item .marker_10 {
+                background-position: 0 -423px;
+            }
+
+            #placesList .item .marker_11 {
+                background-position: 0 -470px;
+            }
+
+            #placesList .item .marker_12 {
+                background-position: 0 -516px;
+            }
+
+            #placesList .item .marker_13 {
+                background-position: 0 -562px;
+            }
+
+            #placesList .item .marker_14 {
+                background-position: 0 -608px;
+            }
+
+            #placesList .item .marker_15 {
+                background-position: 0 -654px;
+            }
+
+            #pagination {
+                margin: 10px auto;
+                text-align: center;
+            }
+
+            #pagination a {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            #pagination .on {
+                font-weight: bold;
+                cursor: default;
+                color: #777;
+            }
+
+            body {
+                font: 400 15px/1.8 Lato, sans-serif;
+                color: #777;
+            }
+
+            h3,
+            h4 {
+                margin: 10px 0 30px 0;
+                letter-spacing: 10px;
+                font-size: 20px;
+                color: #111;
+            }
+
+            /* .container { */
+            /* padding: 80px;  */
+            /* padding-top: 120px; */
+            /* padding-bottom: 50px; */
+            /* font-family: 'Nanum Myeongjo', serif; */
+            /* } */
+
+            .person {
+                border: 10px solid transparent;
+                margin-bottom: 25px;
+                width: 100%;
+                height: 250px;
+                opacity: 0.7;
+            }
+
+            .person:hover {
+                border-color: #f1f1f1;
+            }
+
+            .carousel-inner img {
+                -webkit-filter: grayscale(90%);
+                filter: grayscale(50%);
+                /* make all photos black and white */
+                width: 50%;
+                /* Set width to 100% */
+                margin: auto;
+            }
+
+            .carousel-caption h3 {
+                color: #fff !important;
+            }
+
+            @media (max-width: 600px) {
+                .carousel-caption {
+                    display: none;
+                    /* Hide the carousel text when the screen is less than 600 pixels wide */
+                }
+            }
+
+            .bg-1 {
+                background: #2d2d30;
+                color: #bdbdbd;
+            }
+
+            .bg-1 h3 {
+                color: #fff;
+            }
+
+            .bg-1 p {
+                font-style: italic;
+            }
+
+            .list-group-item:first-child {
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
+            }
+
+            .list-group-item:last-child {
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .thumbnail {
+                padding: 0 0 15px 0;
+                border: none;
+                border-radius: 0;
+            }
+
+            .thumbnail p {
+                margin-top: 15px;
+                color: #555;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                background-color: #333;
+                color: #f1f1f1;
+                border-radius: 0;
+                transition: .2s;
+            }
+
+            .btn:hover,
+            .btn:focus {
+                border: 1px solid #333;
+                background-color: #fff;
+                color: #000;
+            }
+
+            .modal-header,
+            h4,
+            .close {
+                background-color: #333;
+                color: #fff !important;
+                text-align: center;
+                font-size: 30px;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 40px 50px;
+            }
+
+            .nav-tabs li a {
+                color: #777;
+            }
+
+            #googleMap {
+                width: 100%;
+                height: 400px;
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+            }
+
+            .navbar {
+                font-family: Montserrat, sans-serif;
+                margin-bottom: 0;
+                background-color: #2d2d30;
+                border: 0;
+                font-size: 11px !important;
+                letter-spacing: 4px;
+                opacity: 0.9;
+            }
+
+            .navbar li a,
+            .navbar .navbar-brand {
+                color: #d5d5d5 !important;
+            }
+
+            .navbar-nav li a:hover {
+                color: #fff !important;
+            }
+
+            .navbar-nav li.active a {
+                color: #fff !important;
+                background-color: #29292c !important;
+            }
+
+            .navbar-default .navbar-toggle {
+                border-color: transparent;
+            }
+
+            .open .dropdown-toggle {
+                color: #fff;
+                background-color: #555 !important;
+            }
+
+            .dropdown-menu li a {
+                color: #000 !important;
+            }
+
+            .dropdown-menu li a:hover {
+                background-color: red !important;
+            }
+
+            footer {
+                background-color: #2d2d30;
+                color: #f5f5f5;
+                padding: 32px;
+            }
+
+            footer a {
+                color: #f5f5f5;
+            }
+
+            footer a:hover {
+                color: #777;
+                text-decoration: none;
+            }
+
+            .form-control {
+                border-radius: 0;
+            }
+
+            textarea {
+                resize: none;
+            }
+
+            ul.center {
+                /* width: 130px; */
+                /* left: 50%; */
+                margin-left: 230px;
+            }
+
+            /* 이미지 콜라주 */
+            /* 이미지 크기는 최대로 그냥 두고 span에 너비를 지정해서 사용.*/
+            .imgCollage {
+                margin: auto;
+                text-align: center;
+            }
+
+            @media screen and (min-width: 768px) {
+                .imgCollage {
+                    display: flex;
+                    -webkit-flex: auto;
+                    -moz-display: flex;
+                    -ms-display: flex;
+                    flex-wrap: wrap;
+                    -webkit-flex-wrap: wrap;
+                    -moz-flex-wrap: wrap;
+                    -ms-flex-wrap: wrap;
+                }
+
+                .imgCollage>span {
+                    padding: 4px;
+                }
+
+                .imgCollage>span>.imageblock:not(:last-child) {
+                    vertical-align: baseline;
+                }
+
+                .imgCollage .imageblock {
+                    padding: 0;
+                }
+
+                .imgCollage img {
+                    box-shadow: none;
+                }
+            }
+
+            @media screen and (max-width: 767px) {
+                .imgCollage>span {
+                    padding: 0;
+                    width: 100% !important;
+                }
+
+                .imgCollage .imageblock {
+                    padding: 16px 0;
+                }
+
+                .imgCollage>span:first-of-type .imageblock:first-of-type {
+                    padding-top: 8px;
+                }
+
+                .imgCollage>span:last-of-type .imageblock:last-of-type {
+                    padding-bottom: 4px;
+                }
+            }
+        </style>
+        <!-- Theme Made By www.w3schools.com - No Copyright -->
+        <title> tourMap sub </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300&family=Gamja+Flower&family=Nanum+Myeongjo:wght@800&display=swap"
+            rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript"
+            src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3b350480bb5d01bcf03b8422834f340e&libraries=services,clusterer,drawing"></script>
+        <!-- <script src="http://someone09.cafe24.com/PHS/project1/tourFunction.js"> </script> -->
+        <script src="tourFunction.js"> </script>
+        <!-- <script src="tourFunction.js"> </script>  -->
+
+        <script>
+            let areaCode1 = Math.floor(Math.random() * 1 + 1);
+            let sigunguCode1 = Math.floor(Math.random() * 1 + 1);
+            $(function () {
+                // //만약 쿠키가 있다면 모달을 안보이게 한다.
+                // let dailyCookie = getTimeCookieValue("dailyTimer");
+                // if (dailyCookie != -1) {  //쿠키 있다면, x 버튼 눌렀다면                                        
+                //     $("#modal").css("display", "none");
+                // }
+                areaList(); // 지역선택 함수 호출, 이어서 시도군구선택 함수 호출됨.
+                sigunguList(1); // 시도군구선택 함수 서울지역 code=1 로 미리 띄어놓음.
+                getJson(areaCode1, sigunguCode1); // 웹페이지 처음에 띄워놓는 데이터
+                console.log("시작");
+            });
+        </script>
+
+        <script>
+    // function CityList(data) {
+      // console.log(data);
+      // let itemsAr = data.response.body.items.item;
+      // let output2 = "";
+      // output2 += '<div>';
+      // output2 += '<select name="location">';
+      // $.each(itemsAr, function (i, item) {
+        // output2 += '<option value=' + i + '>' + item.areaCode + '</option>';
+      // });
+      // output2 += '</select>';
+      // output2 += '</div>';
+    // }
+    // $("select[name=location]").change(function () {
+      // console.log($(this).val()); //value값 가져오기
+      // console.log($("select[name=location] option:selected").text()); //text값 가져오기
+    // });
+        </script>
+
+
+    </head>
+
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+        <!-- new nav bar -->
+        <div class="outputNav"></div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#myNavbar"><span class="icon-bar"></span><span class="icon-bar"></span><span
+                        class="icon-bar"></span></button><a class="navbar-brand" href="../../TJ/project/mainhomepage.html">LEGO.TRIP</a></div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#myPage">HOME</a></li>
+                    <li><a href="#band">INTRO</a></li>
+                    <li><a href="#tour">TOUR</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">GOOT3<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://someone09.cafe24.com/JH0/frontProject/ShowFestiv.html">종휘</a></li>
+                            <li><a href="http://someone09.cafe24.com/Project/teamproject.html">현우</a></li>
+                            <li><a href="http://someone09.cafe24.com/TJ/project/newWeather.html">태준</a></li>
+                            <li><a href="http://someone09.cafe24.com/ktn/poject1/final/ShowFestiv.html">태남</a></li>
+                            <li><a href="http://someone09.cafe24.com/PHS/project1/final/tourMap_second.html">형석</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <p> &nbsp </p>
+        <p> &nbsp </p>
+        <!-- 팝업창 -->
+        <!-- <div id="modal" class="modalClass" style="display: block;">
+            즐겨찾기 기능이 생겼습니다. 가고싶은 곳을 즐겨찾기 해보세요
+
+            <p></p>
+            <div class=".modalbottom"> 하루동안 이 창을 닫습니다. <span id="close" onclick="hide();">X</span>
+                <!-- <div id="closeNormal" onclick="hideNormal()">그냥닫기</div> -->
+            </div>
+        </div> -->
+
+        <!-- 명소 -->
+        <div id="tour" class="container text-center">
+            <h3><strong>lego trip</strong></h3>
+            <h5><strong><a href="ShowFestivBookmark.html">이곳을 클릭하여 북마크 바로가기</a> </strong></h5>
+        </div>
+        <!-- cityout1은 지역 선택 리스트 출력 (ex. 서울,인천...
+        cityout2는 지역 선택후 시도군구 선택 리스트 출력 -->
+        <div style="float: left; margin-left: 800px;">
+            <select name="contentType" onchange="contentTypeFT()">
+                <option value=12>관광</option>
+                <option value=14>문화</option>
+                <option value=15>축제</option>
+                <option value=32>숙박</option>
+                <option value=28>체험</option>
+            </select>
+        </div>
+        <p id="cityout1" style="float: left"></p>
+        <p id="cityout2" style="float: left"></p>
+        <button class="btn-default" onclick="btnGo();">검색</button>
+
+        <p>&nbsp</p>
+
+
+        <div class="container text-center">
+
+            <p>&nbsp</p>
+
+            <!--  showJs 클래스로 데이터 출력 -->
+            <div class="showJs" style="display:block;"> </div>
+
+        </div>
+
+        <div class="container text-center">
+            <div style="text-align: center;">
+
+                <p> &nbsp </p>
+                <hr />
+
+
+                <!-- Container (Contact Section) -->
+                <div>
+                    <!-- <div id="contact" class="container"> -->
+                    <p> &nbsp </p>
+                    <h3 id="contact" class="text-center">Contact</h3>
+                    <p class="text-center"><em>We love our fans!</em></p>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>Fan? Drop a note.</p>
+                            <p><span class="glyphicon glyphicon-map-marker"></span>구로, KR</p>
+                            <p><span class="glyphicon glyphicon-phone"></span>Phone: +82 10-1234-5678</p>
+                            <p><span class="glyphicon glyphicon-envelope"></span>Email: mail@mail.com</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <input class="form-control" id="name" name="name" placeholder="Name" type="text"
+                                        required>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <input class="form-control" id="email" name="email" placeholder="Email" type="email"
+                                        required>
+                                </div>
+                            </div>
+                            <textarea class="form-control" id="comments" name="comments" placeholder="Comment"
+                                rows="5"></textarea>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <button class="btn pull-right" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+
+
+            <!-- http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=817yt7n56XLVnaZYa1hy4ladIIQOFChdJcPAf7r4OGo9JdbgM56zOJ8ZzCyc2Qn1%2BTs8DLBSJRud86RQzh4SNA%3D%3D&contentTypeId=12&areaCode=1&sigunguCode=1&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1 -->
+
+            <!-- const key = "817yt7n56XLVnaZYa1hy4ladIIQOFChdJcPAf7r4OGo9JdbgM56zOJ8ZzCyc2Qn1%2BTs8DLBSJRud86RQzh4SNA%3D%3D"; -->
+            <p> &nbsp </p>
+
+            <!-- // Footer 관련 함수들이다. 푸터에 있는 툴팁용 -->
+            <script>
+                $(document).ready(function () {
+                    // Initialize Tooltip
+                    $('[data-toggle="tooltip"]').tooltip();
+
+                    // Add smooth scrolling to all links in navbar + footer link
+                    $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+
+                        // Make sure this.hash has a value before overriding default behavior
+                        if (this.hash !== "") {
+
+                            // Prevent default anchor click behavior
+                            event.preventDefault();
+
+                            // Store hash
+                            var hash = this.hash;
+
+                            // Using jQuery's animate() method to add smooth page scroll
+                            // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                            $('html, body').animate({
+                                scrollTop: $(hash).offset().top
+                            }, 500, function () {
+
+                                // Add hash (#) to URL when done scrolling (default click behavior)
+                                window.location.hash = hash;
+                            });
+                        } // End if
+                    });
+                })
+            </script>
+            <!-- Footer -->
+            <p> &nbsp </p>
+            <footer class="text-center">
+                <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </a><br><br>
+                <p> LEGO.TRIP Made By <a href="https://www.w3schools.com" data-toggle="tooltip"
+                        title="Visit w3schools">Goot
+                        Academy Third Team</a></p>
+            </footer>
+
+
+    </body>
+
+</html>

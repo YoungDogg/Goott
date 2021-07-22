@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>회원가입</title>
+        <!-- <script src="externalJS.js"></script> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            // 1. html, css, javascript, jQuery, ajax 등의 웹 프론트 엔드 기술을 사용하여 아래의 조건에 맞는 회원가입 폼을 만드시고, 프로그램 소스와 동작 장면 등(여러장)을 캡처하여 올리세요.
+            //  - 아이디는 필수 항목이며, 4자 이상 8자 이하의 글자만 받는다.
+            //  - 비밀 번호는 필수 항목이며, 5자 이상 10자 이하의 글자를 입력받는다. 비밀번호는 비밀번호 확인 입력란을 만들어 비밀번호와 비밀번호 확인 입력값이 반드시 같아야 한다.
+            //  - 이름을 입력 받는다. 입력 받는 이름에는 공백이 없어야 한다. (4글자 이하)
+            //  - 성별(남성, 여성)을 라디오 버튼으로 입력 받는다. 성별의 기본 값은 여성으로 한다.
+            //  - 취미(운동, 독서, 영화감상, 등산, 낚시, 음악감상)를 체크박스로 입력 받아 다중 선택이 가능하도록 한다.
+            //  - 직업(공무원, 자영업, 학생, 직장인)을 SELECT 박스로 입력 받을 수 있도록 한다.
+            //  - 필요하다면 Bootstrap framework를 사용하여 UI/UX 규정에 맞는 화면을 구현 한다.
+            //  - 회원 가입 버튼을 누르면 위 조건이 맞을 때만, result.html으로 데이터가 GET방식으로 전송되도록 한다.
+            //  - 위의 조건 중 하나라도 맞지 않으면, '회원 가입에 실패했습니다!' 라는 alert 메시지가 뜨고, 현재 register.html 페이지의 아이디 항목에 커서를 위치 시킨다.
+
+            //  - 아이디는 필수 항목이며, 4자 이상 8자 이하의 글자만 받는다.
+            function idCheck(userId) {
+                let userIdStr = document.getElementById("userId");                
+                let isOk = false;
+                if (userIdStr.length == 0) { //아이디 안썼을 때
+                    document.getElementById("idError").innerHTML = "Id not typed";
+                    document.getElementById("userId").focus();                                        
+                    isOk = false;
+                    return isOk;
+                } else if (userIdStr.length >= 4 || userIdStr.length <= 8) { //아이디 4자 이상이거나 8자 이하일  때
+                    document.getElementById("idError").innerHTML = 'ID shorter than 4 or longer than 8';
+                    document.getElementById("userId").focus();                    
+                    isOk = true;
+                    return isOk;
+                } else if(userIdStr.length < 1 || userIdStr.length > 8){//아이디 4자 미만이거나 8자 초과일 때                    
+                    document.getElementById("idError").innerHTML = '';                    
+                    isOk = false;
+                    return isOk;
+                }
+            }
+            //  - 비밀 번호는 필수 항목이며, 5자 이상 10자 이하의 글자를 입력받는다. 비밀번호는 비밀번호 확인 입력란을 만들어 비밀번호와 비밀번호 확인 입력값이 반드시 같아야 한다.
+            function CheckPwd(userPwd) {
+                let isOk = false;
+                if (userPwd == "") { //비밀번호 안썼을 때                    
+                    document.getElementById("pwdError").innerHTML = "Pwd not typed";
+                    document.getElementById("userPwd").focus();
+                    isOk = false;
+                    return isOk;
+                } else if (userPwd.length < 5 || userPwd.length > 10) { //아이디 5자 미만이거나 10자 초과일 때                    
+                    document.getElementById("pwdError").innerHTML = 'Password shorter than 4 or longer than 8';
+                    document.getElementById("userPwd").focus();
+                    isOk = false;
+                    return isOk;
+                } else {        //아이디 5자 이상이거나 10자 이하일 때                    
+                    document.getElementById("pwdError").innerHTML = '';
+                    isOk = true;
+                    return isOk;
+                }
+            }
+            //비밀번호 확인 입력값
+            function CheckPwd2(userPwd, userPwd2) {
+                let isOk = false;
+                if (userPwd != userPwd2) {      // 비밀번호와 확익란이 서로 같지 않다면
+                    document.getElementById("pwdError2").innerHTML = 'not matched password';
+                } else {            //서로 같다면
+                    document.getElementById("pwdError2").innerHTML = '';
+                    isOk = true;
+                }
+                return isOk;
+            }
+            //  - 이름을 입력 받는다. 입력 받는 이름에는 공백이 없어야 한다. (4글자 이하)                 
+            function nameCheck(userName) {
+                let isOk = false;
+                if (userName.length <= 4) {   // 이름이 4글자 이하 입력됐을 때
+                    document.getElementById("nameError").innerHTML = "";
+                    isOk = true;
+                } else {    //이름칸에 뭐 안적었을 때
+                    document.getElementById("nameError").innerHTML = "name please";
+                    document.getElementById("userName").focus();
+                }
+                return isOk;
+            }
+            // - 취미(운동, 독서, 영화감상, 등산, 낚시, 음악감상)를 체크박스로 입력 받아 다중 선택이 가능하도록 한다.
+            function hobbyCheckbox() {
+                let isOk = false;
+                let hobby = document.getElementsByName("hobby");                
+                let selectHobby = "";
+                let isAnyHobbyChecked = false;
+                for (let i = 0; i <  hobby.length; i++) {
+                    if (hobby[i].checked == true) {
+                        selectHobby += hobby[i].value + ", ";                     
+                        isAnyHobbyChecked = true;
+                        isOk = true;
+                    }
+                }
+                //만약 어떤 취미도 체크하지 않았다면                
+                if(!isAnyHobbyChecked) document.getElementById("hobbyError").innerHTML = "check hobby please";
+                                
+                selectHobby = selectHobby.substr(0, selectHobby.length -2);                
+                
+                return isOk;
+            }
+            
+            function validateCheck() {
+                let isChecked = false;
+                // //비번 검증
+                let userPwd = document.getElementById("userPwd").value;
+                let userPwd2 = document.getElementById("userPwd2").value;
+                // //이름 //띄어쓰기 없애기
+                let userName = document.getElementById("userName").value;
+                if (nameCheck(userName)) {
+                    userName = userName.replace(/^(?![\s-])[\w\s-]+$/, "");                 
+                }
+
+                // 성별 가져오기
+                let sexes = document.getElementsByName("sex");
+                let sex = "";
+                for (let i in sexes) {
+                    if (sexes[i].checked)
+                        sex = sexes[i].value;
+                }
+
+                //직장
+                let jobSelect = document.getElementById("job");
+                let job = jobSelect.options[jobSelect.selectedIndex].value;
+
+                
+                if (idCheck(userId) && CheckPwd(userPwd) && CheckPwd2(userPwd, userPwd2) && nameCheck(userName)) {
+                    console.log('idCheck(userId)');
+                    console.log(idCheck(userId));
+                    console.log('CheckPwd(userPwd)');
+                    console.log(CheckPwd(userPwd));
+                    console.log('CheckPwd2(userPwd, userPwd2)');
+                    console.log(CheckPwd2(userPwd, userPwd2));
+                    console.log('nameCheck(userName)');
+                    console.log(nameCheck(userName));
+                    
+                    isChecked = true;
+                }else{
+                    console.log('idCheck(userId)');
+                    console.log(idCheck(userId));
+                    console.log('CheckPwd(userPwd)');
+                    console.log(CheckPwd(userPwd));
+                    console.log('CheckPwd2(userPwd, userPwd2)');
+                    console.log(CheckPwd2(userPwd, userPwd2));
+                    console.log('nameCheck(userName)');
+                    console.log(nameCheck(userName));
+                    //  - 위의 조건 중 하나라도 맞지 않으면, '회원 가입에 실패했습니다!' 라는 alert 메시지가 뜨고, 현재 register.html 페이지의 아이디 항목에 커서를 위치 시킨다.
+                    alert('회원 가입에 실패했습니다!');
+                    document.getElementById("userId").focus();
+                    isChecked = true;
+                }
+                return isChecked;
+            }
+        </script>
+    </head>
+
+    <body>
+        <form action="register.html" method="GET" onsubmit="return validateCheck();" >
+            <h3>Sign in</h3>
+            <div class="form-group">
+                <label >ID :</label>                
+                <input type="text" class="form-control" id="userId" placeholder="Enter ID" name="userId" onchange="idCheck(this);">
+                <div id="idError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="userPwd">Password:</label>
+                <input type="password" class="form-control" id="userPwd" placeholder="Enter password" name="userPwd"
+                    onchange="CheckPwd(this);">
+                <div id="pwdError" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="userPwd2">Password Again :</label>
+                <input type="password" class="form-control" id="userPwd2" placeholder="Enter password again">
+                <div id="pwdError2" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="userName">Name :</label>
+                <input type="text" class="form-control" id="userName" placeholder="Enter Name" name="userName">
+                <div id="nameError" class="text-danger"></div>
+            </div>
+            <!-- - 성별(남성, 여성)을 라디오 버튼으로 입력 받는다. 성별의 기본 값은 여성으로 한다. -->
+            <div class="radio">
+                <label><input type="radio" name="sex" value="man">남자</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="sex" value="woman" checked>여자</label>
+            </div>
+            <!-- - 취미(운동, 독서, 영화감상, 등산, 낚시, 음악감상)를 체크박스로 입력 받아 다중 선택이 가능하도록 한다. -->
+            <div>
+                <label for="userHobby">Hobby :</label>
+                <label>
+                    <input type="checkbox" name="hobby" value="workout">운동
+                    <input type="checkbox" name="hobby" value="readinBuk">독서
+                    <input type="checkbox" name="hobby" value="wachinMovie">영화
+                    <input type="checkbox" name="hobby" value="hikin">등산
+                    <input type="checkbox" name="hobby" value="fishin">낚시
+                    <input type="checkbox" name="hobby" value="lisetnMsic">음악감상
+                    <div id="hobbyError" class="text-danger"></div>
+                </label>
+            </div>
+            <!-- - 직업(공무원, 자영업, 학생, 직장인)을 SELECT 박스로 입력 받을 수 있도록 한다. -->
+            <div class="form-group">
+                <label for="job">Job :</label>
+                <select name="job" id="job">
+                    <option value="govOfficer">공무원</option>
+                    <option value="runninStore">자영업</option>
+                    <option value="student">학생</option>
+                    <option value="whiteCollar">직장인</option>
+                </select>
+            </div>            
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-warning">Cancle</button>
+        </form>
+    </body>
+
+</html>

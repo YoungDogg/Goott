@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>성적표</title>
+        <meta charset="utf-8">        
+        <script src="../jQuery/jquery-3.6.0.min.js"></script>
+        <script>
+                                   
+            function outputTable(stdArr) {
+                $('#resultTable').empty();
+                let output = '<table border="1" id="score"><tr><th>이름</th><th>국어</th><th>영어</th><th>수학</th><th>총점</th><th>평균</th></tr>';
+                for (let i in stdArr) {
+                    console.log(stdArr[i].name);
+                    output += '<tr><td>' + stdArr[i].name + '</td>';
+                    output += '<td>' + stdArr[i].kor + '</td>';
+                    output += '<td>' + stdArr[i].eng + '</td>';
+                    output += '<td>' + stdArr[i].math + '</td>';
+                    output += '<td>' + stdArr[i].sum() + '</td>';
+                    output += '<td>' + stdArr[i].avg() + '</td>';
+                    output += '<td>' + stdArr[i].grade() + '</td></tr>';
+                }
+                // console.log(output);
+                output += "</table>"
+                $('#resultTable').append(output);
+            }
+            
+            
+            
+            $(function () {
+                    
+                    //출력 표로, 그래프로
+                    outputTable(stdArr);                                                       
+            });
+        </script>
+    </head>
+
+    <body>
+        <table border='1' id="score">
+            
+
+        <div id="resultTable">
+
+        
+    </body>
+
+</html>

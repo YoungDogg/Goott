@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>성적표</title>
+        <meta charset="utf-8">
+        <script src="../jQuery/jquery-3.6.0.min.js"></script>
+        <script>
+
+            function std(name, kor, eng, math) {
+                this.name = name;
+                this.kor = kor;
+                this.eng = eng;
+                this.math = math;
+
+
+                this.sum = function () {
+                    return this.kor + this.math + this.eng;
+                }
+                this.avg = function () {
+                    return Math.round(Number(this.sum() / 3) * 10) / 10;
+                }
+                this.grade = function () {
+                    if (avg >= 80) return '우수';
+                    else if (avg >= 60 || avg <= 79) return '보통';
+                    else if (avg < 60) return '노력';
+                }
+            }
+
+            // 0 ~ 100 외에 입력시 경고 뜨기
+            function isOk(stdArr) {
+                for (let i in stdArr) {
+                    if (stdArr[i].kor < 0 || stdArr[i].kor > 100 || stdArr[i].math < 0 || stdArr[i].math > 100 || stdArr[i].eng < 0 || stdArr[i].eng > 100){
+                        alert('점수 입력 초과');
+                        return false;
+                    }else{
+                        
+                        return true;
+                    }                   
+                }
+            }
+            function inputData(stdArr) {
+                $('#score tr').first().siblings().map(function (i, e) {  //첫번째 tr은 th니까 그거 제외하고
+                    let stuName = $(e).children()[0].firstElementChild.value;
+                    let stuKor = $(e).children()[1].firstElementChild.value;
+                    let stuEng = $(e).children()[2].firstElementChild.value;
+                    let stuMath = $(e).children()[3].firstElementChild.value;
+
+                    stdArr.push(new std(stuName, stuKor, stuEng, stuMath));
+                })
+                return stdArr;
+            }
+            function outputTable(stdArr) {
+                $('#resultTable').empty();
+                let output = '<table border="1" id="score"><tr><th>이름</th><th>국어</th><th>영어</th><th>수학</th><th>총점</th><th>평균</th></tr>';
+                for (let i in stdArr) {
+                    console.log(stdArr[i].name);
+                    output += '<tr><td>' + stdArr[i].name + '</td>';
+                    output += '<td>' + stdArr[i].kor + '</td>';
+                    output += '<td>' + stdArr[i].eng + '</td>';
+                    output += '<td>' + stdArr[i].math + '</td>';
+                    output += '<td>' + stdArr[i].sum() + '</td>';
+                    output += '<td>' + stdArr[i].avg() + '</td>';
+                    output += '<td>' + stdArr[i].grade() + '</td></tr>';
+                }
+                // console.log(output);
+                output += "</table>"
+                $('#resultTable').append(output);
+            }
+
+
+
+            $(function () {
+                $('#resultBtn').click(function () {
+                    //배열에 학생들 저장
+                    let stdArr = new Array();
+                    stdArr = inputData(stdArr);
+
+                    //출력 표로, 그래프로
+                    outputTable(stdArr);
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <form action="scoreProcess.html" method="GET" onsubmit="return isOk();">
+            <table border='1' id="score">
+                <tr>
+                    <th>이름</th>
+                    <th>국어</th>
+                    <th>영어</th>
+                    <th>수학</th>
+                    <th>총점</th>
+                    <th>평균</th>
+                </tr>
+                <tr>
+                    <td><input type="text" class="stuName" /></td>
+                    <td><input type="text" class="stuKor" /></td>
+                    <td><input type="text" class="stuEng" /></td>
+                    <td><input type="text" class="stuMath" /></td>
+                    <td><input type="text" class="stuTot" readonly /></td>
+                    <td><input type="text" class="stuAvg" readonly /></td>
+                </tr>
+
+            </table>
+            <button type="submit" id="resultBtn" value="">결과보기</button>
+
+            <hr />
+
+            <div id="resultTable"></div>            
+        </form>
+    </body>
+
+</html>

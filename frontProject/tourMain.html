@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .tourImg {
+                max-width: 50%;
+                float: left;
+            }
+
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td,
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            let pageNo = 1; //현재 페이지
+            let dataVal = [];
+            $(function () {
+                dataLoading(pageNo);                
+            });
+
+            function dataLoading(pageNo) {
+                // 한국관광공사_국문 관광정보 서비스 키
+                const key = "Ym9Btk6FDZy0KioD2zctPWIF0W2RVaxCbQ2yCbV2%2F8BSFT9U5DK4xQkWqi%2Bd4LVltFcMik%2FKrRoeY1%2B6MEdTNw%3D%3D";
+                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=" + key + "&contentTypeId=12&areaCode=1&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=" + pageNo;
+
+                $.ajax({
+                    url: dataUrl,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        parsingJson(data);
+                    }
+                });
+            }
+
+            //primary key : 데이터 구분하는 키
+            // pk의 조건 : null이 아니어야 한다, 유일해야 한다
+            // pk 쿼리로 전송 -> sub에서 받기
+            function parsingJson(data) {
+                let itemsArr = data.response.body.items.item;
+                // console.log(itemsArr);
+
+                let output = '<div class="list-group">';
+                output += '<table>';
+                $.each(itemsArr, function (i, item) {
+                    output += '<tr><td>'
+                    output += '<a href="07_1_tourSub.html?contentId=' + String(item.contentid) + '&class=list-group-item tourItem">';
+                    if (item.firstimage != null) {
+                        output += '<img src="' + item.firstimage + '" alt="" class="tourImg";>';
+                    } else {
+                        output += '<img src="noImage.png" alt=""class="tourImg";>';
+                    }
+                    output += "<h4 class='tourTitle'>" + item.title + "</h4>";
+                    output += '</a>';
+                    output += '  <button type="button" class="btn btn-default" name ="bookmark" onclick="addBookmarkFunc(' + String(item.contentid) + ')">북마크하기</button>';                
+                    output += '</td></tr>'
+                });
+                output += '</table>';
+                output += "</div>";
+
+                let pageNo = data.response.body.pageNo;
+                let totalCnt = data.response.body.totalCount;
+                let numOfRows = data.response.body.numOfRows;
+                output += '<button id="btnMore" type="button" class="btn btn-block" onclick="more(' + totalCnt + ', ' + pageNo + ', ' + numOfRows + ',this)">더보기</button>';    //this는 변수가 아니다
+                $(".container").append(output); //줄줄이 나온다
+            }
+            
+            function addBookmarkFunc(contentId) {
+                saveFunc(contentId, "dailyTimer", "aDayThenExpire", 1000);                
+            }
+            //------------ 쿠키 관련 함수
+            //쿠키를 저장한다, id 이름은 날짜를 활용하여 다르게 만들었다
+            function saveFunc(contentId, cookName, cookVal, expDay) {
+                // 쿠키이름 = 값, expires = 쿠키만료일;
+                let now = new Date();
+                now.setDate(now.getDate() + Number(expDay));   // 현재날짜 + 1                 
+                
+                
+                let myCookie = "";
+                myCookie +=  "contentId" + String(now.toUTCString()) + "=" +String(contentId)  + ";" + String(cookName) + "=" + String(cookVal) + ";expires=" + now.toUTCString();
+                document.cookie = myCookie; //쿠키저장
+            }
+            //------------즐겨찾기 끝
+            
+            //더보기 버튼 누르면 
+            function more(totalCnt, pageNo, numOfRows, obj) {
+
+                $(obj).remove();
+
+                // 전체 / 페이지 = 페이지 수, 올림한다. +1 하려고
+                let totalPage = Math.ceil(totalCnt / numOfRows);
+                // console.log(totalCnt, pageNo, numOfRows);
+
+                pageNo++; //페이지 증가
+                if (pageNo <= totalPage) { dataLoading(pageNo); }
+                else { alert('마지막 페이지') };
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">WebSiteName</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li>
+                </ul>
+            </div>
+        </nav>
+        <a href="bookmarks.html">즐겨찾기 페이지로 바로가기</a>
+        <div class="jumbotron text-center">
+            <h1>My First Bootstrap Page</h1>
+            <p>Resize this responsive page to see the effect!</p>
+        </div>
+
+        <div class="container">
+
+
+
+        </div>
+        </div>
+
+    </body>
+
+</html>

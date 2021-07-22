@@ -245,8 +245,8 @@ values (500,1,0,1);
 
 create table overdue(
 --    overdueID NUMBER(4), -- 나중에 집어넣으면 rownum 
-    memberID number(4), -- foreign key
-    dueDate DATE, -- foreign key
+--    memberID number(4), -- foreign key
+--    dueDate DATE, -- foreign key
     isOverdue varchar2(2), -- 현재 연체냐
     wasOverdue varchar2(2), -- 전에 연체였냐
     HowLongOvrDu DATE,
@@ -268,3 +268,23 @@ values ('n');
 insert into overdue(isOverdue, HowLongOvrDu, overdueFee)
 values ('n');
 
+ALTER table video
+add GENREID VARCHAR2(10);
+
+alter table video
+drop COLUMN GENREID;
+
+ALTER table video
+add GENREID VARCHAR2(10);
+
+alter table video
+add isR18 varchar2(2);
+
+alter table video
+modify (isR18 not null);
+
+alter table video
+modify isR18 VARCHAR2(4);
+
+insert all
+into video (isr18) values('no');

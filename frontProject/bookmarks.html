@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>tourSub</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .tourImg {
+                max-width: 100%;
+                float: left;
+            }
+
+            .tourTitle {
+                /* float: right; */
+                /* text-align: center; */
+            }
+
+            .tourItem {
+                /* overflow: auto; */
+            }
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td,
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+            @media screen and (max-width: 480px) {
+
+                /* 480 < 브라우저이면 */
+                .tourItem {
+                    margin: 5px;
+                    border: 1px solid #ccc;
+                    float: left;
+                    width: 200px;
+                }
+
+                .tourImg {
+                    margin: auto 0;
+                    width: 100px;
+                }
+
+                .tourTitle {
+                    padding: 20px;
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            
+            let output = "";          
+            
+            $(function () {      
+                output += '<div class="list-group">';
+                output += '<table>';
+                    
+                //contentid를 쿠키에서 가져온다
+                let cookiesArr = getCookieValue("contentId");
+                for (let i in cookiesArr) {
+                    dataLoading(cookiesArr[i]);
+                }
+                output += "</div>";
+                output += '</table>';
+                output += "</div>";
+                
+                $(".container").html(output);
+                // outputFunc();
+            })
+            // 하나로 묶으려 했지만 output을 전역변수로 해야만 작동됐다.
+            // function outputFunc(){
+            //     let output = "";
+            //     output += '<div class="list-group">';                    
+            //     output += '<table>';
+            //     $(".container").html(output);
+                
+            //     //contentid를 쿠키에서 가져온다
+            //     let cookiesArr = getCookieValue("contentId");
+            //     for (let i in cookiesArr) {
+            //         console.log(i + "번째");
+            //         dataLoading(cookiesArr[i], output);
+            //     }
+            //     output += "</div>";
+            //     output += '</table>';
+            //     output += "</div>";
+            // }
+            
+            //쿠키 읽기 함수: 쿠키를 얻어온다            
+            function getCookieValue(param) {   //param, 얻고 싶은 매개변수 이름
+                let returnVal = [];  //리턴할 값 저장
+                let cookie = document.cookie;
+
+                let cookArr = cookie.split(";");                
+
+                //원하는 값이 있는지 확인,     
+                for (let i in cookArr) {
+                    if (cookArr[i].indexOf(param) != -1) { //param이 있다면
+                        returnVal.push(cookArr[i].split("=")[1]);
+                    }
+                }                
+                return returnVal;   //문자열이 아니라면 여길 출력
+
+                if (cookArr[i].indexOf(param) == -1) { //param이 없다면
+                    console.log("failed to load");
+                    return -1;//오류가 났다는 뜻
+                }
+            }
+
+            function dataLoading(contentid) {
+                // 한국관광공사_국문 관광정보 서비스 키
+                const key = "Ym9Btk6FDZy0KioD2zctPWIF0W2RVaxCbQ2yCbV2%2F8BSFT9U5DK4xQkWqi%2Bd4LVltFcMik%2FKrRoeY1%2B6MEdTNw%3D%3D";
+                let dataUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=" + key + "&contentTypeId=12&contentId=" + contentid + "&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y"
+
+                $.ajax({
+                    url: dataUrl,
+                    type: "GET",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        // console.log(data);
+                        parsingJson(data);
+                    }
+                });
+            }
+            
+            function parsingJson(data) {
+                console.log("parsingJson 불러오기");
+                let item = data.response.body.items.item;
+                console.log(item);
+                            
+                output += '<tr><td>';
+                output += '<a href="bookmarksSub.html?contentId=' + String(item.contentid) + '&class=list-group-item tourItem"">';    
+                output += "<h4 class='tourTitle'>" + item.title + "</h4>";
+                if (item.firstimage != null) {
+                    output += '<img src="' + item.firstimage + '" alt="" class="tourImg">';
+                } else {
+                    output += '<img src="noImage.png" alt=""class="tourImg">';
+                }
+                output += '</a>';
+                output += '</td></tr>';
+                $(".container").html(output);
+            }
+        </script>
+    </head>
+
+    <body>
+        <h3><span id="cid">상세정보 페이지</span></h3>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">WebSiteName</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="jumbotron text-center">
+            <h1>즐겨찾기 페이지</h1>            
+        </div>
+        <div class="container">
+        </div>
+
+    </body>
+
+</html>
