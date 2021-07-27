@@ -116,14 +116,37 @@ public class FriendDAOIml implements FriendDAO{
 			psmt.setInt(4, fvo.getFriendNo());
 			
 			int i = psmt.executeUpdate();
-			System.out.println("i : " + i);
 			if(i == 1) {
-				System.out.println("woeifj");
 				result = true;
 			}
 			close(psmt, connection);
 		}
 		
+		return result;
+	}
+	@Override
+	public boolean deleteFriend(FriendVo fvo) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		final String id = "hr";
+		final String pwd = "oracle";
+		final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		Connection connection = null;		
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		connection = DriverManager.getConnection(url, id, pwd);
+		PreparedStatement psmt = null;
+		
+		if(connection != null) {
+			String query = "DELETE FROM friends WHERE FRIENDNO = ?";
+			psmt = connection.prepareCall(query);
+			psmt.setInt(1, fvo.getFriendNo());
+			
+			int i = psmt.executeUpdate();
+			if(i == 1) {
+				result = true;
+			}
+			close(psmt, connection);
+		}		
 		return result;
 	}
 
@@ -217,6 +240,8 @@ public class FriendDAOIml implements FriendDAO{
 		}
 		return lst;
 	}
+
+
 
 
 

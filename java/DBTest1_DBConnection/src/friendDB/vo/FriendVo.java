@@ -15,6 +15,11 @@ public class FriendVo {
 		this.friendAddress = friendAddress;
 	}
 
+	public FriendVo(int friendNo) {
+		super();
+		this.friendNo = friendNo;
+	}
+
 	public int getFriendNo() {
 		return friendNo;
 	}

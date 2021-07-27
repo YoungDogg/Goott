@@ -56,6 +56,7 @@ public class FriendMain {
 				break;
 			case 6:				
 				System.out.println("친구 삭제 눌렀다");
+				fm.deleteFriend();
 				break;
 			case 7:	
 				System.out.println("종료");
@@ -65,6 +66,7 @@ public class FriendMain {
 			}
 		}while(menu != 7);
 	}
+
 private void insertFriend() {		
 		
 		int nextFriendNo = 0; 
@@ -86,21 +88,14 @@ private void insertFriend() {
 		String friendMobile = sc.next();
 		System.out.println("친구주소 : ");
 		String friendAddress= sc.next();
-		
+
 		try {
 			if(dao.insertFriend(new FriendVo
-				(nextFriendNo, friendName,friendMobile, friendAddress))) {
-				System.out.println("등록 성공");
-			}
-		} catch (ClassNotFoundException e) {
+					(nextFriendNo, friendName,friendMobile, friendAddress))) {
+					System.out.println("등록 성공");
+				}
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("디비 작업 에러");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			if(e.getMessage().contains("unique")) {
-				System.out.println("전화변호 중복됩니다...");
-			}
 			System.out.println("디비 작업 에러");
 			e.printStackTrace();
 		}
@@ -113,7 +108,7 @@ private void insertFriend() {
 		
 		//수정할 친구 번호를 받는다
 		Scanner sc = new Scanner(System.in);
-		System.out.println("수정할 친국 번호");
+		System.out.println("수정할 친구 번호");
 		int friendNo = sc.nextInt();
 		
 		// 나중에 할 일 : 업데이트 하고 싶은 자료만 구분하기 
@@ -125,15 +120,40 @@ private void insertFriend() {
 		String friendAddress= sc.next();
 		
 		try {			
-			dao.updateFriend(new FriendVo
-					(friendNo, friendName,friendMobile, friendAddress));
+			if(dao.updateFriend(new FriendVo
+					(friendNo, friendName,friendMobile, friendAddress))) {
+				System.out.println("업데이트 성공");
+				// 친구 이름들을 쭉 불러온다.
+				outputEntireFriends();
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("업데이트 실패");
 			e.printStackTrace();
 		}
+	}
+	private void deleteFriend() {
+		// TODO Auto-generated method stub
+		// 친구 이름들을 쭉 불러온다.
+		outputEntireFriends();
 		
+		// 수정할 친구 번호를 받는다
+		Scanner sc = new Scanner(System.in);
+		System.out.println("삭제할 친구 번호");
+		int friendNo = sc.nextInt();
 		
+		try {
+			if(dao.deleteFriend(new FriendVo(friendNo))) {
+				System.out.println("친구등록 성공");
+				// 친구 이름들을 쭉 불러온다.
+				outputEntireFriends();
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("친구 삭제 실패");
+			e.printStackTrace();
+		}
+
 	}
 
 	private void searchFriendsName() {

@@ -36,4 +36,7 @@ public interface FriendDAO {
 	// 친구 정보 수정
 	public boolean updateFriend(FriendVo fvo)throws ClassNotFoundException, SQLException;
 
+	public boolean deleteFriend(FriendVo fvo)throws ClassNotFoundException, SQLException;
+
+
 }
