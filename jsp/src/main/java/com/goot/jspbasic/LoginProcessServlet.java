@@ -26,6 +26,15 @@ public class LoginProcessServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
 		System.out.println("GET 호출");
+		PrintWriter writer = resp.getWriter();
+		writer.println("<script>");
+		writer.println("alert('아이디 비밀번호 입력하세요')");
+		writer.println("location.href='index.jsp?result=fail");
+		writer.println("</script>");
+	
+//		resp.sendRedirect("index.jsp?result=fail");
+		
+		resp.addHeader("refresh", "5;url=index.jsp?result=fail");
 	}
 
 	@Override
@@ -49,28 +58,40 @@ public class LoginProcessServlet extends HttpServlet {
 //			}
 //		}
 		
+		resp.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = resp.getWriter();
 		
 		String userId = req.getParameter("userId");
 		String userPwd = req.getParameter("userPwd");
 		
-		String hobbies = "";
-		String[] hobbiesArr = req.getParameterValues("hobby");
-		for (String h : hobbiesArr) {
-			hobbies += h + " ";
+		//유효성 검사
+		if(userId.length() == 0 || userPwd.length() == 0) {
+			writer.println("<script>");
+			writer.println("alert('아이디 비밀번호 입력하세요')");
+//			writer.println("history.back();");
+			writer.println("location.href = '3_jsCallServlet.jsp'");
+			writer.println("</script>");
+
 		}
-		String genre = req.getParameter("genre");
-		System.out.println(genre);
-		String livingArea = req.getParameter("livingArea");
-		System.out.println(livingArea);
+		
+//		String hobbies = "";
+//		String[] hobbiesArr = req.getParameterValues("hobby");
+//		for (String h : hobbiesArr) {
+//			hobbies += h + " ";
+//		}
+//		String genre = req.getParameter("genre");
+//		System.out.println(genre);
+//		String livingArea = req.getParameter("livingArea");
+//		System.out.println(livingArea);
 
 		//출력
 		//mine-type : text/html, text/plain, application/xml, application/json
-		resp.setContentType("text/html; charset=UTF-8");
-		PrintWriter writer = resp.getWriter();
+//		resp.setContentType("text/html; charset=UTF-8");
+//		PrintWriter writer = resp.getWriter();
 		writer.println("<div>아이디 : " + userId + "</div>");
 		writer.println("<div>userPwd : " + userPwd + "</div>");
-		writer.println("<div>genre : " + genre + "</div>");
-		writer.println("<div>hobbies : " + hobbies + "</div>");
+//		writer.println("<div>genre : " + genre + "</div>");
+//		writer.println("<div>hobbies : " + hobbies + "</div>");
 		
 		writer.flush();
 		writer.close();

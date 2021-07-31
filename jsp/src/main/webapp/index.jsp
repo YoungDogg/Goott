@@ -7,8 +7,7 @@
 <title>index.jsp</title>
 </head>
 <body>
-	<h1>index.jsp</h1>
-	
+	<h1>index.jsp</h1>	
 	<form method=POST action="login.do" enctype="UTF-8">
 		ID : <input type="text" name="userId"><br />
 		PWD: <input type="password" name="userPwd"><br />
