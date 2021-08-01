@@ -18,6 +18,12 @@
 	${header["Host"]} <br>
 	
 	<h2>EL ¿¬»êÀÚ</h2>
-	
+	 ${param.num} > 10 :  ${param.num > 10} <br>
+	 ${param.num} > 10 :  ${param.num gt 10} <br>
+	 ${param.num} > 10 :  ${param.num ge 10} <br>
+	 <br>
+	 ${empty param.num} is equal ${param.num == null || param.num == ''} <br>
+	 ${not empty param.num} <br>
+	 ${param.num div 3} = ${param.num / 3} <br>
 </body>
 </html>
