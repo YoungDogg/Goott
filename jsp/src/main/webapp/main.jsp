@@ -38,9 +38,11 @@
 	<%
 	MemberVo loginMember = (MemberVo) session.getAttribute("loginUser");
 	if (loginMember != null){
-		out.print(loginMember.getUserName());
+		/* out.print(loginMember.getUserName()); */
 	%>
+	${sessionScope.loginUser.userName}
 	반갑다 <br>
+	포인트 : ${sessionScope.loginUser.point} <br>
 	<a href="userInfo.jsp">유저 정보</a>
 	
 	<form action="logout.do" method="POST">

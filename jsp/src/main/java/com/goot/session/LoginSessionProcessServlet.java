@@ -121,7 +121,7 @@ public class LoginSessionProcessServlet extends HttpServlet {
 				}
 			}
 		} catch (ClassNotFoundException e) {
-			
+			System.out.println("oracle driver 문제");
 			e.printStackTrace();
 			
 		} catch (SQLException e) {

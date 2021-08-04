@@ -37,8 +37,8 @@ public class SetCookieServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Date date = new Date(); //쿠키의 만료일을 설정하기 위해
 		
-		Cookie c = new Cookie("cookTest", URLEncoder.encode("ㅎㅇㅎㅇㅎㅇ", Charset.forName("utf-8")));
-//		Cookie c = new Cookie("cookTest", URLEncoder.encode("ㅎㅇㅎㅇㅎㅇ", "utf-8"));
+//		Cookie c = new Cookie("cookTest", URLEncoder.encode("ㅎㅇㅎㅇㅎㅇ", Charset.forName("utf-8")));
+		Cookie c = new Cookie("cookTest", URLEncoder.encode("ㅎㅇㅎㅇㅎㅇ", "utf-8"));
 		
 		c.setMaxAge(24 * 3600);
 		

@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<c:forEach var="i" begin="0" end="4" step="1" varStatus="hkd">
+		<c:choose>
+		<c:when test="${hkd.first }">
+			<div style='background-color: yellow;'>i의 값 : ${i }, 반복 횟수 : ${hkd.count }, 반복 인덱스 : ${hkd.index }</div>
+		</c:when>
+		<c:when test="${hkd.last }">
+			<div style='color : gray;'>i의 값 : ${i }, 반복 횟수 : ${hkd.count }, 반복 인덱스 : ${hkd.index }</div>
+		</c:when>
+		<c:otherwise>
+			<div style='border:1px solid blue;'>i의 값 : ${i }, 반복 횟수 : ${hkd.count }, 반복 인덱스 : ${hkd.index }</div>
+		</c:otherwise>
+		</c:choose>
+	</c:forEach>
+</body>
+</html>

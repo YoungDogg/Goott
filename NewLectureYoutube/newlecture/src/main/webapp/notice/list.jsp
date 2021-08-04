@@ -23,9 +23,6 @@ stmt = con.createStatement();
 ResultSet rs = stmt.executeQuery(query);
 
 //close(rs, stmt, con);
-rs.close();
-stmt.close();
-con.close();
 %>
 
 <!DOCTYPE html>
@@ -204,11 +201,11 @@ con.close();
 							<tr>
 								<td><%=rs.getInt("ID")%></td>
 								<td class="title indent text-align-left"><a
-									href="detail.html"><%=rs.getString("TITLE")%></a></td>
+									href="detail.jsp?id=<%=rs.getInt("ID")%>"><%=rs.getString("TITLE")%></a></td>
 								<td><%=rs.getString("writerid")%></td>
 								<td><%=rs.getDate("regdate")%></td>
 								<td><%=rs.getInt("hit")%></td>
-							</tr>
+							</tr> 
 							<%
 							}
 							%>
@@ -290,5 +287,9 @@ con.close();
 		</div>
 	</footer>
 </body>
-
 </html>
+<%
+rs.close();
+stmt.close();
+con.close();
+%>

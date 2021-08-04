@@ -9,7 +9,8 @@ CREATE TABLE "HR"."MEMBER"
     CHECK (gender in ('m', 'f')) ENABLE, 
     CONSTRAINT "MEMBER_USERID_PK" PRIMARY KEY ("USERID"));
      
-     
+select * from member;
+select * from member where userid = 'sss' and password = 'ddd';
 create table Friends(
     friendNo number,
     FRIENDNAME VARCHAR2(50),
@@ -39,3 +40,6 @@ insert into notice values(7, '추가요', 'dragon', 'aaa', sysdate, 44, '');
 insert into notice values(8, '디엔드', 'okay', 'aaa', sysdate, 55, '');
 
 select * from notice;
+
+select * from notice where id = 1; 
+
