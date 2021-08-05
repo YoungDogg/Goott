@@ -8,6 +8,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.mysql.cj.xdevapi.Statement;
+
 public class DBConn {
 	public static Connection getConnection() throws NamingException, SQLException {
 		Connection con = null;
@@ -19,4 +21,9 @@ public class DBConn {
 		con = ds.getConnection();
 		return con;
 	}
+	
+//	public static void close(Prepa stmt, Connection con) {
+//		stmt.close();
+//		con.close();
+//	}
 }
